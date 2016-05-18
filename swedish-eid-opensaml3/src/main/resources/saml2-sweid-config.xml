@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMLTooling xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:csig="http://id.elegnamnden.se/csig/1.1/dss-ext/ns" 
+  xmlns="http://www.opensaml.org/xmltooling-config"
+  xsi:schemaLocation="http://www.opensaml.org/xmltooling-config ../../src/schema/xmltooling-config.xsd">
+
+  <!-- SAML 2.0 Providers for the Swedish eID Framework -->
+  <ObjectProviders>
+  
+    <!-- SignMessage -->
+    <ObjectProvider qualifiedName="csig:SignMessage">
+      <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl.SignMessageBuilder" />
+      <MarshallingClass className="se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl.SignMessageMarshaller" />
+      <UnmarshallingClass className="se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl.SignMessageUnmarshaller" />
+    </ObjectProvider>
+    
+    <!-- Message -->
+    <ObjectProvider qualifiedName="csig:Message">
+      <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl.MessageBuilder" />
+      <MarshallingClass className="org.opensaml.xml.schema.impl.XSBase64BinaryMarshaller" />
+      <UnmarshallingClass className="org.opensaml.xml.schema.impl.XSBase64BinaryUnmarshaller" />
+    </ObjectProvider>
+    
+    <!-- EncryptedMessage -->
+    <ObjectProvider qualifiedName="csig:EncryptedMessage">
+      <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl.EncryptedMessageBuilder" />
+      <MarshallingClass className="org.opensaml.saml2.core.impl.EncryptedElementTypeMarshaller" />
+      <UnmarshallingClass className="org.opensaml.saml2.core.impl.EncryptedElementTypeUnmarshaller" />
+    </ObjectProvider>        
+
+  </ObjectProviders>
+
+</XMLTooling>  

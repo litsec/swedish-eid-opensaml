@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:util="http://www.springframework.org/schema/util" xmlns:c="http://www.springframework.org/schema/c" xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd"
+  
+  default-lazy-init="false" >
+  
+  <bean id="openSamlInitializer" class="se.litsec.swedisheid.opensaml.config.OpenSAMLInitializer" factory-method="getInstance"
+    init-method="initialize" p:initOpenSAML="true" p:parserPool-ref="opensaml.ParserPool" />
+
+  <bean id="opensaml.ParserPool" class="net.shibboleth.utilities.java.support.xml.BasicParserPool" init-method="initialize" destroy-method="destroy" 
+    p:maxPoolSize="100" p:coalescing="true"
+    p:ignoreComments="true" p:ignoreElementContentWhitespace="true" p:namespaceAware="true">
+    <property name="builderFeatures">
+      <map>
+        <entry key="http://apache.org/xml/features/disallow-doctype-decl">
+          <util:constant static-field="java.lang.Boolean.TRUE" />
+        </entry>
+        <entry key="http://apache.org/xml/features/validation/schema/normalized-value">
+          <util:constant static-field="java.lang.Boolean.FALSE" />
+        </entry>
+        <entry key="http://javax.xml.XMLConstants/feature/secure-processing">
+          <util:constant static-field="java.lang.Boolean.TRUE" />
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+</beans>

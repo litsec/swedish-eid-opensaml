@@ -31,8 +31,6 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import se.litsec.swedisheid.opensaml.utils.spring.KeyStoreUtils;
-
 /**
  * Test cases for the {@link KeyStoreUtils} class.
  * 

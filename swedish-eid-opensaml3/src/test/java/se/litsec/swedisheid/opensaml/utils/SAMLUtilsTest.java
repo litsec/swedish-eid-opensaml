@@ -30,8 +30,12 @@ import org.opensaml.saml.saml2.core.Assertion;
 
 import se.litsec.swedisheid.opensaml.OpenSAMLTestBase;
 
-//@ContextConfiguration(locations = "classpath:opensaml-init.xml")
-public class SAMLUtilsTest extends OpenSAMLTestBase { //extends AbstractJUnit4SpringContextTests  {
+/**
+ * Test cases for the {@link SAMLUtils} class.
+ * 
+ * @author Martin Lindström (martin.lindstrom@litsec.se)
+ */
+public class SAMLUtilsTest extends OpenSAMLTestBase {
 
   @Test
   public void testCreateXmlObject() throws Exception {

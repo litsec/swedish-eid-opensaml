@@ -2,20 +2,20 @@
  * The swedish-eid-opensaml project is an open-source package that extends OpenSAML
  * with functions for the Swedish eID Framework.
  *
- * More details on <https://github.com/litsec/swedish-eid-opensaml> 
+ * More details on <https://github.com/litsec/swedish-eid-opensaml>
  * Copyright (C) 2016 Litsec AB
  * 
- * This program is free software: you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation, either version 3 of the License, or 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  * 
- * This program is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License 
+ * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package se.litsec.swedisheid.opensaml.utils;
@@ -23,6 +23,7 @@ package se.litsec.swedisheid.opensaml.utils;
 import java.security.KeyStore;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
+import java.util.Optional;
 
 import javax.xml.namespace.QName;
 
@@ -33,6 +34,7 @@ import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.saml.common.SignableSAMLObject;
+import org.opensaml.saml.saml2.core.Extensions;
 import org.opensaml.security.credential.Credential;
 import org.opensaml.security.x509.BasicX509Credential;
 import org.opensaml.xmlsec.SecurityConfigurationSupport;
@@ -167,6 +169,25 @@ public class SAMLUtils {
   }
 
   /**
+   * Finds the first extension matching the supplied type.
+   * 
+   * @param extensions
+   *          the {@link Extensions} to search
+   * @param clazz
+   *          the extension type
+   * @return the matching extension
+   */
+  public static <T> Optional<T> getExtension(Extensions extensions, Class<T> clazz) {
+    if (extensions == null) {
+      return Optional.empty();
+    }
+    return extensions.getOrderedChildren().stream()
+        .filter(e -> clazz.isAssignableFrom(e.getClass()))
+        .map(e -> clazz.cast(e))
+        .findFirst();
+  }
+
+  /**
    * Signs the supplied SAML object using the credentials.
    * 
    * @param object
@@ -201,7 +222,7 @@ public class SAMLUtils {
 
       BasicSignatureSigningParametersResolver signatureParametersResolver = new BasicSignatureSigningParametersResolver();
       CriteriaSet criteriaSet = new CriteriaSet(new SignatureSigningConfigurationCriterion(SecurityConfigurationSupport
-        .getGlobalSignatureSigningConfiguration(), signatureCreds));
+          .getGlobalSignatureSigningConfiguration(), signatureCreds));
 
       SignatureSigningParameters parameters = signatureParametersResolver.resolveSingle(criteriaSet);
       SignatureSupport.signObject(object, parameters);

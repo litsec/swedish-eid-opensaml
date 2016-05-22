@@ -20,9 +20,7 @@
  */
 package se.litsec.swedisheid.opensaml;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 import org.junit.BeforeClass;
 import org.opensaml.core.xml.XMLObject;

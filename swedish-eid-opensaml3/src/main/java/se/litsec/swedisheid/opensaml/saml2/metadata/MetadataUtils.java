@@ -20,6 +20,7 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.metadata;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +32,6 @@ import org.opensaml.saml.ext.saml2mdui.UIInfo;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.opensaml.saml.saml2.metadata.Extensions;
 import org.opensaml.saml.saml2.metadata.SSODescriptor;
-
-import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**
  * Utility methods for accessing metadata elements.
@@ -54,10 +53,11 @@ public class MetadataUtils {
     if (extensions == null) {
       return Optional.empty();
     }
-    return extensions.getOrderedChildren().stream()
-        .filter(e -> clazz.isAssignableFrom(e.getClass()))
-        .map(e -> clazz.cast(e))
-        .findFirst();
+    return extensions.getOrderedChildren()
+      .stream()
+      .filter(e -> clazz.isAssignableFrom(e.getClass()))
+      .map(e -> clazz.cast(e))
+      .findFirst();
   }
 
   /**
@@ -72,28 +72,25 @@ public class MetadataUtils {
   }
 
   /**
-   * Utility method that returns a list of the {@code mdui:DisplayName} element found in the supplied SSO descriptor's
-   * extension.
+   * Utility method that returns a list of the {@code mdui:DisplayName} element found in the SSO descriptor extension of
+   * the supplied entity descriptor.
    * 
    * @param ed
    *          the entity descriptor
-   * @return a list of {@code DisplayName} elements or {@code null} if none are found.
+   * @return a (possibly empty) list of {@code DisplayName} elements
    */
   public static List<DisplayName> getUiDisplayNames(EntityDescriptor ed) {
     SSODescriptor ssoDescriptor = MetadataUtils.getSSODescriptor(ed);
     if (ssoDescriptor == null) {
-      return null;
+      return Collections.emptyList();
     }
-    UIInfo uiInfo = SAMLUtils.getSamlExtension(ssoDescriptor.getExtensions(), UIInfo.class);
-    if (uiInfo == null) {
-      return null;
-    }
-    return uiInfo.getDisplayNames();
+    Optional<UIInfo> uiInfo = getMetadataExtension(ssoDescriptor.getExtensions(), UIInfo.class);
+    return uiInfo.isPresent() ? uiInfo.get().getDisplayNames() : Collections.emptyList();
   }
 
   /**
-   * Utility method that returns the {@code mdui:DisplayName} element for the given language tag from the supplied SSO
-   * descriptor's extension.
+   * Utility method that returns the {@code mdui:DisplayName} element for the given language tag from the SSO descriptor
+   * extension of the supplied entity descriptor.
    * 
    * @param ed
    *          the entity descriptor
@@ -102,59 +99,44 @@ public class MetadataUtils {
    * @return the display name for the given language
    */
   public static Optional<String> getUiDisplayName(EntityDescriptor ed, String language) {
-    List<DisplayName> names = MetadataUtils.getUiDisplayNames(ed);
-    if (names == null) {
-      return null;
-    }
-    for (DisplayName dn : names) {
-      if (dn.getName().getLanguage().equals(language)) {
-        return dn.getName().getLocalString();
-      }
-    }
-    return null;
+    return getUiDisplayNames(ed).stream()
+      .filter(dn -> language.equals(dn.getXMLLang()))
+      .map(dn -> dn.getValue())
+      .findFirst();
   }
 
   /**
-   * Utility method that returns a list of the {@code mdui:Description} element found in the supplied SSO descriptor's
-   * extension.
+   * Utility method that returns a list of the {@code mdui:Description} element found in the SSO descriptor extension of
+   * the supplied entity descriptor.
    * 
    * @param ed
    *          the entity descriptor
-   * @return a list of {@code Description} elements or {@code null} if none are found.
+   * @return a (possibly empty) list of {@code Description} elements
    */
   public static List<Description> getUiDescriptions(EntityDescriptor ed) {
     SSODescriptor ssoDescriptor = MetadataUtils.getSSODescriptor(ed);
     if (ssoDescriptor == null) {
-      return null;
+      return Collections.emptyList();
     }
-    UIInfo uiInfo = SAMLUtils.getSamlExtension(ssoDescriptor.getExtensions(), UIInfo.class);
-    if (uiInfo == null) {
-      return null;
-    }
-    return uiInfo.getDescriptions();
+    Optional<UIInfo> uiInfo = getMetadataExtension(ssoDescriptor.getExtensions(), UIInfo.class);
+    return uiInfo.isPresent() ? uiInfo.get().getDescriptions() : Collections.emptyList();
   }
 
   /**
-   * Utility method that returns the {@code mdui:Description} element for the given language tag from the supplied SSO
-   * descriptor's extension.
+   * Utility method that returns the {@code mdui:Description} element for the given language tag from the SSO descriptor
+   * extension of the supplied entity descriptor.
    * 
    * @param ed
    *          the entity descriptor
    * @param language
    *          the language tag
-   * @return a {@code Description} element or {@code null} if none are found.
+   * @return the description for the given language
    */
-  public static String getUiDescription(EntityDescriptor ed, String language) {
-    List<Description> descriptions = MetadataUtils.getUiDescriptions(ed);
-    if (descriptions == null) {
-      return null;
-    }
-    for (Description d : descriptions) {
-      if (d.getDescription().getLanguage().equals(language)) {
-        return d.getDescription().getLocalString();
-      }
-    }
-    return null;
+  public static Optional<String> getUiDescription(EntityDescriptor ed, String language) {
+    return getUiDescriptions(ed).stream()
+      .filter(dn -> language.equals(dn.getXMLLang()))
+      .map(dn -> dn.getValue())
+      .findFirst();
   }
 
   /**

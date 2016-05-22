@@ -21,6 +21,7 @@
 package se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A registry that handles all "registered" entity categories. It is used to find the definition of an entity category
@@ -35,9 +36,9 @@ public interface EntityCategoryRegistry {
    * 
    * @param uri
    *          the entity category URI
-   * @return the {@code EntityCategory} object, or {@code null} if no category is registered for the supplied URI
+   * @return the {@code EntityCategory} object
    */
-  EntityCategory getEntityCategory(String uri);
+  Optional<EntityCategory> getEntityCategory(String uri);
 
   /**
    * Returns a list of all registered entity categories.

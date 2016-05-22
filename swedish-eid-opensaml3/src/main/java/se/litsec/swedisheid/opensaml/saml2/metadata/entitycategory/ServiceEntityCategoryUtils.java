@@ -20,14 +20,13 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.opensaml.saml2.metadata.EntityDescriptor;
+import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 
-import se.litsec.sweid.opensaml.saml2.authentication.LevelofAssuranceAuthenticationContextURI;
+import se.litsec.swedisheid.opensaml.saml2.authentication.LevelofAssuranceAuthenticationContextURI;
 
 /**
  * Utility methods for service entity categories.
@@ -48,31 +47,26 @@ public class ServiceEntityCategoryUtils {
    */
   public static List<String> getLoAIdentifiersFromEntityCategories(EntityDescriptor ed,
       EntityCategoryRegistry entityCategoryRegistry) {
-    List<String> entityCategoriesUris = EntityCategoryMetadataHelper.getEntityCategories(ed);
-    List<ServiceEntityCategory> serviceEntityCategories = new ArrayList<ServiceEntityCategory>();
-    for (String e : entityCategoriesUris) {
-      EntityCategory ec = entityCategoryRegistry.getEntityCategory(e);
-      if (ec != null && ec.getType().equals(EntityCategoryType.SERVICE_ENTITY)) {
-        serviceEntityCategories.add(ServiceEntityCategory.class.cast(ec));
-      }
-    }
-    Collections.sort(serviceEntityCategories, new Comparator<ServiceEntityCategory>() {
+        
+    Comparator<ServiceEntityCategory> sorter = new Comparator<ServiceEntityCategory>() {
       @Override
       public int compare(ServiceEntityCategory o1, ServiceEntityCategory o2) {
         int l1 = LevelofAssuranceAuthenticationContextURI.getLevel(o1.getLevelOfAssurance());
         int l2 = LevelofAssuranceAuthenticationContextURI.getLevel(o2.getLevelOfAssurance());
         return l1 < l2 ? -1 : (l1 > l2 ? 1 : 0);
       }
-    });
-
-    List<String> identifiers = new ArrayList<String>();
-    for (ServiceEntityCategory sec : serviceEntityCategories) {
-      if (!identifiers.contains(sec.getLevelOfAssurance())) {
-        identifiers.add(sec.getLevelOfAssurance());
-      }
-    }
-
-    return identifiers;
+    };
+    
+    return EntityCategoryMetadataHelper.getEntityCategories(ed).stream()
+      .map(e -> entityCategoryRegistry.getEntityCategory(e))
+      .filter(e -> e.isPresent())
+      .map(e -> e.get())
+      .filter(e -> EntityCategoryType.SERVICE_ENTITY.equals(e.getType()))
+      .map(ServiceEntityCategory.class::cast)
+      .sorted(sorter)
+      .map(ServiceEntityCategory::getLevelOfAssurance)
+      .distinct()
+      .collect(Collectors.toList());    
   }
 
   // Hidden

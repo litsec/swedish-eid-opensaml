@@ -21,13 +21,16 @@
 package se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.opensaml.saml.ext.saml2mdattr.EntityAttributes;
 import org.opensaml.saml.saml2.core.Attribute;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 
 import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeUtils;
+import se.litsec.swedisheid.opensaml.saml2.metadata.MetadataUtils;
 
 /**
  * Helper class for handling entity categories in metadata.
@@ -62,17 +65,15 @@ public class EntityCategoryMetadataHelper {
    * @return a list of entity category URIs
    */
   public static List<String> getEntityCategories(EntityDescriptor ed) {
-    List<String> categories = new ArrayList<String>();
-
-    EntityAttributes entityAttributes = MetadataUtils.getEntityAttributes(ed);
-    if (entityAttributes == null) {
-      return null;
+    Optional<EntityAttributes> entityAttributes = MetadataUtils.getEntityAttributes(ed);
+    if (!entityAttributes.isPresent()) {
+      return Collections.emptyList();
     }
-    List<Attribute> attrs = AttributeUtils.getAttributes(ENTITY_CATEGORY_ATTRIBUTE_NAME, entityAttributes.getAttributes());
+    List<Attribute> attrs = AttributeUtils.getAttributes(ENTITY_CATEGORY_ATTRIBUTE_NAME, entityAttributes.get().getAttributes());
+    List<String> categories = new ArrayList<String>();    
     for (Attribute attr : attrs) {
       categories.addAll(AttributeUtils.getAttributeStringValues(attr));
     }
-
     return categories;
   }
 

@@ -20,9 +20,10 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of the {@link EntityCategoryRegistry} interface.
@@ -44,30 +45,27 @@ public class EntityCategoryRegistryImpl implements EntityCategoryRegistry {
     this.entityCategories = entityCategories;
   }
 
+  /** {@inheritDoc} */
   @Override
-  public EntityCategory getEntityCategory(String uri) {
-    for (EntityCategory c : this.entityCategories) {
-      if (c.getUri().equals(uri)) {
-        return c;
-      }
-    }
-    return null;
+  public Optional<EntityCategory> getEntityCategory(String uri) {
+    return this.entityCategories.stream()
+        .filter(e -> e.getUri().equals(uri))
+        .findFirst();
   }
 
+  /** {@inheritDoc} */
   @Override
   public List<EntityCategory> getEntityCategories() {
     return Collections.unmodifiableList(this.entityCategories);
   }
 
+  /** {@inheritDoc} */
   @Override
   public List<ServiceEntityCategory> getServiceEntityCategories() {
-    List<ServiceEntityCategory> list = new ArrayList<ServiceEntityCategory>();
-    for (EntityCategory e : this.entityCategories) {
-      if (e.getType().equals(EntityCategoryType.SERVICE_ENTITY)) {
-        list.add(ServiceEntityCategory.class.cast(e));
-      }      
-    }
-    return list;
+    return this.entityCategories.stream()
+      .filter(e -> EntityCategoryType.SERVICE_ENTITY.equals(e.getType()))
+      .map(ServiceEntityCategory.class::cast)
+      .collect(Collectors.toList());
   }
 
 }

@@ -23,29 +23,31 @@ package se.litsec.swedisheid.opensaml.saml2.metadata;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.conn.ssl.StrictHostnameVerifier;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.saml.metadata.resolver.MetadataResolver;
 import org.opensaml.saml.metadata.resolver.filter.MetadataFilter;
 import org.opensaml.saml.metadata.resolver.impl.FileBackedHTTPMetadataResolver;
 import org.opensaml.saml.metadata.resolver.impl.HTTPMetadataResolver;
-import org.opensaml.security.credential.Credential;
 import org.opensaml.security.credential.impl.CollectionCredentialResolver;
 import org.opensaml.security.httpclient.impl.TrustEngineTLSSocketFactory;
 import org.opensaml.security.trust.TrustEngine;
 import org.opensaml.security.trust.impl.ExplicitX509CertificateTrustEngine;
 import org.opensaml.security.x509.BasicX509Credential;
 import org.opensaml.security.x509.X509Credential;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.httpclient.HttpClientSupport;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 import se.litsec.swedisheid.opensaml.utils.InputAssert;
+import se.litsec.swedisheid.opensaml.utils.KeyStoreUtils;
 
 /**
  * A provider that downloads metadata from a HTTP resource.
@@ -55,33 +57,37 @@ import se.litsec.swedisheid.opensaml.utils.InputAssert;
  * @see FileBackedHTTPMetadataResolver
  */
 public class HTTPMetadataProvider extends AbstractMetadataProvider {
+  
+  /** Logging instance. */
+  private Logger log = LoggerFactory.getLogger(HTTPMetadataProvider.class);
 
   /** The metadata resolver. */
   private HTTPMetadataResolver metadataResolver;
 
   /** The keystore holding the certificates that we trust for TLS connections. */
   private KeyStore tlsTrustStore;
-  
-  // TODO: Find out how we use cacerts ...
 
   /**
    * Creates a provider that peiodically downloads data from the URL given by {@code metadataUrl}. If the
    * {@code backupFile} parameter is given the provider also stores the downloaded metadata on disk as backup.
    * <p>
-   * This constructor will initialize the underlying {@code MetadataResolver} with a default {@code HttpClient}
-   * instance that uses the system defaults ({@code HttpClients.createSystem()}).
+   * This constructor will initialize the underlying {@code MetadataResolver} with a default {@code HttpClient} instance
+   * that is initialized according to {@link #createDefaultHttpClient()}.
    * </p>
    * 
    * @param metadataUrl
    *          the URL to use when downloading metadata
    * @param backupFile
    *          optional path to the file to where the provider should store downloaded metadata
+   * @param tlsTrustStore
+   *          a keystore holding the certificates to trust for TLS connections (if not set, only HTTP connections will
+   *          be possible)
    * @throws ResolverException
    *           if the supplied metadata URL is invalid
    * @see #HTTPMetadataProvider(String, String, HttpClient)
    */
-  public HTTPMetadataProvider(String metadataUrl, String backupFile) throws ResolverException {
-    this(metadataUrl, backupFile, HttpClients.createSystem());
+  public HTTPMetadataProvider(String metadataUrl, String backupFile, KeyStore tlsTrustStore) throws ResolverException {
+    this(metadataUrl, backupFile, createDefaultHttpClient(), tlsTrustStore);
   }
 
   /**
@@ -94,25 +100,42 @@ public class HTTPMetadataProvider extends AbstractMetadataProvider {
    *          optional path to the file to where the provider should store downloaded metadata
    * @param httpClient
    *          the {@code HttpClient} that should be used to download the metadata
+   * @param tlsTrustStore
+   *          a keystore holding the certificates to trust for TLS connections (if not set, only HTTP connections will
+   *          be possible)
    * @throws ResolverException
    *           if the supplied metadata URL is invalid
    */
-  public HTTPMetadataProvider(String metadataUrl, String backupFile, HttpClient httpClient) throws ResolverException {
+  public HTTPMetadataProvider(String metadataUrl, String backupFile, HttpClient httpClient, KeyStore tlsTrustStore)
+      throws ResolverException {
     InputAssert.notNull(metadataUrl, "metadataUrl");
     InputAssert.notNull(httpClient, "httpClient");
 
     this.metadataResolver = backupFile != null
         ? new FileBackedHTTPMetadataResolver(httpClient, metadataUrl, backupFile)
         : new HTTPMetadataResolver(httpClient, metadataUrl);
+    this.tlsTrustStore = tlsTrustStore;
   }
 
-//  private HttpClient createDefaultHttpClient() {
-//    CloseableHttpClient httpClient = HttpClients.createSystem()
-//    TrustEngineTLSSocketFactory tlsFactory = new TrustEngineTLSSocketFactory(httpClient.get 
-//    
-//    return null;
-//  }
-  
+  /**
+   * Creates a {@link HttpClient} instance that uses system properties and sets a SSLSocketFactory according to:
+   * 
+   * <pre>
+   * new TrustEngineTLSSocketFactory(
+   *   HttpClientSupport.buildNoTrustSSLConnectionSocketFactory(), new StrictHostnameVerifier());
+   * </pre>
+   * 
+   * @return a default {@code HttpClient} instance
+   */
+  public static HttpClient createDefaultHttpClient() {
+    return HttpClientBuilder
+      .create()
+      .useSystemProperties()
+      .setSSLSocketFactory(new TrustEngineTLSSocketFactory(
+        HttpClientSupport.buildNoTrustSSLConnectionSocketFactory(), new StrictHostnameVerifier()))
+      .build();
+  }
+
   /** {@inheritDoc} */
   @Override
   public MetadataResolver getMetadataResolver() {
@@ -131,9 +154,15 @@ public class HTTPMetadataProvider extends AbstractMetadataProvider {
       this.metadataResolver.setMetadataFilter(filter);
 
       // Setup TLS trust engine.
-      this.metadataResolver.setTLSTrustEngine(this.createTlsTrustEngine());
+      if (this.tlsTrustStore != null) {
+        this.metadataResolver.setTLSTrustEngine(this.createTlsTrustEngine());
+      }
+      else {
+        log.info("No TLS trust store supplied. The HTTP metadata resolver will not be able to handle HTTPS connections.");
+      }
     }
     catch (KeyStoreException e) {
+      log.error("Error while setting up TLS trust engine", e);
       throw new ResolverException(e);
     }
   }
@@ -146,15 +175,9 @@ public class HTTPMetadataProvider extends AbstractMetadataProvider {
    *           for errors reading the TLS trust key store
    */
   private TrustEngine<? super X509Credential> createTlsTrustEngine() throws KeyStoreException {
-    List<Credential> trustedCertificates = new ArrayList<Credential>();
-    Enumeration<String> aliases = this.tlsTrustStore.aliases();
-    while (aliases.hasMoreElements()) {
-      String alias = aliases.nextElement();
-      if (this.tlsTrustStore.isCertificateEntry(alias)) {
-        trustedCertificates.add(new BasicX509Credential((X509Certificate) this.tlsTrustStore.getCertificate(alias)));
-      }
-    }
-    return new ExplicitX509CertificateTrustEngine(new CollectionCredentialResolver(trustedCertificates));
+    List<X509Certificate> trustedCertificates = KeyStoreUtils.getCertificateEntries(tlsTrustStore);
+    return new ExplicitX509CertificateTrustEngine(new CollectionCredentialResolver(
+      trustedCertificates.stream().map(c -> new BasicX509Credential(c)).collect(Collectors.toList())));
   }
 
   /** {@inheritDoc} */

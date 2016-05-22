@@ -20,46 +20,69 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.metadata;
 
-import java.net.URI;
-
-import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.springframework.core.io.Resource;
 
 import se.litsec.swedisheid.opensaml.TestWebServer;
-import se.litsec.swedisheid.opensaml.saml2.metadata.spring.SpringResourceMetadataProvider;
 
-public class HTTPMetadataProviderTest {
+/**
+ * Test cases for the {@code HTTPMetadataProvider} class.
+ * 
+ * @author Martin Lindström (martin.lindstrom@litsec.se)
+ */
+public class HTTPMetadataProviderTest extends BaseMetadataProviderTest {
 
-  public HTTPMetadataProviderTest() {
-    // TODO Auto-generated constructor stub
+  /** Holds the metadata that is serviced by the web server. */
+  private static MetadataResourceProvider resourceProvider = new MetadataResourceProvider();
+
+  /** The web server that serves the metadata. */
+  private static TestWebServer server = new TestWebServer(resourceProvider);
+
+  /**
+   * Starts the "remote" metadata service.
+   * 
+   * @throws Exception
+   *           for errors
+   */
+  @BeforeClass
+  static public void startServer() throws Exception {
+    server.start();
   }
 
-  @Test
-  public void test() throws Exception {
-    
-    MetadataProvider provider = new SpringResourceMetadataProvider(new ClassPathResource("/metadata/sveleg-fedtest.xml"));
-    
-    TestWebServer service = new TestWebServer(provider);
-    try {
-      URI uri = service.start();
-      
-      System.out.println(uri);
-      
-      
-    }
-    finally {
-      if (service != null) {
-        service.stop();
-      }
-    }
-    
-    
-    
+  /**
+   * Stops the "remote" metadata service.
+   * 
+   * @throws Exception
+   *           for errors
+   */
+  @AfterClass
+  static public void stopServer() throws Exception {
+    server.stop();
   }
 
-//  @Override
-//  protected AbstractMetadataProvider createMetadataProvider(Resource resource) throws Exception {
-//    return null;
-//  }
+  /** {@inheritDoc} */
+  @Override
+  protected AbstractMetadataProvider createMetadataProvider(Resource resource) throws Exception {
+    resourceProvider.setResource(resource);
+    return new HTTPMetadataProvider(server.getUrl(), null, null);
+  }
+
+  /**
+   * Simple class holding the metadata (accessed by the web server). 
+   */
+  private static class MetadataResourceProvider implements TestWebServer.ResourceProvider {
+
+    private Resource resource;
+
+    public void setResource(Resource resource) {
+      this.resource = resource;
+    }
+
+    @Override
+    public Resource getResource() {
+      return this.resource;
+    }
+  }
 
 }

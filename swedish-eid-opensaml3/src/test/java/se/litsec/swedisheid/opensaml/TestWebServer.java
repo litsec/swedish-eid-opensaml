@@ -21,7 +21,6 @@
 package se.litsec.swedisheid.opensaml;
 
 import java.io.IOException;
-import java.net.URI;
 import java.security.KeyStore;
 
 import javax.servlet.ServletException;
@@ -36,20 +35,12 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.springframework.core.io.Resource;
 
-import se.litsec.swedisheid.opensaml.saml2.metadata.ResourceProvider;
-
 /**
  * Class for supporting test cases that need a web server.
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
 public class TestWebServer {
-
-  /**
-   * The signature credentials for signing metadata. If no credential is configured, the service will not sign its
-   * metadata.
-   */
-  private KeyStore.PrivateKeyEntry signatureCredential;
 
   /** The credentials for the web server. If not set, the server will run HTTP instead of HTTPS. */
   private KeyStore serverCredentials;
@@ -59,15 +50,22 @@ public class TestWebServer {
 
   /** The scheme (HTTP/HTTPS). */
   private String scheme;
+  
+  /** The URL that is exposed by the web server. */
+  private String url;
 
+  /**
+   * Constructor 
+   * @param resourceProvider
+   */
   public TestWebServer(ResourceProvider resourceProvider) {
     QueuedThreadPool serverThreads = new QueuedThreadPool();
     serverThreads.setName("server");
     this.server = new Server(serverThreads);
     ServerConnector connector = new ServerConnector(this.server /* sslContextFactory */);
+    connector.setHost("localhost");
     this.server.addConnector(connector);
-    server.setHandler(new MetadataHandler(resourceProvider));
-    // server.start();
+    server.setHandler(new ResourceHandler(resourceProvider));
   }
 
   /**
@@ -76,12 +74,9 @@ public class TestWebServer {
    * @throws Exception
    *           if the server fails to start
    */
-  public URI start() throws Exception {
-    // this.server = new Server(0);
-
-    this.server.start();    
-
-    return this.server.getURI();
+  public void start() throws Exception {    
+    this.server.start();
+    this.url = this.server.getURI().toURL().toString();
   }
 
   /**
@@ -95,17 +90,11 @@ public class TestWebServer {
       this.server.stop();
     }
   }
-
-  /**
-   * Returns the URL on which the service exposes the metadata.
-   * 
-   * @return metadata URL
-   */
-  public String getMetadataUrl() {
-    return null;
-  }
   
-  @FunctionalInterface
+  public String getUrl() {
+    return this.url;
+  }
+
   public interface ResourceProvider {
     Resource getResource();
   }

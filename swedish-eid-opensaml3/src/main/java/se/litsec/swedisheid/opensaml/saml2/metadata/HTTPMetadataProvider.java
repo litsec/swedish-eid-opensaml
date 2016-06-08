@@ -23,8 +23,8 @@ package se.litsec.swedisheid.opensaml.saml2.metadata;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.cert.X509Certificate;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ssl.StrictHostnameVerifier;
@@ -34,12 +34,14 @@ import org.opensaml.saml.metadata.resolver.MetadataResolver;
 import org.opensaml.saml.metadata.resolver.filter.MetadataFilter;
 import org.opensaml.saml.metadata.resolver.impl.FileBackedHTTPMetadataResolver;
 import org.opensaml.saml.metadata.resolver.impl.HTTPMetadataResolver;
-import org.opensaml.security.credential.impl.CollectionCredentialResolver;
 import org.opensaml.security.httpclient.impl.TrustEngineTLSSocketFactory;
 import org.opensaml.security.trust.TrustEngine;
-import org.opensaml.security.trust.impl.ExplicitX509CertificateTrustEngine;
-import org.opensaml.security.x509.BasicX509Credential;
+import org.opensaml.security.x509.PKIXValidationInformation;
 import org.opensaml.security.x509.X509Credential;
+import org.opensaml.security.x509.impl.BasicPKIXValidationInformation;
+import org.opensaml.security.x509.impl.CertPathPKIXTrustEvaluator;
+import org.opensaml.security.x509.impl.PKIXX509CredentialTrustEngine;
+import org.opensaml.security.x509.impl.StaticPKIXValidationInformationResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +59,7 @@ import se.litsec.swedisheid.opensaml.utils.KeyStoreUtils;
  * @see FileBackedHTTPMetadataResolver
  */
 public class HTTPMetadataProvider extends AbstractMetadataProvider {
-  
+
   /** Logging instance. */
   private Logger log = LoggerFactory.getLogger(HTTPMetadataProvider.class);
 
@@ -128,11 +130,14 @@ public class HTTPMetadataProvider extends AbstractMetadataProvider {
    * @return a default {@code HttpClient} instance
    */
   public static HttpClient createDefaultHttpClient() {
+    
     return HttpClientBuilder
       .create()
       .useSystemProperties()
-      .setSSLSocketFactory(new TrustEngineTLSSocketFactory(
-        HttpClientSupport.buildNoTrustSSLConnectionSocketFactory(), new StrictHostnameVerifier()))
+      .setSSLSocketFactory(
+        new TrustEngineTLSSocketFactory(
+          HttpClientSupport.buildNoTrustSSLConnectionSocketFactory(), 
+          new StrictHostnameVerifier()))
       .build();
   }
 
@@ -175,9 +180,12 @@ public class HTTPMetadataProvider extends AbstractMetadataProvider {
    *           for errors reading the TLS trust key store
    */
   private TrustEngine<? super X509Credential> createTlsTrustEngine() throws KeyStoreException {
-    List<X509Certificate> trustedCertificates = KeyStoreUtils.getCertificateEntries(tlsTrustStore);
-    return new ExplicitX509CertificateTrustEngine(new CollectionCredentialResolver(
-      trustedCertificates.stream().map(c -> new BasicX509Credential(c)).collect(Collectors.toList())));
+    
+    List<X509Certificate> trustedCertificates = KeyStoreUtils.getCertificateEntries(this.tlsTrustStore);
+    
+    PKIXValidationInformation info = new BasicPKIXValidationInformation(trustedCertificates, null, null);
+    StaticPKIXValidationInformationResolver resolver = new StaticPKIXValidationInformationResolver(Collections.singletonList(info), Collections.emptySet());
+    return new PKIXX509CredentialTrustEngine(resolver, new CertPathPKIXTrustEvaluator(), null);
   }
 
   /** {@inheritDoc} */

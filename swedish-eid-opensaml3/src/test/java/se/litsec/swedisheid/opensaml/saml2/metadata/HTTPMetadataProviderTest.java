@@ -20,11 +20,14 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.metadata;
 
+import java.security.KeyStore;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.springframework.core.io.Resource;
 
 import se.litsec.swedisheid.opensaml.TestWebServer;
+import se.litsec.swedisheid.opensaml.utils.KeyStoreUtils;
 
 /**
  * Test cases for the {@code HTTPMetadataProvider} class.
@@ -35,9 +38,21 @@ public class HTTPMetadataProviderTest extends BaseMetadataProviderTest {
 
   /** Holds the metadata that is serviced by the web server. */
   private static MetadataResourceProvider resourceProvider = new MetadataResourceProvider();
+  
+  /** The TLS trust. */
+  private static KeyStore trustStore;
 
   /** The web server that serves the metadata. */
-  private static TestWebServer server = new TestWebServer(resourceProvider);
+  private static TestWebServer server;
+  
+  static {    
+    try {
+      trustStore = KeyStoreUtils.loadKeyStore("src/test/resources/trust.jks", "secret", null);
+      server = new TestWebServer(resourceProvider, "src/test/resources/localhost.jks", "secret");
+    }
+    catch (Exception e) {
+    } 
+  }
 
   /**
    * Starts the "remote" metadata service.
@@ -65,7 +80,7 @@ public class HTTPMetadataProviderTest extends BaseMetadataProviderTest {
   @Override
   protected AbstractMetadataProvider createMetadataProvider(Resource resource) throws Exception {
     resourceProvider.setResource(resource);
-    return new HTTPMetadataProvider(server.getUrl(), null, null);
+    return new HTTPMetadataProvider(server.getUrl(), null, trustStore);
   }
 
   /**

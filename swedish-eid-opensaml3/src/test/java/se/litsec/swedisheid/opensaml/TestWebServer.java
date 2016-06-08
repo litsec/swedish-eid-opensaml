@@ -21,7 +21,6 @@
 package se.litsec.swedisheid.opensaml;
 
 import java.io.IOException;
-import java.security.KeyStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +31,7 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.springframework.core.io.Resource;
 
@@ -42,27 +42,38 @@ import org.springframework.core.io.Resource;
  */
 public class TestWebServer {
 
-  /** The credentials for the web server. If not set, the server will run HTTP instead of HTTPS. */
-  private KeyStore serverCredentials;
-
   /** The web server. */
   private Server server;
 
-  /** The scheme (HTTP/HTTPS). */
-  private String scheme;
-  
   /** The URL that is exposed by the web server. */
   private String url;
 
   /**
-   * Constructor 
+   * Constructor setting up the web server.
+   * 
    * @param resourceProvider
+   *          the provider handling the data
+   * @param keyStorePath
+   *          the path to the keystore holding the private key for the web server (may be {@code null})
+   * @param keyStorePassword
+   *          the password for the keystore
    */
-  public TestWebServer(ResourceProvider resourceProvider) {
+  public TestWebServer(ResourceProvider resourceProvider, String keyStorePath, String keyStorePassword) {
     QueuedThreadPool serverThreads = new QueuedThreadPool();
     serverThreads.setName("server");
     this.server = new Server(serverThreads);
-    ServerConnector connector = new ServerConnector(this.server /* sslContextFactory */);
+
+    SslContextFactory contextFactory = null;
+    if (keyStorePath != null) {
+      contextFactory = new SslContextFactory(true);
+      contextFactory.setKeyStorePath(keyStorePath);
+      contextFactory.setKeyStorePassword(keyStorePassword);
+      contextFactory.setMaxCertPathLength(-1);
+      contextFactory.setProtocol("TLS");
+      //contextFactory.setIncludeCipherSuites("TLS_RSA_WITH_AES_128_CBC_SHA256");
+    }
+
+    ServerConnector connector = new ServerConnector(this.server, contextFactory);
     connector.setHost("localhost");
     this.server.addConnector(connector);
     server.setHandler(new ResourceHandler(resourceProvider));
@@ -74,7 +85,7 @@ public class TestWebServer {
    * @throws Exception
    *           if the server fails to start
    */
-  public void start() throws Exception {    
+  public void start() throws Exception {
     this.server.start();
     this.url = this.server.getURI().toURL().toString();
   }
@@ -90,17 +101,28 @@ public class TestWebServer {
       this.server.stop();
     }
   }
-  
+
+  /**
+   * Returns the URL for the server
+   * 
+   * @return the URL
+   */
   public String getUrl() {
     return this.url;
   }
 
+  /**
+   * Simple interface for a resource provider.
+   */
   public interface ResourceProvider {
     Resource getResource();
   }
 
+  /**
+   * The {@code ResourceHandler} that is used by the server.
+   */
   public static class ResourceHandler extends AbstractHandler {
-    
+
     private ResourceProvider resourceProvider;
 
     public ResourceHandler(ResourceProvider resourceProvider) {
@@ -109,11 +131,10 @@ public class TestWebServer {
 
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException,
-        ServletException {      
-      
+        ServletException {
+
       response.getOutputStream().write(IOUtils.toByteArray(this.resourceProvider.getResource().getInputStream()));
       baseRequest.setHandled(true);
-
     }
 
   }

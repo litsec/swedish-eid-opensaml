@@ -25,6 +25,7 @@ import java.security.KeyStore;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.xml.namespace.QName;
 
@@ -60,6 +61,16 @@ public class SAMLUtils {
 
   /** The builder factory for XML objects. */
   private static XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
+  
+  /** Possible chars in the strings. */
+  private static final char[] _idChars = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ0123456789".toCharArray();
+
+  /** Randomizer for generating authentication identifiers. */
+  private static Random random = new Random();
+  
+  static {
+    random.setSeed(System.currentTimeMillis());
+  }
 
   /**
    * Utility method for creating an OpenSAML object using the default element name of the class.
@@ -251,7 +262,33 @@ public class SAMLUtils {
     catch (ResolverException | org.opensaml.security.SecurityException | MarshallingException e) {
       throw new SignatureException(e);
     }
-
+  }
+  
+  /**
+   * Generates a random identifier for usage as an ID.
+   * 
+   * @param number
+   *          of chars in the returned string
+   * @return a random identifier
+   */
+  public static String generateIDAttribute(int size) {
+    char[] r = new char[size];
+    for (int i = 0; i < size; i++) {
+      r[i] = _idChars[random.nextInt(_idChars.length)];
+    }
+    return new String(r);
+  }
+  
+  /**
+   * Generates a random identifier with a supplied prefix for usage as an ID.
+   * @param prefix prefix string
+   * @param size number of chars of the resulting string
+   * @return a random identifier
+   */
+  public static String generateIDAttribute(String prefix, int size) {
+    StringBuilder sb = prefix != null ? new StringBuilder(prefix) : new StringBuilder();
+    sb.append(generateIDAttribute(size - sb.length()));
+    return sb.toString();
   }
 
   // Hidden constructor

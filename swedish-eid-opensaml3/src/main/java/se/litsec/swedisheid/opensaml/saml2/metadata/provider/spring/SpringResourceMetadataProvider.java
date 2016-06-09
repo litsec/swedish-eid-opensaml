@@ -18,42 +18,31 @@
  * You should have received a copy of the GNU General Public License 
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package se.litsec.swedisheid.opensaml.utils.spring;
+package se.litsec.swedisheid.opensaml.saml2.metadata.provider.spring;
 
-import org.opensaml.core.xml.XMLObject;
-import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
-import org.opensaml.core.xml.util.XMLObjectSupport;
-import org.springframework.beans.factory.config.AbstractFactoryBean;
+import java.io.IOException;
+
 import org.springframework.core.io.Resource;
 
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.FilesystemMetadataProvider;
+
 /**
- * A Spring factory bean that creates OpenSAML {@link XMLObject} instances.
+ * Utility class that accepts a Spring Framework {@link org.springframework.core.io.Resource} as the metadata source.
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
-public class XMLObjectFactoryBean extends AbstractFactoryBean<XMLObject> {
-  
-  /** The resource to read from. */
-  private Resource resource;
-  
+public class SpringResourceMetadataProvider extends FilesystemMetadataProvider {
+
   /**
-   * Constructor assigning the resource to unmarshall the XMLObject from.
-   * @param resource the resource
+   * Constructor taking a Spring Framework {@link org.springframework.core.io.Resource} as the metadata source.
+   * 
+   * @param metadataResource
+   *          the metadata source
+   * @throws IOException
+   *           if the given resource can not be represented as a {@code File} object
    */
-  public XMLObjectFactoryBean(Resource resource) {
-    this.resource = resource;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public Class<?> getObjectType() {
-    return XMLObject.class;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  protected XMLObject createInstance() throws Exception {
-    return XMLObjectSupport.unmarshallFromInputStream(XMLObjectProviderRegistrySupport.getParserPool(), this.resource.getInputStream());
+  public SpringResourceMetadataProvider(Resource metadataResource) throws IOException {
+    super(metadataResource.getFile());
   }
 
 }

@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
-import se.litsec.swedisheid.opensaml.saml2.metadata.MetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.MetadataProvider;
 import se.litsec.swedisheid.opensaml.utils.InputAssert;
 
 /**

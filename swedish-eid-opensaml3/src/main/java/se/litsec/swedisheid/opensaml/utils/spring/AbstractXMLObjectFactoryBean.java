@@ -21,39 +21,47 @@
 package se.litsec.swedisheid.opensaml.utils.spring;
 
 import org.opensaml.core.xml.XMLObject;
-import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
-import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
+
+import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**
- * A Spring factory bean that creates OpenSAML {@link XMLObject} instances.
+ * Abstract base class for factories for {@code XMLObject} classes.
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
+ *
+ * @param <T>
+ *          the {@code XMLObject} type
  */
-public class XMLObjectFactoryBean extends AbstractFactoryBean<XMLObject> {
-  
+public abstract class AbstractXMLObjectFactoryBean<T extends XMLObject> extends AbstractFactoryBean<T> {
+
   /** The resource to read from. */
   private Resource resource;
-  
+
   /**
-   * Constructor assigning the resource to unmarshall the XMLObject from.
-   * @param resource the resource
+   * Assigns the resource holding the XML representing the XMLObject that we want to create
+   * 
+   * @param resource
+   *          the resource
    */
-  public XMLObjectFactoryBean(Resource resource) {
+  public void setResource(Resource resource) {
     this.resource = resource;
   }
 
   /** {@inheritDoc} */
+  @SuppressWarnings("unchecked")
   @Override
-  public Class<?> getObjectType() {
-    return XMLObject.class;
+  protected final T createInstance() throws Exception {
+    return SAMLUtils.unmarshall(this.resource.getInputStream(), (Class<T>) this.getObjectType());
   }
 
   /** {@inheritDoc} */
   @Override
-  protected XMLObject createInstance() throws Exception {
-    return XMLObjectSupport.unmarshallFromInputStream(XMLObjectProviderRegistrySupport.getParserPool(), this.resource.getInputStream());
+  public void afterPropertiesSet() throws Exception {
+    super.afterPropertiesSet();
+    Assert.notNull(this.resource, "Property 'resource' must be assigned");
   }
 
 }

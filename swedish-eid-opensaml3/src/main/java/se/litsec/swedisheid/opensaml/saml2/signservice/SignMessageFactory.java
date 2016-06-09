@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
-import se.litsec.swedisheid.opensaml.saml2.metadata.MetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.MetadataProvider;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.EncryptedMessage;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.Message;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessage;

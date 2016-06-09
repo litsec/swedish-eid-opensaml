@@ -20,6 +20,7 @@
  */
 package se.litsec.swedisheid.opensaml.utils;
 
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
@@ -48,6 +49,7 @@ import org.w3c.dom.Element;
 
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
+import net.shibboleth.utilities.java.support.xml.XMLParserException;
 
 /**
  * Utility methods for working with OpenSAML.
@@ -169,6 +171,24 @@ public class SAMLUtils {
   }
 
   /**
+   * Unmarshalls the supplied input stream into the given type.
+   * 
+   * @param inputStream
+   *          the input stream of the XML resource
+   * @param targetClass
+   *          the required class
+   * @return an {@code XMLObject} of the given type
+   * @throws XMLParserException
+   *           for XML parsing errors
+   * @throws UnmarshallingException
+   *           for unmarshalling errors
+   */
+  public static <T extends XMLObject> T unmarshall(InputStream inputStream, Class<T> targetClass) throws XMLParserException,
+      UnmarshallingException {
+    return unmarshall(XMLObjectProviderRegistrySupport.getParserPool().parse(inputStream).getDocumentElement(), targetClass);
+  }
+
+  /**
    * Finds the first extension matching the supplied type.
    * 
    * @param extensions
@@ -181,10 +201,11 @@ public class SAMLUtils {
     if (extensions == null) {
       return Optional.empty();
     }
-    return extensions.getOrderedChildren().stream()
-        .filter(e -> clazz.isAssignableFrom(e.getClass()))
-        .map(e -> clazz.cast(e))
-        .findFirst();
+    return extensions.getOrderedChildren()
+      .stream()
+      .filter(e -> clazz.isAssignableFrom(e.getClass()))
+      .map(e -> clazz.cast(e))
+      .findFirst();
   }
 
   /**
@@ -222,7 +243,7 @@ public class SAMLUtils {
 
       BasicSignatureSigningParametersResolver signatureParametersResolver = new BasicSignatureSigningParametersResolver();
       CriteriaSet criteriaSet = new CriteriaSet(new SignatureSigningConfigurationCriterion(SecurityConfigurationSupport
-          .getGlobalSignatureSigningConfiguration(), signatureCreds));
+        .getGlobalSignatureSigningConfiguration(), signatureCreds));
 
       SignatureSigningParameters parameters = signatureParametersResolver.resolveSingle(criteriaSet);
       SignatureSupport.signObject(object, parameters);

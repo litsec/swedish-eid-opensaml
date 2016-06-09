@@ -18,31 +18,36 @@
  * You should have received a copy of the GNU General Public License 
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package se.litsec.swedisheid.opensaml.saml2.metadata.spring;
+package se.litsec.swedisheid.opensaml.saml2.metadata.provider;
 
-import java.io.IOException;
-
+import org.opensaml.core.xml.XMLObject;
 import org.springframework.core.io.Resource;
+import org.w3c.dom.Element;
 
-import se.litsec.swedisheid.opensaml.saml2.metadata.FilesystemMetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.AbstractMetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.StaticMetadataProvider;
+import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**
- * Utility class that accepts a Spring Framework {@link org.springframework.core.io.Resource} as the metadata source.
+ * Test cases for the {@code StaticMetadataProvider}.
+ * <p>
+ * See {@link BaseMetadataProviderTest} for test cases.
+ * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
-public class SpringResourceMetadataProvider extends FilesystemMetadataProvider {
+public class StaticMetadataProviderTest extends BaseMetadataProviderTest {
 
-  /**
-   * Constructor taking a Spring Framework {@link org.springframework.core.io.Resource} as the metadata source.
-   * 
-   * @param metadataResource
-   *          the metadata source
-   * @throws IOException
-   *           if the given resource can not be represented as a {@code File} object
-   */
-  public SpringResourceMetadataProvider(Resource metadataResource) throws IOException {
-    super(metadataResource.getFile());
+  /** {@inheritDoc} */
+  @Override
+  protected AbstractMetadataProvider createMetadataProvider(Resource resource) throws Exception {
+    
+    XMLObject object = this.xmlObjectFromResource(resource);
+    Element dom = object.getDOM();
+    if (dom == null) {
+      dom = SAMLUtils.marshall(object);
+    }
+    return new StaticMetadataProvider(dom);
   }
 
 }

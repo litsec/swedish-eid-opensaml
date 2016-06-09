@@ -18,12 +18,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package se.litsec.swedisheid.opensaml.saml2.metadata.spring;
+package se.litsec.swedisheid.opensaml.saml2.metadata.provider.spring;
 
 import org.springframework.core.io.Resource;
 
-import se.litsec.swedisheid.opensaml.saml2.metadata.AbstractMetadataProvider;
-import se.litsec.swedisheid.opensaml.saml2.metadata.BaseMetadataProviderTest;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.AbstractMetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.BaseMetadataProviderTest;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.spring.SpringResourceMetadataProvider;
 
 /**
  * Test cases for the {@code SpringResourceMetadataProvider}.

@@ -21,39 +21,50 @@
 package se.litsec.swedisheid.opensaml.utils.spring;
 
 import org.opensaml.core.xml.XMLObject;
-import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
-import org.opensaml.core.xml.util.XMLObjectSupport;
-import org.springframework.beans.factory.config.AbstractFactoryBean;
-import org.springframework.core.io.Resource;
+import org.springframework.core.convert.converter.Converter;
+
+import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
+
 
 /**
- * A Spring factory bean that creates OpenSAML {@link XMLObject} instances.
+ * An abstract Spring converter class for transforming string values into OpenSAML objects.
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
+ * 
+ * @param <T>
+ *          the XML type
  */
-public class XMLObjectFactoryBean extends AbstractFactoryBean<XMLObject> {
-  
-  /** The resource to read from. */
-  private Resource resource;
-  
+public abstract class StringToXMLObjectConverter<T extends XMLObject> implements Converter<String, T> {
+
+  /** The class. */
+  protected Class<T> clazz;
+
   /**
-   * Constructor assigning the resource to unmarshall the XMLObject from.
-   * @param resource the resource
+   * Constructor.
+   * 
+   * @param clazz
+   *          the class name of the OpenSAML object to convert to
    */
-  public XMLObjectFactoryBean(Resource resource) {
-    this.resource = resource;
+  public StringToXMLObjectConverter(Class<T> clazz) {
+    this.clazz = clazz;
   }
 
   /** {@inheritDoc} */
   @Override
-  public Class<?> getObjectType() {
-    return XMLObject.class;
+  public T convert(String source) {
+    T obj = SAMLUtils.createSamlObject(this.clazz);
+    this.assign(obj, source);
+    return obj;
   }
 
-  /** {@inheritDoc} */
-  @Override
-  protected XMLObject createInstance() throws Exception {
-    return XMLObjectSupport.unmarshallFromInputStream(XMLObjectProviderRegistrySupport.getParserPool(), this.resource.getInputStream());
-  }
+  /**
+   * Assigns the given value to the OpenSAML object (after conversion).
+   * 
+   * @param obj
+   *          the OpenSAML object that we should assign the value to
+   * @param value
+   *          the value to assign
+   */
+  protected abstract void assign(T obj, String value);
 
 }

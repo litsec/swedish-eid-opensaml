@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License 
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package se.litsec.swedisheid.opensaml.saml2.metadata;
+package se.litsec.swedisheid.opensaml.saml2.metadata.provider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +42,9 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import se.litsec.swedisheid.opensaml.OpenSAMLTestBase;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.AbstractMetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.MetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.MetadataProviderPredicates;
 import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**

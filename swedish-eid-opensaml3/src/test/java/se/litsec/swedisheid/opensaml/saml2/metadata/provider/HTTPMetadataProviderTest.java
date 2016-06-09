@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package se.litsec.swedisheid.opensaml.saml2.metadata;
+package se.litsec.swedisheid.opensaml.saml2.metadata.provider;
 
 import java.security.KeyStore;
 
@@ -27,6 +27,8 @@ import org.junit.BeforeClass;
 import org.springframework.core.io.Resource;
 
 import se.litsec.swedisheid.opensaml.TestWebServer;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.AbstractMetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.HTTPMetadataProvider;
 import se.litsec.swedisheid.opensaml.utils.KeyStoreUtils;
 
 /**

@@ -18,31 +18,25 @@
  * You should have received a copy of the GNU General Public License 
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package se.litsec.swedisheid.opensaml.saml2.metadata;
+package se.litsec.swedisheid.opensaml.utils.spring;
 
-import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
-import org.opensaml.saml.metadata.resolver.impl.ResourceBackedMetadataResolver;
-import org.springframework.core.io.Resource;
-
-import se.litsec.swedisheid.opensaml.utils.spring.ResourceProxy;
+import org.opensaml.core.xml.schema.XSBooleanValue;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * Test cases for the {@code ProxyMetadataProvider}.
- * <p>
- * See {@link BaseMetadataProviderTest} for test cases.
- * </p>
+ * A Spring converter bean that converts string values into OpenSAML {@code XSBooleanValue} objects.
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
-public class ProxyMetadataProviderTest extends BaseMetadataProviderTest {
+public class StringToXSBooleanValueConverter implements Converter<String, XSBooleanValue> {
 
   /** {@inheritDoc} */
   @Override
-  protected AbstractMetadataProvider createMetadataProvider(Resource resource) throws Exception {
-    ResourceBackedMetadataResolver resolver = new ResourceBackedMetadataResolver(ResourceProxy.proxy(resource));
-    resolver.setParserPool(XMLObjectProviderRegistrySupport.getParserPool());
-    resolver.setId(resource.getFilename());
-    return new ProxyMetadataProvider(resolver);
+  public XSBooleanValue convert(String source) {
+    XSBooleanValue b = new XSBooleanValue();
+    Boolean _b = new Boolean(source);
+    b.setValue(_b);
+    return b;
   }
 
 }

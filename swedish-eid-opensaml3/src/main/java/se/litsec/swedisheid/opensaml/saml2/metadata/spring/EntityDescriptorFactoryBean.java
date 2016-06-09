@@ -18,24 +18,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package se.litsec.swedisheid.opensaml.saml2.metadata;
+package se.litsec.swedisheid.opensaml.saml2.metadata.spring;
 
-import org.springframework.core.io.Resource;
+import org.opensaml.saml.saml2.metadata.EntityDescriptor;
+
+import se.litsec.swedisheid.opensaml.utils.spring.AbstractXMLObjectFactoryBean;
 
 /**
- * Test cases for the {@code FilesystemMetadataProvider}.
- * <p>
- * See {@link BaseMetadataProviderTest} for test cases.
- * </p>
+ * Factory bean for creating an {@link org.opensaml.saml2.metadata.EntityDescriptor} object from a resource.
  * 
- * @author Martin Lindström (martin.lindstrom@litsec.se)
+@author Martin Lindström (martin.lindstrom@litsec.se)
  */
-public class FilesystemMetadataProviderTest extends BaseMetadataProviderTest {
-
+public class EntityDescriptorFactoryBean extends AbstractXMLObjectFactoryBean<EntityDescriptor> {
+  
   /** {@inheritDoc} */
   @Override
-  protected AbstractMetadataProvider createMetadataProvider(Resource resource) throws Exception {
-    return new FilesystemMetadataProvider(resource.getFile());
+  public Class<?> getObjectType() {
+    return EntityDescriptor.class;
   }
 
 }

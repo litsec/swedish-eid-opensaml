@@ -140,6 +140,12 @@ public class HTTPMetadataProvider extends AbstractMetadataProvider {
           new StrictHostnameVerifier()))
       .build();
   }
+  
+  /** {@inheritDoc} */
+  @Override
+  public String getID() {
+    return this.metadataResolver.getMetadataURI();
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -152,7 +158,7 @@ public class HTTPMetadataProvider extends AbstractMetadataProvider {
   protected void createMetadataResolver(boolean requireValidMetadata, boolean failFastInitialization, MetadataFilter filter)
       throws ResolverException {
     try {
-      this.metadataResolver.setId(this.metadataResolver.getMetadataURI());
+      this.metadataResolver.setId(this.getID());
       this.metadataResolver.setFailFastInitialization(failFastInitialization);
       this.metadataResolver.setRequireValidMetadata(requireValidMetadata);
       this.metadataResolver.setParserPool(XMLObjectProviderRegistrySupport.getParserPool());

@@ -44,6 +44,9 @@ public class StaticMetadataProvider extends AbstractMetadataProvider {
 
   /** The XML element that is the metadata. */
   private Element element;
+  
+  /** The identifier for the provider. */
+  private String id;
 
   /**
    * Constructor that takes a DOM element representing the metadata.
@@ -84,6 +87,18 @@ public class StaticMetadataProvider extends AbstractMetadataProvider {
       this.element = SAMLUtils.marshall(entitiesDescriptor);
     }
   }
+  
+  /** {@inheritDoc} */
+  @Override
+  public String getID() {
+    if (this.id == null) {
+      this.id = this.element.getAttribute("ID");
+      if (this.id == null) {
+        this.id = this.toString();
+      }
+    }
+    return this.id;
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -98,14 +113,7 @@ public class StaticMetadataProvider extends AbstractMetadataProvider {
     this.metadataResolver.setRequireValidMetadata(requireValidMetadata);
     this.metadataResolver.setFailFastInitialization(failFastInitialization);
     this.metadataResolver.setMetadataFilter(filter);
-    
-    // Get ID
-    String id = this.element.getAttribute("ID");
-    if (id == null) {
-      // TODO: fix
-      id = this.getClass().getName();
-    }
-    this.metadataResolver.setId(id);
+    this.metadataResolver.setId(this.getID());
   }
 
   /** {@inheritDoc} */

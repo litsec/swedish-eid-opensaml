@@ -28,7 +28,9 @@ import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.util.XMLObjectSupport;
-import org.opensaml.saml.saml2.metadata.EntityDescriptor;
+import org.opensaml.saml.common.SignableSAMLObject;
+import org.opensaml.saml.saml2.common.CacheableSAMLObject;
+import org.opensaml.saml.saml2.common.TimeBoundSAMLObject;
 import org.opensaml.xmlsec.signature.support.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +39,15 @@ import org.w3c.dom.Element;
 import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**
- * Concrete implementation of the {@link EntityDescriptorContainer} interface.
+ * Abstract base class for the {@link MetadataContainer} interface.
  * 
- * @author Martin Lindström (martin)
+ * @author Martin Lindström (martin.lindstrom@litsec.se)
+ *
+ * @param <T>
+ *          the contained type
  */
-public class EntityDescriptorContainerImpl implements EntityDescriptorContainer {
+public abstract class AbstractMetadataContainer<T extends TimeBoundSAMLObject & SignableSAMLObject & CacheableSAMLObject> implements
+    MetadataContainer<T> {
 
   /** The default validity for metadata - one week. */
   public static final Duration DEFAULT_VALIDITY = Duration.ofDays(7);
@@ -55,22 +61,22 @@ public class EntityDescriptorContainerImpl implements EntityDescriptorContainer 
   public static final float DEFAULT_UPDATE_FACTOR = 0.75f;
 
   /** Default size for the ID attribute string. */
-  public static final int DEFAULT_ENTITY_DESCRIPTOR_ID_SIZE = 32;
+  public static final int DEFAULT_DESCRIPTOR_ID_SIZE = 32;
 
   /** Logging instance. */
-  private Logger logger = LoggerFactory.getLogger(EntityDescriptorContainerImpl.class);
+  private Logger logger = LoggerFactory.getLogger(AbstractMetadataContainer.class);
 
-  /** The encapsulated EntityDescriptor element. */
-  protected EntityDescriptor entityDescriptor;
+  /** The encapsulated descriptor element. */
+  protected T descriptor;
 
-  /** The validity time for created entries (in minutes). */
+  /** The validity time for created entries. */
   protected Duration validity = DEFAULT_VALIDITY;
 
   /** The update factor. */
   protected float updateFactor = DEFAULT_UPDATE_FACTOR;
 
   /** The size of the ID attribute string. */
-  protected int idSize = DEFAULT_ENTITY_DESCRIPTOR_ID_SIZE;
+  protected int idSize = DEFAULT_DESCRIPTOR_ID_SIZE;
 
   /**
    * The signature credentials for signing the metadata entry.
@@ -81,41 +87,41 @@ public class EntityDescriptorContainerImpl implements EntityDescriptorContainer 
   protected KeyStore.PrivateKeyEntry signatureCredentials;
 
   /**
-   * Constructor assigning the encapsulated EntityDescriptor element.
+   * Constructor assigning the encapsulated descriptor element.
    * 
-   * @param entityDescriptor
-   *          the {@code EntityDescriptor} object
+   * @param descriptor
+   *          the descriptor object
    * @param signatureCredentials
-   *          the signature credentials for signing the entity descriptor. May be {@code null}, but then no signing will
-   *          be possible
+   *          the signature credentials for signing the descriptor. May be {@code null}, but then no signing will be
+   *          possible
    */
-  public EntityDescriptorContainerImpl(EntityDescriptor entityDescriptor, KeyStore.PrivateKeyEntry signatureCredentials) {
-    this.entityDescriptor = entityDescriptor;
+  public AbstractMetadataContainer(T descriptor, KeyStore.PrivateKeyEntry signatureCredentials) {
+    this.descriptor = descriptor;
     this.signatureCredentials = signatureCredentials;
   }
 
   /** {@inheritDoc} */
   @Override
-  public EntityDescriptor getEntityDescriptor() {
-    return this.entityDescriptor;
+  public T getDescriptor() {
+    return this.descriptor;
   }
 
   /** {@inheritDoc} */
   @Override
-  public EntityDescriptor cloneEntityDescriptor() throws MarshallingException, UnmarshallingException {
-    return XMLObjectSupport.cloneXMLObject(this.entityDescriptor);
+  public T cloneDescriptor() throws MarshallingException, UnmarshallingException {
+    return XMLObjectSupport.cloneXMLObject(this.descriptor);
   }
 
   /** {@inheritDoc} */
   @Override
   public boolean updateRequired(boolean signatureRequired) {
-    if (!this.entityDescriptor.isValid() || (signatureRequired && !this.entityDescriptor.isSigned())) {
+    if (!this.descriptor.isValid() || (signatureRequired && !this.descriptor.isSigned())) {
       return true;
     }
-    if (this.entityDescriptor.getValidUntil() == null) {
+    if (this.descriptor.getValidUntil() == null) {
       return true;
     }
-    long expireInstant = this.entityDescriptor.getValidUntil().getMillis();
+    long expireInstant = this.descriptor.getValidUntil().getMillis();
     long now = new DateTime(ISOChronology.getInstanceUTC()).getMillis();
 
     return (this.updateFactor * this.validity.toMillis()) > (expireInstant - now);
@@ -123,46 +129,46 @@ public class EntityDescriptorContainerImpl implements EntityDescriptorContainer 
 
   /** {@inheritDoc} */
   @Override
-  public EntityDescriptor update(boolean sign) throws SignatureException, MarshallingException {
+  public T update(boolean sign) throws SignatureException, MarshallingException {
 
     // Reset the signature
-    this.entityDescriptor.setSignature(null);
+    this.descriptor.setSignature(null);
 
     // Generate a new ID.
-    this.entityDescriptor.setID(SAMLUtils.generateIDAttribute("M", this.idSize));
+    this.assignID(this.descriptor, SAMLUtils.generateIDAttribute("M", this.idSize));
 
     // Assign the validity.
     DateTime now = new DateTime(ISOChronology.getInstanceUTC());
     DateTime validUntil = now.plusSeconds((int) this.validity.getSeconds());
-    this.entityDescriptor.setValidUntil(validUntil);
+    this.descriptor.setValidUntil(validUntil);
 
-    logger.debug("Entity descriptor for '{}' was updated with ID '{}' and validUntil '{}'",
-      this.entityDescriptor.getEntityID(), this.entityDescriptor.getID(), this.entityDescriptor.getValidUntil().toString());
+    logger.debug("Descriptor '{}' was updated with ID '{}' and validUntil '{}'",
+      this.getLogString(this.descriptor), this.getID(this.descriptor), this.descriptor.getValidUntil().toString());
 
-    return sign ? this.sign() : this.entityDescriptor;
+    return sign ? this.sign() : this.descriptor;
   }
 
   /** {@inheritDoc} */
   @Override
-  public EntityDescriptor sign() throws SignatureException, MarshallingException {
+  public T sign() throws SignatureException, MarshallingException {
 
-    logger.trace("Signing entity descriptor for entityID '{}' ...", this.entityDescriptor.getEntityID());
+    logger.trace("Signing descriptor '{}' ...", this.getLogString(this.descriptor));
 
-    if (this.entityDescriptor.getID() == null || this.getEntityDescriptor().getValidUntil() == null) {
+    if (this.getID(this.descriptor) == null || this.descriptor.getValidUntil() == null) {
       return this.update(true);
     }
 
-    SAMLUtils.sign(this.entityDescriptor, this.signatureCredentials);
+    SAMLUtils.sign(this.descriptor, this.signatureCredentials);
 
-    logger.debug("Entity descriptor for entityID '{}' successfully signed.", this.entityDescriptor.getEntityID());
+    logger.debug("Descriptor '{}' successfully signed.", this.getLogString(this.descriptor));
 
-    return this.entityDescriptor;
+    return this.descriptor;
   }
 
   /** {@inheritDoc} */
   @Override
   public Element marshall() throws MarshallingException {
-    return SAMLUtils.marshall(this.entityDescriptor);
+    return SAMLUtils.marshall(this.descriptor);
   }
 
   /** {@inheritDoc} */
@@ -191,8 +197,7 @@ public class EntityDescriptorContainerImpl implements EntityDescriptorContainer 
   }
 
   /**
-   * Assigns the factor (between 0 and 1) that is used to compute whether it is time to update the contained
-   * {@code EntityDescriptor}.
+   * Assigns the factor (between 0 and 1) that is used to compute whether it is time to update the contained descriptor.
    * <p>
    * The default value is {@link #DEFAULT_UPDATE_FACTOR}.
    * </p>
@@ -221,7 +226,7 @@ public class EntityDescriptorContainerImpl implements EntityDescriptorContainer 
    * Assigns the size of the ID attribute that is generated.
    *
    * <p>
-   * The default value is {@link #DEFAULT_ENTITY_DESCRIPTOR_ID_SIZE}.
+   * The default value is {@link #DEFAULT_DESCRIPTOR_ID_SIZE}.
    * </p>
    * 
    * @param idSize
@@ -230,5 +235,33 @@ public class EntityDescriptorContainerImpl implements EntityDescriptorContainer 
   public void setIdSize(int idSize) {
     this.idSize = idSize;
   }
+
+  /**
+   * Returns the ID attribute of the supplied descriptor.
+   * 
+   * @param descriptor
+   *          the descriptor
+   * @return the ID attribute
+   */
+  protected abstract String getID(T descriptor);
+
+  /**
+   * Assigns the supplied id to the ID attribute of the descriptor.
+   * 
+   * @param descriptor
+   *          the descriptor
+   * @param id
+   *          the ID attribute value
+   */
+  protected abstract void assignID(T descriptor, String id);
+
+  /**
+   * Returns a log string of the supplied descriptor.
+   * 
+   * @param descriptor
+   *          the descriptor
+   * @return the log string
+   */
+  protected abstract String getLogString(T descriptor);
 
 }

@@ -22,7 +22,7 @@ package se.litsec.swedisheid.opensaml.saml2.metadata;
 
 import java.security.KeyStore.PrivateKeyEntry;
 
-import org.opensaml.saml.saml2.metadata.EntityDescriptor;
+import org.opensaml.saml.saml2.metadata.EntitiesDescriptor;
 
 /**
  * A {@code MetadataContainer} for {@code EntityDescriptor} elements. This class is useful for an entity wishing to
@@ -30,33 +30,34 @@ import org.opensaml.saml.saml2.metadata.EntityDescriptor;
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
-public class EntityDescriptorContainer extends AbstractMetadataContainer<EntityDescriptor> {
+public class EntitiesDescriptorContainer extends AbstractMetadataContainer<EntitiesDescriptor> {
 
   /**
-   * @see AbstractMetadataContainer#AbstractMetadataContainer(org.opensaml.saml.saml2.common.TimeBoundSAMLObject, PrivateKeyEntry)
+   * @see AbstractMetadataContainer#AbstractMetadataContainer(org.opensaml.saml.saml2.common.TimeBoundSAMLObject,
+   *      PrivateKeyEntry)
    */
-  public EntityDescriptorContainer(EntityDescriptor descriptor, PrivateKeyEntry signatureCredentials) {
+  public EntitiesDescriptorContainer(EntitiesDescriptor descriptor, PrivateKeyEntry signatureCredentials) {
     super(descriptor, signatureCredentials);
   }
 
   /** {@inheritDoc} */
   @Override
-  protected String getID(EntityDescriptor descriptor) {
+  protected String getID(EntitiesDescriptor descriptor) {
     return descriptor.getID();
   }
 
   /** {@inheritDoc} */
   @Override
-  protected void assignID(EntityDescriptor descriptor, String id) {
+  protected void assignID(EntitiesDescriptor descriptor, String id) {
     descriptor.setID(id);
   }
 
   /**
-   * Returns the entityID attribute.
+   * Returns the Name attribute.
    */
   @Override
-  protected String getLogString(EntityDescriptor descriptor) {
-    return descriptor.getEntityID();
+  protected String getLogString(EntitiesDescriptor descriptor) {
+    return descriptor.getName();
   }
 
 }

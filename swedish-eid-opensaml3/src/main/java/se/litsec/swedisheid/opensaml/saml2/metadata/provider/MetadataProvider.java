@@ -51,6 +51,13 @@ import net.shibboleth.utilities.java.support.resolver.ResolverException;
 public interface MetadataProvider extends InitializableComponent, DestructableComponent {
 
   /**
+   * Returns the identifier for the provider.
+   * 
+   * @return the identifier
+   */
+  String getID();
+
+  /**
    * Returns the XML element making up the metadata for the federation. This element is either an
    * {@link EntityDescriptor} or an {@link EntitiesDescriptor}.
    * 
@@ -65,8 +72,8 @@ public interface MetadataProvider extends InitializableComponent, DestructableCo
    * @throws MarshallingException
    *           for XML marshalling errors
    */
-  Optional<Element> getMetadataDOM() throws MarshallingException;  
-  
+  Optional<Element> getMetadataDOM() throws MarshallingException;
+
   /**
    * Returns the time the currently available metadata was last updated.
    * 
@@ -86,8 +93,8 @@ public interface MetadataProvider extends InitializableComponent, DestructableCo
    * @throws ResolverException
    *           if the refresh operation was unsuccessful
    */
-  void refresh() throws ResolverException;  
-  
+  void refresh() throws ResolverException;
+
   /**
    * Returns an iterator for all entity descriptors held by the provider.
    * 
@@ -175,5 +182,5 @@ public interface MetadataProvider extends InitializableComponent, DestructableCo
    * @return OpenSAML metadata resolver
    */
   MetadataResolver getMetadataResolver();
-    
+
 }

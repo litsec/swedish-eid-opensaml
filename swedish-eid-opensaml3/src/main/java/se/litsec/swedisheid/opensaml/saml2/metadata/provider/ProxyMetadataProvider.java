@@ -30,6 +30,7 @@ import org.opensaml.saml.metadata.resolver.impl.AbstractMetadataResolver;
 
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import se.litsec.swedisheid.opensaml.utils.InputAssert;
 
 /**
  * A metadata provider that is constructed by assigning an OpenSAML {@link MetadataResolver} instance.
@@ -51,6 +52,7 @@ public class ProxyMetadataProvider extends AbstractMetadataProvider {
    *          the metadata resolver to proxy
    */
   public ProxyMetadataProvider(MetadataResolver metadataResolver) {
+    InputAssert.notNull(metadataResolver, "metadataResolver");
     if (metadataResolver instanceof AbstractMetadataResolver) {
       this.metadataResolver = (AbstractMetadataResolver) metadataResolver;
     }
@@ -59,6 +61,12 @@ public class ProxyMetadataProvider extends AbstractMetadataProvider {
     }
   }
   
+  /** {@inheritDoc} */
+  @Override
+  public String getID() {
+    return this.metadataResolver.getId();
+  }
+    
   /** {@inheritDoc} */
   @Override
   public MetadataResolver getMetadataResolver() {

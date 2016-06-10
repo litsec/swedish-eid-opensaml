@@ -29,6 +29,7 @@ import org.opensaml.saml.metadata.resolver.impl.FilesystemMetadataResolver;
 
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
+import se.litsec.swedisheid.opensaml.utils.InputAssert;
 
 /**
  * A metadata provider that reads its metadata from a file.
@@ -51,7 +52,14 @@ public class FilesystemMetadataProvider extends AbstractMetadataProvider {
    *          metadata source
    */
   public FilesystemMetadataProvider(File metadataFile) {
+    InputAssert.notNull(metadataFile, "metadataFile");
     this.metadataSource = metadataFile;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public String getID() {
+    return this.metadataSource.getName();
   }
 
   /** {@inheritDoc} */
@@ -64,11 +72,11 @@ public class FilesystemMetadataProvider extends AbstractMetadataProvider {
   @Override
   protected void createMetadataResolver(boolean requireValidMetadata, boolean failFastInitialization, MetadataFilter filter) throws ResolverException {
     this.metadataResolver = new FilesystemMetadataResolver(this.metadataSource);
+    this.metadataResolver.setId(this.getID());
     this.metadataResolver.setRequireValidMetadata(requireValidMetadata);
     this.metadataResolver.setFailFastInitialization(failFastInitialization);
     this.metadataResolver.setMetadataFilter(filter);
-    this.metadataResolver.setParserPool(XMLObjectProviderRegistrySupport.getParserPool());
-    this.metadataResolver.setId(this.metadataSource.getName());
+    this.metadataResolver.setParserPool(XMLObjectProviderRegistrySupport.getParserPool());    
   }
 
   /** {@inheritDoc} */

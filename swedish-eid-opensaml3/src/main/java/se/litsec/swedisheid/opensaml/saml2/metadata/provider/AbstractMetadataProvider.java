@@ -79,7 +79,7 @@ import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
 public abstract class AbstractMetadataProvider extends AbstractInitializableComponent implements MetadataProvider {
-  
+
   /** Logging instance. */
   private Logger log = LoggerFactory.getLogger(AbstractMetadataProvider.class);
 
@@ -109,33 +109,34 @@ public abstract class AbstractMetadataProvider extends AbstractInitializableComp
 
   /** The downloaded metadata. */
   private XMLObject metadata;
-  
+
   /** The time when the metadata was downloaded. */
   private DateTime downloadTime;
-  
+
   /** {@inheritDoc} */
   @Override
   public synchronized Optional<XMLObject> getMetadata() {
     return Optional.ofNullable(this.metadata);
-  }  
+  }
 
   /** {@inheritDoc} */
   @Override
   public Optional<Element> getMetadataDOM() throws MarshallingException {
-    if (this.metadata == null) {
+    Optional<XMLObject> md = this.getMetadata();
+    if (!md.isPresent()) {
       return Optional.empty();
     }
-    if (this.metadata.getDOM() != null) {
-      return Optional.of(this.metadata.getDOM());
+    if (md.get().getDOM() != null) {
+      return Optional.of(md.get().getDOM());
     }
-    return Optional.of(SAMLUtils.marshall(this.metadata));
+    return Optional.of(SAMLUtils.marshall(md.get()));
   }
 
   /** {@inheritDoc} */
   @Override
   public Optional<DateTime> getLastUpdate() {
     if (RefreshableMetadataResolver.class.isInstance(this.getMetadataResolver())) {
-      Optional.ofNullable(((RefreshableMetadataResolver) this.getMetadataResolver()).getLastUpdate());
+      return Optional.ofNullable(((RefreshableMetadataResolver) this.getMetadataResolver()).getLastUpdate());
     }
     return Optional.ofNullable(this.downloadTime);
   }
@@ -154,13 +155,13 @@ public abstract class AbstractMetadataProvider extends AbstractInitializableComp
   /** {@inheritDoc} */
   @Override
   public Iterable<EntityDescriptor> iterator() {
-    return new EntityDescriptorIterator(this.metadata);
+    return new EntityDescriptorIterator(this.getMetadata());
   }
 
   /** {@inheritDoc} */
   @Override
   public Iterable<EntityDescriptor> iterator(QName role) {
-    return new EntityDescriptorIterator(this.metadata, role);
+    return new EntityDescriptorIterator(this.getMetadata(), role);
   }
 
   /** {@inheritDoc} */
@@ -313,8 +314,8 @@ public abstract class AbstractMetadataProvider extends AbstractInitializableComp
    * @throws ResolverException
    *           for errors creating the resolver
    */
-  protected abstract void createMetadataResolver(boolean requireValidMetadata, boolean failFastInitialization, MetadataFilter filter)
-      throws ResolverException;
+  protected abstract void createMetadataResolver(boolean requireValidMetadata, boolean failFastInitialization,
+      MetadataFilter filter) throws ResolverException;
 
   /**
    * Initializes the metadata resolver.
@@ -406,19 +407,21 @@ public abstract class AbstractMetadataProvider extends AbstractInitializableComp
 
     private Iterator<EntityDescriptor> iterator = null;
 
-    public EntityDescriptorIterator(XMLObject metadata) {
+    
+    public EntityDescriptorIterator(Optional<XMLObject> metadata) {
       this(metadata, null);
     }
+    
 
-    public EntityDescriptorIterator(XMLObject metadata, QName role) {
-      if (metadata == null) {
+    public EntityDescriptorIterator(Optional<XMLObject> metadata, QName role) {
+      if (!metadata.isPresent()) {
         return;
       }
-      if (metadata instanceof EntityDescriptor) {
-        this.iterator = Arrays.asList((EntityDescriptor) metadata).iterator();
+      if (metadata.get() instanceof EntityDescriptor) {
+        this.iterator = Arrays.asList((EntityDescriptor) metadata.get()).iterator();
       }
-      else if (metadata instanceof EntitiesDescriptor) {
-        List<EntityDescriptor> edList = setup((EntitiesDescriptor) metadata, role);
+      else if (metadata.get() instanceof EntitiesDescriptor) {
+        List<EntityDescriptor> edList = setup((EntitiesDescriptor) metadata.get(), role);
         this.iterator = edList.iterator();
       }
       else {

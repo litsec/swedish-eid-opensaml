@@ -58,9 +58,6 @@ import net.shibboleth.utilities.java.support.xml.XMLParserException;
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
 public class SAMLUtils {
-
-  /** The builder factory for XML objects. */
-  private static XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
   
   /** Possible chars in the strings. */
   private static final char[] _idChars = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ0123456789".toCharArray();
@@ -100,6 +97,7 @@ public class SAMLUtils {
     if (!XMLObject.class.isAssignableFrom(clazz)) {
       throw new RuntimeException(String.format("%s is not a XMLObject class", clazz.getName()));
     }
+    XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
     XMLObjectBuilder<? extends XMLObject> builder = builderFactory.getBuilder(elementName);
     if (builder == null) {
       // No builder registered for the given element name. Try creating a builder for the default element name.
@@ -149,7 +147,7 @@ public class SAMLUtils {
    */
   @SuppressWarnings("unchecked")
   public static <T extends XMLObject> XMLObjectBuilder<T> getBuilder(QName elementName) {
-    return (XMLObjectBuilder<T>) builderFactory.getBuilder(elementName);
+    return (XMLObjectBuilder<T>) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(elementName);
   }
 
   /**

@@ -140,15 +140,14 @@ public class AttributeUtils {
    *          the attribute name
    * @param attributes
    *          the list of attributes
-   * @return the attribute or {@code null}
+   * @return the attribute or {@link Optional#empty()}
    * @see #getAttributes(String, List)
    */
-  public static Attribute getAttribute(String name, List<Attribute> attributes) {
+  public static Optional<Attribute> getAttribute(String name, List<Attribute> attributes) {
     if (attributes == null) {
-      return null;
+      return Optional.empty();
     }
-    Optional<Attribute> attribute = attributes.stream().filter(a -> a.getName().equals(name)).findFirst();
-    return attribute.isPresent() ? attribute.get() : null;
+    return attributes.stream().filter(a -> a.getName().equals(name)).findFirst();
   }
 
   /**

@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
 
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
-import se.litsec.swedisheid.opensaml.utils.InputAssert;
+import se.litsec.swedisheid.opensaml.utils.InputUtils;
 import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**
@@ -93,8 +93,8 @@ public class CompositeMetadataProvider extends AbstractMetadataProvider {
    *          a list of providers
    */
   public CompositeMetadataProvider(String id, List<MetadataProvider> metadataProviders) {
-    InputAssert.notNull(id, "id");
-    InputAssert.notNull(metadataProviders, "metadataProviders");
+    InputUtils.assertNotNull(id, "id");
+    InputUtils.assertNotNull(metadataProviders, "metadataProviders");
     this.id = id;
     this.metadataProviders = metadataProviders;
   }

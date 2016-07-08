@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.httpclient.HttpClientSupport;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
-import se.litsec.swedisheid.opensaml.utils.InputAssert;
+import se.litsec.swedisheid.opensaml.utils.InputUtils;
 import se.litsec.swedisheid.opensaml.utils.KeyStoreUtils;
 
 /**
@@ -110,8 +110,8 @@ public class HTTPMetadataProvider extends AbstractMetadataProvider {
    */
   public HTTPMetadataProvider(String metadataUrl, String backupFile, HttpClient httpClient, KeyStore tlsTrustStore)
       throws ResolverException {
-    InputAssert.notNull(metadataUrl, "metadataUrl");
-    InputAssert.notNull(httpClient, "httpClient");
+    InputUtils.assertNotNull(metadataUrl, "metadataUrl");
+    InputUtils.assertNotNull(httpClient, "httpClient");
 
     this.metadataResolver = backupFile != null
         ? new FileBackedHTTPMetadataResolver(httpClient, metadataUrl, backupFile)

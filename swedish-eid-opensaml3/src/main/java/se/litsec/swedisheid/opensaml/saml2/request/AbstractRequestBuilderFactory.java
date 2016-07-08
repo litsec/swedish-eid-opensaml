@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 import se.litsec.swedisheid.opensaml.saml2.metadata.provider.MetadataProvider;
-import se.litsec.swedisheid.opensaml.utils.InputAssert;
+import se.litsec.swedisheid.opensaml.utils.InputUtils;
 
 /**
  * Abstract base class for request builder factories.
@@ -90,7 +90,7 @@ public abstract class AbstractRequestBuilderFactory<T extends RequestAbstractTyp
    */
   public AbstractRequestBuilderFactory(EntityDescriptor spMetadata, MetadataProvider federationMetadataProvider,
       PrivateKeyEntry signatureCredentials) throws ResolverException {
-    InputAssert.notNull(spMetadata, "spMetadata");
+    InputUtils.assertNotNull(spMetadata, "spMetadata");
 
     this.spMetadata = spMetadata.getSPSSODescriptor(SAMLConstants.SAML20P_NS);
     if (this.spMetadata == null) {

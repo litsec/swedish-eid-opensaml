@@ -39,6 +39,10 @@ import org.springframework.core.io.Resource;
 import org.w3c.dom.Element;
 
 import se.litsec.swedisheid.opensaml.OpenSAMLTestBase;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.CompositeMetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.FilesystemMetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.MetadataProvider;
+import se.litsec.swedisheid.opensaml.saml2.metadata.provider.StaticMetadataProvider;
 import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**

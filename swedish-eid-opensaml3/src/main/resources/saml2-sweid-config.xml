@@ -17,15 +17,15 @@
     <!-- Message -->
     <ObjectProvider qualifiedName="csig:Message">
       <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl.MessageBuilder" />
-      <MarshallingClass className="org.opensaml.xml.schema.impl.XSBase64BinaryMarshaller" />
-      <UnmarshallingClass className="org.opensaml.xml.schema.impl.XSBase64BinaryUnmarshaller" />
+      <MarshallingClass className="org.opensaml.core.xml.schema.impl.XSBase64BinaryMarshaller" />
+      <UnmarshallingClass className="org.opensaml.core.xml.schema.impl.XSBase64BinaryUnmarshaller" />
     </ObjectProvider>
     
     <!-- EncryptedMessage -->
     <ObjectProvider qualifiedName="csig:EncryptedMessage">
       <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl.EncryptedMessageBuilder" />
-      <MarshallingClass className="org.opensaml.saml2.core.impl.EncryptedElementTypeMarshaller" />
-      <UnmarshallingClass className="org.opensaml.saml2.core.impl.EncryptedElementTypeUnmarshaller" />
+      <MarshallingClass className="org.opensaml.saml.saml2.core.impl.EncryptedElementTypeMarshaller" />
+      <UnmarshallingClass className="org.opensaml.saml.saml2.core.impl.EncryptedElementTypeUnmarshaller" />
     </ObjectProvider>        
 
   </ObjectProviders>

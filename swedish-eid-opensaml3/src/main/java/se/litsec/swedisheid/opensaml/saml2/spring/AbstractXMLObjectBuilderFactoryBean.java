@@ -24,8 +24,8 @@ import java.lang.reflect.Array;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.util.XMLObjectSupport;
+import org.opensaml.saml.common.SAMLObject;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import se.litsec.swedisheid.opensaml.saml2.AbstractXMLObjectBuilder;
@@ -42,7 +42,7 @@ import se.litsec.swedisheid.opensaml.utils.InputUtils;
  * @param <T>
  *          the type
  */
-public abstract class AbstractXMLObjectBuilderFactoryBean<T extends XMLObject> extends AbstractFactoryBean<T> {
+public abstract class AbstractXMLObjectBuilderFactoryBean<T extends SAMLObject> extends AbstractFactoryBean<T> {
  
   /**
    * The default implementation assumes that the object has been set up when elements and attributes were assigned, and

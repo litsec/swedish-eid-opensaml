@@ -124,7 +124,7 @@ public class SignMessageFactory {
     signMessage.setMimeType(mimeType);
     signMessage.setMustShow(mustShow);
 
-    Message msg = SAMLUtils.createSamlObject(Message.class);
+    Message msg = SAMLUtils.createXMLObject(Message.class, Message.DEFAULT_ELEMENT_NAME);
     msg.setContent(message);
 
     if (encrypt) {

@@ -24,7 +24,6 @@ import javax.xml.namespace.QName;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.opensaml.core.xml.schema.XSString;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.saml2.core.Assertion;
 
@@ -51,21 +50,4 @@ public class SAMLUtilsTest extends OpenSAMLTestBase {
     Assert.assertEquals(qname, assertion.getElementQName());
   }
   
-  @Test
-  public void testCreateNoDefaultElementName() throws Exception {
-    
-    // XSString does not define a DEFAULT_ELEMENT_NAME field. 
-    try {
-      SAMLUtils.createSamlObject(XSString.class);
-      Assert.fail("Expected RuntimeException since XSString does not declare DEFAULT_ELEMENT_NAME");
-    }
-    catch (RuntimeException e) {
-      Assert.assertEquals(NoSuchFieldException.class, e.getCause().getClass());
-    }
-    
-    // This should work.
-    XSString str = SAMLUtils.createSamlObject(XSString.class, XSString.TYPE_NAME);
-    Assert.assertNotNull(str);
-  }
-
 }

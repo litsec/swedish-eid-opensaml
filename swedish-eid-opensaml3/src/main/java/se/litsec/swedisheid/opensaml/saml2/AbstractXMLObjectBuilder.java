@@ -20,7 +20,7 @@
  */
 package se.litsec.swedisheid.opensaml.saml2;
 
-import org.opensaml.core.xml.XMLObject;
+import org.opensaml.saml.common.SAMLObject;
 
 import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
@@ -32,7 +32,7 @@ import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
  * @param <T>
  *          the type
  */
-public abstract class AbstractXMLObjectBuilder<T extends XMLObject> implements XMLObjectBuilder<T> {
+public abstract class AbstractXMLObjectBuilder<T extends SAMLObject> implements XMLObjectBuilder<T> {
 
   /** The object that is being built. */
   private T object;

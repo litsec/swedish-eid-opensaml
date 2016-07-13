@@ -20,7 +20,7 @@
  */
 package se.litsec.swedisheid.opensaml.utils.spring;
 
-import org.opensaml.core.xml.XMLObject;
+import org.opensaml.saml.common.SAMLObject;
 import org.springframework.core.convert.converter.Converter;
 
 import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
@@ -34,7 +34,7 @@ import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
  * @param <T>
  *          the XML type
  */
-public abstract class StringToXMLObjectConverter<T extends XMLObject> implements Converter<String, T> {
+public abstract class StringToXMLObjectConverter<T extends SAMLObject> implements Converter<String, T> {
 
   /** The class. */
   protected Class<T> clazz;

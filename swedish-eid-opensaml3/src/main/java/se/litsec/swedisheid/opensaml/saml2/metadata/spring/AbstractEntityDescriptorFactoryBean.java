@@ -377,7 +377,7 @@ public abstract class AbstractEntityDescriptorFactoryBean extends AbstractFactor
       if (object == null) {
         return;
       }
-      keyDescriptor.setKeyInfo(SAMLUtils.createSamlObject(KeyInfo.class));
+      keyDescriptor.setKeyInfo(SAMLUtils.createXMLObject(KeyInfo.class, KeyInfo.DEFAULT_ELEMENT_NAME));
     }
     if (type.isAssignableFrom(X509Certificate.class)) {
       keyDescriptor.getKeyInfo().getX509Datas().clear();
@@ -392,8 +392,9 @@ public abstract class AbstractEntityDescriptorFactoryBean extends AbstractFactor
       return;
     }
     if (type.isAssignableFrom(X509Certificate.class)) {
-      X509Data x509Data = SAMLUtils.createSamlObject(X509Data.class);
-      org.opensaml.xmlsec.signature.X509Certificate cert = SAMLUtils.createSamlObject(org.opensaml.xmlsec.signature.X509Certificate.class);
+      X509Data x509Data = SAMLUtils.createXMLObject(X509Data.class, X509Data.DEFAULT_ELEMENT_NAME);
+      org.opensaml.xmlsec.signature.X509Certificate cert = SAMLUtils.createXMLObject(
+        org.opensaml.xmlsec.signature.X509Certificate.class, org.opensaml.xmlsec.signature.X509Certificate.DEFAULT_ELEMENT_NAME);
       try {
         cert.setValue(Base64.getEncoder().encodeToString(((X509Certificate) object).getEncoded()));
       }
@@ -404,7 +405,7 @@ public abstract class AbstractEntityDescriptorFactoryBean extends AbstractFactor
       keyDescriptor.getKeyInfo().getX509Datas().add(x509Data);
     }
     else {
-      KeyName keyName = SAMLUtils.createSamlObject(KeyName.class);
+      KeyName keyName = SAMLUtils.createXMLObject(KeyName.class, KeyName.DEFAULT_ELEMENT_NAME);
       keyName.setValue((String) object);
       keyDescriptor.getKeyInfo().getKeyNames().add(keyName);
     }

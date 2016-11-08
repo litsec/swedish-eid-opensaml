@@ -20,51 +20,34 @@
  */
 package se.litsec.swedisheid.opensaml.utils.spring;
 
-import org.opensaml.saml.common.SAMLObject;
 import org.springframework.core.convert.converter.Converter;
 
-import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
-
+import se.litsec.swedisheid.opensaml.saml2.LocalizedString;
 
 /**
- * An abstract Spring converter class for transforming string values into OpenSAML objects.
+ * Utility class for transforming strings into OpenSAML LocalizedStrings.
+ * <p>
+ * The strings being converted MUST start with the language identifier followed by a hyphen. For example, the string
+ * "en-Hello" will be translated to the localized string "Hello" in English. If no language indicator is given, a
+ * {@code LocalizedString} with no language tag will be created.
+ * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
- * 
- * @param <T>
- *          the XML type
  */
-public abstract class StringToXMLObjectConverter<T extends SAMLObject> implements Converter<String, T> {
-
-  /** The class. */
-  protected Class<T> clazz;
+public class StringToLocalizedStringConverter implements Converter<String, LocalizedString> {
 
   /**
-   * Constructor.
+   * Converts strings on the format <lang-tag>-<string according to language>. The string "en-Hello" will give a
+   * LocalizedString where:
    * 
-   * @param clazz
-   *          the class name of the OpenSAML object to convert to
+   * <pre>
+   * ls.getLanguage() => "en"
+   * ls.getLocalString() => "Hello"
+   * </pre>
    */
-  public StringToXMLObjectConverter(Class<T> clazz) {
-    this.clazz = clazz;
-  }
-
-  /** {@inheritDoc} */
   @Override
-  public T convert(String source) {
-    T obj = SAMLUtils.createSamlObject(this.clazz);
-    this.assign(obj, source);
-    return obj;
+  public LocalizedString convert(String source) {
+    return LocalizedString.parse(source);
   }
-
-  /**
-   * Assigns the given value to the OpenSAML object (after conversion).
-   * 
-   * @param obj
-   *          the OpenSAML object that we should assign the value to
-   * @param value
-   *          the value to assign
-   */
-  protected abstract void assign(T obj, String value);
 
 }

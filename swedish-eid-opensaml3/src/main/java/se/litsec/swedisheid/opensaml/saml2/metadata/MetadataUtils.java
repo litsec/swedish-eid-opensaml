@@ -23,6 +23,7 @@ package se.litsec.swedisheid.opensaml.saml2.metadata;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.ext.saml2mdattr.EntityAttributes;
@@ -61,7 +62,27 @@ public class MetadataUtils {
   }
 
   /**
-   * Returns the EntityAttributes element that is placed as an extension to the supplied entity descriptor.
+   * Finds all extensions matching the supplied type.
+   * 
+   * @param extensions
+   *          the {@link Extensions} to search
+   * @param clazz
+   *          the extension type
+   * @return a (possibly empty) list of extensions elements of the given type
+   */
+  public static <T> List<T> getMetadataExtensions(Extensions extensions, Class<T> clazz) {
+    if (extensions == null) {
+      return Collections.emptyList();
+    }
+    return extensions.getOrderedChildren()
+      .stream()
+      .filter(e -> clazz.isAssignableFrom(e.getClass()))
+      .map(e -> clazz.cast(e))
+      .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the {@code EntityAttributes} element that is placed as an extension to the supplied entity descriptor.
    * 
    * @param ed
    *          the entity descriptor

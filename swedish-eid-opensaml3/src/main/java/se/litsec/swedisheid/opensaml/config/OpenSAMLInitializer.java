@@ -34,8 +34,8 @@ import net.shibboleth.utilities.java.support.xml.BasicParserPool;
 import net.shibboleth.utilities.java.support.xml.ParserPool;
 
 /**
- * Class for initialization and configuration of the Swedish eID OpenSAML library (and optionally the
- * underlying OpenSAML library).
+ * Class for initialization and configuration of the Swedish eID OpenSAML library (and optionally the underlying
+ * OpenSAML library).
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
@@ -49,10 +49,10 @@ public class OpenSAMLInitializer {
 
   /** Should the initializer be used to initialize the underlying OpenSAML library. Default is {@code false}. */
   private boolean initOpenSAML;
-  
+
   /** Optional ParserPool to configure. */
   private ParserPool parserPool;
-  
+
   /** Builder features for the default parser pool. */
   private static final Map<String, Boolean> builderFeatures;
 
@@ -62,10 +62,10 @@ public class OpenSAMLInitializer {
     builderFeatures.put("http://apache.org/xml/features/validation/schema/normalized-value", Boolean.FALSE);
     builderFeatures.put("http://javax.xml.XMLConstants/feature/secure-processing", Boolean.TRUE);
   }
-  
+
   /** The singleton instance. */
   private static OpenSAMLInitializer INSTANCE = new OpenSAMLInitializer();
-  
+
   /**
    * Returns the initializer instance.
    * 
@@ -134,7 +134,7 @@ public class OpenSAMLInitializer {
     logger.debug("Initializing OpenSAML 3.X library ...");
 
     InitializationService.initialize();
-
+    
     XMLObjectProviderRegistry registry = null;
     synchronized (ConfigurationService.class) {
       registry = ConfigurationService.get(XMLObjectProviderRegistry.class);
@@ -158,7 +158,7 @@ public class OpenSAMLInitializer {
   protected void doInitialize() throws Exception {
     // TODO ...
   }
-  
+
   /**
    * Set the global ParserPool to configure.
    * 
@@ -191,8 +191,9 @@ public class OpenSAMLInitializer {
     }
     return this.parserPool;
   }
-  
+
   // Hidden constructor
-  private OpenSAMLInitializer() {}
+  private OpenSAMLInitializer() {
+  }
 
 }

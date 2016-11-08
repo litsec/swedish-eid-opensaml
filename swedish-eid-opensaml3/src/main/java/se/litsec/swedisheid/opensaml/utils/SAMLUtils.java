@@ -35,6 +35,7 @@ import org.opensaml.core.xml.XMLObjectBuilderFactory;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
+import org.opensaml.saml.common.SAMLObject;
 import org.opensaml.saml.common.SignableSAMLObject;
 import org.opensaml.saml.saml2.core.Extensions;
 import org.opensaml.security.credential.Credential;
@@ -58,9 +59,6 @@ import net.shibboleth.utilities.java.support.xml.XMLParserException;
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
 public class SAMLUtils {
-
-  /** The builder factory for XML objects. */
-  private static XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
   
   /** Possible chars in the strings. */
   private static final char[] _idChars = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ0123456789".toCharArray();
@@ -73,33 +71,34 @@ public class SAMLUtils {
   }
 
   /**
-   * Utility method for creating an OpenSAML object using the default element name of the class.
+   * Utility method for creating an OpenSAML {@code SAMLObject} using the default element name of the class.
    * <p>
    * Note: The field DEFAULT_ELEMENT_NAME of the given class will be used as the object's element name.
    * </p>
    * 
    * @param clazz
    *          the class to create
-   * @return the XML object
+   * @return the SAML object
    * @see #createSamlObject(Class, QName)
    */
-  public static <T extends XMLObject> T createSamlObject(Class<T> clazz) {
+  public static <T extends SAMLObject> T createSamlObject(Class<T> clazz) {
     return createSamlObject(clazz, getDefaultElementName(clazz));
   }
 
   /**
-   * Utility method for creating an OpenSAML object given its element name.
+   * Utility method for creating an OpenSAML {@code SAMLObject} given its element name.
    * 
    * @param clazz
    *          the class to create
    * @param elementName
    *          the element name for the XML object to create
-   * @return the XML object
+   * @return the SAML object
    */
-  public static <T extends XMLObject> T createSamlObject(Class<T> clazz, QName elementName) {
-    if (!XMLObject.class.isAssignableFrom(clazz)) {
-      throw new RuntimeException(String.format("%s is not a XMLObject class", clazz.getName()));
+  public static <T extends SAMLObject> T createSamlObject(Class<T> clazz, QName elementName) {
+    if (!SAMLObject.class.isAssignableFrom(clazz)) {
+      throw new RuntimeException(String.format("%s is not a SAMLObject class", clazz.getName()));
     }
+    XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
     XMLObjectBuilder<? extends XMLObject> builder = builderFactory.getBuilder(elementName);
     if (builder == null) {
       // No builder registered for the given element name. Try creating a builder for the default element name.
@@ -108,6 +107,29 @@ public class SAMLUtils {
     Object object = builder.buildObject(elementName);
     return clazz.cast(object);
   }
+  
+  /**
+   * Utility method for creating an {@code XMLObject} given its element name.
+   * 
+   * @param clazz
+   *          the class to create
+   * @param elementName
+   *          the element name for the XML object to create
+   * @return the XML object
+   */
+  public static <T extends XMLObject> T createXMLObject(Class<T> clazz, QName elementName) {
+    if (!XMLObject.class.isAssignableFrom(clazz)) {
+      throw new RuntimeException(String.format("%s is not a XMLObject class", clazz.getName()));
+    }
+    XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
+    XMLObjectBuilder<? extends XMLObject> builder = builderFactory.getBuilder(elementName);
+    if (builder == null) {
+      // No builder registered for the given element name.
+      throw new RuntimeException("No builder registered for " + clazz.getName());
+    }
+    Object object = builder.buildObject(elementName);
+    return clazz.cast(object);
+  }  
 
   /**
    * Returns the default element name for the supplied class
@@ -116,7 +138,7 @@ public class SAMLUtils {
    *          class to check
    * @return the default QName
    */
-  public static <T extends XMLObject> QName getDefaultElementName(Class<T> clazz) {
+  public static <T extends SAMLObject> QName getDefaultElementName(Class<T> clazz) {
     try {
       return (QName) clazz.getDeclaredField("DEFAULT_ELEMENT_NAME").get(null);
     }
@@ -136,7 +158,7 @@ public class SAMLUtils {
    * @return a builder object
    * @see #getBuilder(QName)
    */
-  public static <T extends XMLObject> XMLObjectBuilder<T> getBuilder(Class<T> clazz) {
+  public static <T extends SAMLObject> XMLObjectBuilder<T> getBuilder(Class<T> clazz) {
     return getBuilder(getDefaultElementName(clazz));
   }
 
@@ -149,7 +171,7 @@ public class SAMLUtils {
    */
   @SuppressWarnings("unchecked")
   public static <T extends XMLObject> XMLObjectBuilder<T> getBuilder(QName elementName) {
-    return (XMLObjectBuilder<T>) builderFactory.getBuilder(elementName);
+    return (XMLObjectBuilder<T>) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(elementName);
   }
 
   /**

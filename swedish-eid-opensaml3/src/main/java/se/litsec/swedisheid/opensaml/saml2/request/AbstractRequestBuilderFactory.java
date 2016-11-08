@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 import se.litsec.swedisheid.opensaml.saml2.metadata.provider.MetadataProvider;
-import se.litsec.swedisheid.opensaml.utils.InputAssert;
+import se.litsec.swedisheid.opensaml.utils.InputUtils;
 
 /**
  * Abstract base class for request builder factories.
@@ -66,8 +66,8 @@ public abstract class AbstractRequestBuilderFactory<T extends RequestAbstractTyp
   public AbstractRequestBuilderFactory(String serviceProviderEntityID, MetadataProvider metadataProvider,
       PrivateKeyEntry signatureCredentials) throws ResolverException {
 
-    InputAssert.notNull(serviceProviderEntityID, "serviceProviderEntityID");
-    InputAssert.notNull(metadataProvider, "metadataProvider");
+    InputUtils.assertNotNull(serviceProviderEntityID, "serviceProviderEntityID");
+    InputUtils.assertNotNull(metadataProvider, "metadataProvider");
 
     this.serviceProviderEntityID = serviceProviderEntityID;
     this.metadataProvider = metadataProvider;
@@ -100,8 +100,8 @@ public abstract class AbstractRequestBuilderFactory<T extends RequestAbstractTyp
   public AbstractRequestBuilderFactory(EntityDescriptor spMetadata, MetadataProvider metadataProvider,
       PrivateKeyEntry signatureCredentials) throws ResolverException {
 
-    InputAssert.notNull(spMetadata, "spMetadata");
-    InputAssert.notNull(metadataProvider, "metadataProvider");
+    InputUtils.assertNotNull(spMetadata, "spMetadata");
+    InputUtils.assertNotNull(metadataProvider, "metadataProvider");
 
     this.spMetadata = spMetadata.getSPSSODescriptor(SAMLConstants.SAML20P_NS);
     if (this.spMetadata == null) {

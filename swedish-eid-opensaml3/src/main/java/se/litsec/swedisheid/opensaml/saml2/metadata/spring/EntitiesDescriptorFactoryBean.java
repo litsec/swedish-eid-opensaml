@@ -21,20 +21,40 @@
 package se.litsec.swedisheid.opensaml.saml2.metadata.spring;
 
 import org.opensaml.saml.saml2.metadata.EntitiesDescriptor;
+import org.springframework.beans.factory.config.AbstractFactoryBean;
+import org.springframework.core.io.Resource;
 
-import se.litsec.swedisheid.opensaml.utils.spring.AbstractXMLObjectFactoryBean;
+import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**
  * Factory bean for creating an {@link org.opensaml.saml2.metadata.EntitiesDescriptor} object from a resource.
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
-public class EntitiesDescriptorFactoryBean extends AbstractXMLObjectFactoryBean<EntitiesDescriptor> {
-  
+public class EntitiesDescriptorFactoryBean extends AbstractFactoryBean<EntitiesDescriptor> {
+
+  /** The resource to read from. */
+  private Resource resource;
+
+  /**
+   * Constructor taking the resource that contains the object to read.
+   * 
+   * @param resource
+   *          the resource
+   */
+  public EntitiesDescriptorFactoryBean(Resource resource) {
+    this.resource = resource;
+  }
+
   /** {@inheritDoc} */
   @Override
   public Class<?> getObjectType() {
     return EntitiesDescriptor.class;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  protected final EntitiesDescriptor createInstance() throws Exception {
+    return SAMLUtils.unmarshall(this.resource.getInputStream(), EntitiesDescriptor.class);
+  }
 }

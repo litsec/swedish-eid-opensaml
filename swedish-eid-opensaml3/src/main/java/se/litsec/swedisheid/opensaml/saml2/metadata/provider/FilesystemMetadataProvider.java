@@ -29,7 +29,7 @@ import org.opensaml.saml.metadata.resolver.impl.FilesystemMetadataResolver;
 
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
-import se.litsec.swedisheid.opensaml.utils.InputAssert;
+import se.litsec.swedisheid.opensaml.utils.InputUtils;
 
 /**
  * A metadata provider that reads its metadata from a file.
@@ -52,7 +52,7 @@ public class FilesystemMetadataProvider extends AbstractMetadataProvider {
    *          metadata source
    */
   public FilesystemMetadataProvider(File metadataFile) {
-    InputAssert.notNull(metadataFile, "metadataFile");
+    InputUtils.assertNotNull(metadataFile, "metadataFile");
     this.metadataSource = metadataFile;
   }
 

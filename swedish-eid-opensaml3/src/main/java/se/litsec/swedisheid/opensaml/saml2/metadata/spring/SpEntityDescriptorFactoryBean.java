@@ -26,24 +26,17 @@ import java.util.List;
 
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
-import org.opensaml.core.xml.util.XMLObjectSupport;
-import org.opensaml.saml.common.xml.SAMLConstants;
-import org.opensaml.saml.ext.idpdisco.DiscoveryResponse;
 import org.opensaml.saml.saml2.metadata.AssertionConsumerService;
 import org.opensaml.saml.saml2.metadata.AttributeConsumingService;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
-import org.opensaml.saml.saml2.metadata.Extensions;
-import org.opensaml.saml.saml2.metadata.SPSSODescriptor;
-import org.opensaml.saml.saml2.metadata.SSODescriptor;
 import org.springframework.core.io.Resource;
 
 import net.shibboleth.utilities.java.support.xml.XMLParserException;
-import se.litsec.swedisheid.opensaml.saml2.metadata.MetadataUtils;
-import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
+import se.litsec.swedisheid.opensaml.saml2.metadata.builders.AbstractEntityDescriptorBuilder;
+import se.litsec.swedisheid.opensaml.saml2.metadata.builders.SpEntityDescriptorBuilder;
 
 /**
- * Factory bean for creating SAML Service Provider {@code EntityDescriptor} objects using setter methods, and optionally
- * a template object.
+ * Factory bean for creating {@code EntityDescriptor} objects for SAML Service Providers.
  * <p>
  * When a template object is used, the factory bean is created using the
  * {@link #AbstractEntityDescriptorFactoryBean(Resource)} or
@@ -55,153 +48,107 @@ import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
  * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
+ * @see SpEntityDescriptorBuilder
  */
 public class SpEntityDescriptorFactoryBean extends AbstractEntityDescriptorFactoryBean {
 
+  /** The builder. */
+  private SpEntityDescriptorBuilder builder;
+
   /**
-   * @see AbstractEntityDescriptorFactoryBean#AbstractEntityDescriptorFactoryBean()
+   * Constructor setting up the factory bean with no template. This means that the entire {@code EntityDescriptor}
+   * object is created from data assigned in setter methods.
    */
   public SpEntityDescriptorFactoryBean() {
+    this.builder = new SpEntityDescriptorBuilder();
   }
 
   /**
-   * @see AbstractEntityDescriptorFactoryBean#AbstractEntityDescriptorFactoryBean(Resource)
+   * Constructor setting up the factory bean with a template {@code EntityDescriptor} that is read from a resource.
+   * Users of the bean may now change, add or delete, the elements and attributes of the template object using the
+   * setter methods of the bean.
+   * 
+   * @param resource
+   *          the template resource
+   * @throws IOException
+   *           if the resource can not be read
+   * @throws UnmarshallingException
+   *           for unmarshalling errors
+   * @throws XMLParserException
+   *           for XML parsing errors
    */
   public SpEntityDescriptorFactoryBean(Resource resource) throws XMLParserException, UnmarshallingException, IOException {
-    super(resource);
+    this.builder = new SpEntityDescriptorBuilder(resource.getInputStream());
   }
 
   /**
-   * @see AbstractEntityDescriptorFactoryBean#AbstractEntityDescriptorFactoryBean(EntityDescriptor)
+   * Constructor setting up the factory bean with a template {@code EntityDescriptor}. Users of the bean may now change,
+   * add or delete, the elements and attributes of the template object using the setter methods of the bean.
+   * 
+   * @param template
+   *          the template
+   * @throws UnmarshallingException
+   *           for unmarshalling errors
+   * @throws MarshallingException
+   *           for marshalling errors
    */
   public SpEntityDescriptorFactoryBean(EntityDescriptor template) throws UnmarshallingException, MarshallingException {
-    super(template);
+    this.builder = new SpEntityDescriptorBuilder(template);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  protected AbstractEntityDescriptorBuilder<?> _builder() {
+    return this.builder;
   }
 
   /**
-   * Assigns the {@code AuthnRequestsSigned} attribute of the {@code md:SPSSODescriptor} element.
-   * 
-   * @param b
-   *          boolean (if {@code null}, the attribute is not set)
+   * @see SpEntityDescriptorBuilder#authnRequestsSigned(Boolean)
    */
   public void setAuthnRequestsSigned(Boolean b) {
-    ((SPSSODescriptor) this.ssoDescriptor()).setAuthnRequestsSigned(b);
+    this.builder.authnRequestsSigned(b);
   }
 
   /**
-   * Assigns the {@code WantAssertionsSigned} attribute of the {@code md:SPSSODescriptor} element.
-   * 
-   * @param b
+   * @see SpEntityDescriptorBuilder#wantAssertionsSigned(Boolean)
    */
   public void setWantAssertionsSigned(Boolean b) {
-    ((SPSSODescriptor) this.ssoDescriptor()).setWantAssertionsSigned(b);
+    this.builder.wantAssertionsSigned(b);
   }
 
   /**
-   * Assigns the {@code idpdisco:DiscoveryResponse} elements that are placed as an extensions element of the
-   * {@code md:SPSSODescriptor} element.
-   * <p>
-   * The {@code index} attributes of the {@code idpdisco:DiscoveryResponse} elements are set according the order of the
-   * supplied {@code locations} parameter where the first element will be made the default choice.
-   * </p>
-   * <p>
-   * If {@code null} is supplied, the discovery response elements will be cleared from the template entity descriptor
-   * (if present).
-   * </p>
-   * 
-   * @param locations
-   *          a list of discovery response locations
+   * @see SpEntityDescriptorBuilder#discoveryResponse(String...)
    */
-  public void setDiscoveryResponse(List<String> locations) {
-    SSODescriptor ssoDescriptor = this.ssoDescriptor();
-    if (ssoDescriptor.getExtensions() == null) {
-      if (locations == null) {
-        return;
-      }
-      ssoDescriptor.setExtensions(SAMLUtils.createSamlObject(Extensions.class));
-    }
-    List<DiscoveryResponse> discoveryResponses = MetadataUtils.getMetadataExtensions(ssoDescriptor.getExtensions(),
-      DiscoveryResponse.class);
-    discoveryResponses.stream().forEach(dr -> ssoDescriptor.getExtensions().getUnknownXMLObjects().remove(dr));
-    if (locations == null) {
-      if (ssoDescriptor.getExtensions().getUnknownXMLObjects().isEmpty()) {
-        ssoDescriptor.setExtensions(null);
-      }
-      return;
-    }
-    int index = 1;
-    for (String location : locations) {
-      DiscoveryResponse dr = SAMLUtils.createSamlObject(DiscoveryResponse.class);
-      if (index == 1) {
-        dr.setIsDefault(true);
-      }
-      dr.setIndex(index++);
-      dr.setLocation(location);
-      dr.setBinding(SAMLConstants.SAML_IDP_DISCO_NS);
-    }
+  public void setDiscoveryResponse(String location) {
+    this.builder.discoveryResponse(location);
   }
 
   /**
-   * Assigns {@code AssertionConsumerService} elements to the {@code md:SPSSODescriptor} element.
-   * 
-   * @param assertionConsumerServices
-   *          the {@code AssertionConsumerService} elements
-   * @throws UnmarshallingException
-   *           for unmarshalling errors
-   * @throws MarshallingException
-   *           for marshalling errors
+   * @see SpEntityDescriptorBuilder#discoveryResponse(String...)
    */
-  public void setAssertionConsumerServices(List<AssertionConsumerService> assertionConsumerServices) throws MarshallingException,
-      UnmarshallingException {
-    SPSSODescriptor ssoDescriptor = (SPSSODescriptor) this.ssoDescriptor();
-    ssoDescriptor.getAssertionConsumerServices().clear();
-    if (assertionConsumerServices == null) {
-      return;
-    }
-    for (AssertionConsumerService service : assertionConsumerServices) {
-      ssoDescriptor.getAssertionConsumerServices().add(XMLObjectSupport.cloneXMLObject(service));
-    }
+  public void setDiscoveryResponses(List<String> locations) {
+    this.builder.discoveryResponse(locations != null ? locations.toArray(new String[] {}) : null);
   }
 
   /**
-   * If only one {@code AssertionConsumerService} element is to be installed to the {@code md:SPSSODescriptor} element
-   * this method may be used.
-   * 
-   * @param assertionConsumerService
-   *          the {@code AssertionConsumerService} element
-   * @throws UnmarshallingException
-   *           for unmarshalling errors
-   * @throws MarshallingException
-   *           for marshalling errors
-   * @see #setAssertionConsumerServices(List)
+   * @see SpEntityDescriptorBuilder#assertionConsumerServicePostLocations(String...)
    */
-  public void setAssertionConsumerService(AssertionConsumerService assertionConsumerService) throws MarshallingException,
-      UnmarshallingException {
-    this.setAssertionConsumerServices(Arrays.asList(assertionConsumerService));
+  public void setAssertionConsumerServicePostLocations(List<String> assertionConsumerServices) {
+    this.builder.assertionConsumerServicePostLocations(assertionConsumerServices != null ? assertionConsumerServices.toArray(new String[]{}) : null);
   }
-
+  
+  /**
+   * @see SpEntityDescriptorBuilder#assertionConsumerServices(List)
+   */
+  public void setAssertionConsumerServices(List<AssertionConsumerService> assertionConsumerServices) {
+    this.builder.assertionConsumerServices(assertionConsumerServices);
+  }
+  
   public void setAttributeConsumingServices(List<AttributeConsumingService> attributeConsumingServices) {
   }
 
   public void setAttributeConsumingService(AttributeConsumingService attributeConsumingService) {
     this.setAttributeConsumingServices(Arrays.asList(attributeConsumingService));
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  protected SSODescriptor ssoDescriptor() {
-    if (this.template.getSPSSODescriptor(SAMLConstants.SAML20P_NS) == null) {
-      SPSSODescriptor d = SAMLUtils.createSamlObject(SPSSODescriptor.class);
-      d.addSupportedProtocol(SAMLConstants.SAML20P_NS);
-      this.template.getRoleDescriptors().add(d);
-    }
-    return this.template.getSPSSODescriptor(SAMLConstants.SAML20P_NS);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  protected boolean matchingSSODescriptorType(EntityDescriptor descriptor) {
-    return this.template.getSPSSODescriptor(SAMLConstants.SAML20P_NS) != null;
   }
 
 }

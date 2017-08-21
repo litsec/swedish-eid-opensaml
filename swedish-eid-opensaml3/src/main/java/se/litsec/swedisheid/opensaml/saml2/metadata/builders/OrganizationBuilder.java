@@ -50,13 +50,15 @@ public class OrganizationBuilder extends AbstractXMLObjectBuilder<Organization> 
    * @return the builder
    */
   public OrganizationBuilder organizationNames(LocalizedString... organizationNames) {
-    if (organizationNames != null) {
-      for (LocalizedString s : organizationNames) {
-        OrganizationName on = SAMLUtils.createSamlObject(OrganizationName.class);
-        on.setValue(s.getLocalString());
-        on.setXMLLang(s.getLanguage());
-        this.object().getOrganizationNames().add(on);
-      }
+    this.object().getOrganizationNames().clear();
+    if (organizationNames == null) {
+      return this;
+    }
+    for (LocalizedString s : organizationNames) {
+      OrganizationName on = SAMLUtils.createSamlObject(OrganizationName.class);
+      on.setValue(s.getLocalString());
+      on.setXMLLang(s.getLanguage());
+      this.object().getOrganizationNames().add(on);
     }
     return this;
   }
@@ -69,13 +71,15 @@ public class OrganizationBuilder extends AbstractXMLObjectBuilder<Organization> 
    * @return the builder
    */
   public OrganizationBuilder organizationDisplayNames(LocalizedString... organizationDisplayNames) {
-    if (organizationDisplayNames != null) {
-      for (LocalizedString s : organizationDisplayNames) {
-        OrganizationDisplayName on = SAMLUtils.createSamlObject(OrganizationDisplayName.class);
-        on.setValue(s.getLocalString());
-        on.setXMLLang(s.getLanguage());
-        this.object().getDisplayNames().add(on);
-      }
+    this.object().getDisplayNames().clear();
+    if (organizationDisplayNames == null) {
+      return this;
+    }
+    for (LocalizedString s : organizationDisplayNames) {
+      OrganizationDisplayName on = SAMLUtils.createSamlObject(OrganizationDisplayName.class);
+      on.setValue(s.getLocalString());
+      on.setXMLLang(s.getLanguage());
+      this.object().getDisplayNames().add(on);
     }
     return this;
   }
@@ -88,13 +92,15 @@ public class OrganizationBuilder extends AbstractXMLObjectBuilder<Organization> 
    * @return the builder
    */
   public OrganizationBuilder organizationURLs(LocalizedString... organizationURLs) {
-    if (organizationURLs != null) {
-      for (LocalizedString s : organizationURLs) {
-        OrganizationURL on = SAMLUtils.createSamlObject(OrganizationURL.class);
-        on.setValue(s.getLocalString());
-        on.setXMLLang(s.getLanguage());
-        this.object().getURLs().add(on);
-      }
+    this.object().getURLs().clear();
+    if (organizationURLs == null) {
+      return this;
+    }
+    for (LocalizedString s : organizationURLs) {
+      OrganizationURL on = SAMLUtils.createSamlObject(OrganizationURL.class);
+      on.setValue(s.getLocalString());
+      on.setXMLLang(s.getLanguage());
+      this.object().getURLs().add(on);
     }
     return this;
   }

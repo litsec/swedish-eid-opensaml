@@ -25,79 +25,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.opensaml.core.xml.XMLObjectBuilder;
+import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.schema.XSString;
 import org.opensaml.saml.saml2.core.Attribute;
-import org.opensaml.saml.saml2.core.AttributeValue;
-
-import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**
- * Helper methods for accessing attribute values.
+ * Helper methods for accessing attribute values. See also {@link AttributeBuilder}.
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
+ * @see AttributeBuilder
  */
 public class AttributeUtils {
-
-  /**
-   * Creates a SAML attribute with no value.
-   * 
-   * @param name
-   *          the attribute name
-   * @param nameFormat
-   *          the name format
-   * @param friendlyName
-   *          the optional attribute friendly name
-   * @return a SAML attribute with no values stored
-   * @see #createAttribute(String, String, String, String...)
-   * @see #addAttributeStringValues(Attribute, String...)
-   */
-  public static Attribute createAttribute(String name, String nameFormat, String friendlyName) {
-    Attribute attribute = SAMLUtils.createSamlObject(Attribute.class);
-    attribute.setName(name);
-    attribute.setNameFormat(nameFormat);
-    attribute.setFriendlyName(friendlyName);
-    return attribute;
-  }
-
-  /**
-   * Creates a SAML attribute with one or more string values.
-   * 
-   * @param name
-   *          the attribute name
-   * @param nameFormat
-   *          the name format
-   * @param friendlyName
-   *          the optional attribute friendly name
-   * @param values
-   *          the string values
-   * @return a SAML attribute with string value(s)
-   */
-  public static Attribute createAttribute(String name, String nameFormat, String friendlyName, String... values) {
-    Attribute attribute = SAMLUtils.createSamlObject(Attribute.class);
-    attribute.setName(name);
-    attribute.setNameFormat(nameFormat);
-    attribute.setFriendlyName(friendlyName);
-    AttributeUtils.addAttributeStringValues(attribute, values);
-    return attribute;
-  }
-
-  /**
-   * Adds one or more string values to the supplied SAML attribute.
-   * 
-   * @param attribute
-   *          the attribute to update
-   * @param values
-   *          the string values
-   */
-  public static void addAttributeStringValues(Attribute attribute, String... values) {
-    for (String v : values) {      
-      XMLObjectBuilder<XSString> stringBuilder = SAMLUtils.getBuilder(XSString.TYPE_NAME);
-      XSString stringValue = stringBuilder.buildObject(AttributeValue.DEFAULT_ELEMENT_NAME, XSString.TYPE_NAME);      
-      stringValue.setValue(v);
-      attribute.getAttributeValues().add(stringValue);
-    }
-  }
 
   /**
    * Given an attribute holding string values this method will return a list of these values.
@@ -107,12 +45,10 @@ public class AttributeUtils {
    * @return a (possibly empty) list of string values
    */
   public static List<String> getAttributeStringValues(Attribute attribute) {
-    return attribute.getAttributeValues()
-        .stream()
-        .filter(a -> XSString.class.isInstance(a))
-        .map(XSString.class::cast)
-        .map(v -> v.getValue())
-        .collect(Collectors.toList());    
+    return getAttributeValues(attribute, XSString.class)
+      .stream()
+      .map(v -> v.getValue())
+      .collect(Collectors.toList());
   }
 
   /**
@@ -123,14 +59,43 @@ public class AttributeUtils {
    * @return the value, or {@code null} if no value is stored
    */
   public static String getAttributeStringValue(Attribute attribute) {
-    Optional<String> value = attribute.getAttributeValues()
-        .stream()
-        .filter(a -> XSString.class.isInstance(a))
-        .map(XSString.class::cast)
-        .map(v -> v.getValue())
-        .findFirst();
-    
-    return value.isPresent() ? value.get() : null;
+    XSString v = getAttributeValue(attribute, XSString.class);
+    return v != null ? v.getValue() : null;
+  }
+
+  /**
+   * Returns the attribute values of the given type.
+   * 
+   * @param attribute
+   *          the attribute
+   * @param type
+   *          the type to match
+   * @return a (possibly empty) list of values.
+   */
+  public static <T extends XMLObject> List<T> getAttributeValues(Attribute attribute, Class<T> type) {
+    return attribute.getAttributeValues()
+      .stream()
+      .filter(a -> type.isInstance(a))
+      .map(type::cast)
+      .collect(Collectors.toList());
+  }
+
+  /**
+   * Given a single-valued attribute, this method returns its value (of the given type).
+   * 
+   * @param attribute
+   *          the attribute
+   * @param type
+   *          the type to match
+   * @return the value, or {@code null}
+   */
+  public static <T extends XMLObject> T getAttributeValue(Attribute attribute, Class<T> type) {
+    return attribute.getAttributeValues()
+      .stream()
+      .filter(a -> type.isInstance(a))
+      .map(type::cast)
+      .findFirst()
+      .orElse(null);
   }
 
   /**

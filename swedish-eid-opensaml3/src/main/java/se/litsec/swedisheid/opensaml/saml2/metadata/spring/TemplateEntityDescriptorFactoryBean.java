@@ -25,6 +25,7 @@ import java.util.Optional;
 
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
+import org.opensaml.core.xml.schema.XSString;
 import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.ext.idpdisco.DiscoveryResponse;
@@ -36,6 +37,7 @@ import org.opensaml.saml.saml2.metadata.SPSSODescriptor;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.util.Assert;
 
+import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeBuilder;
 import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeUtils;
 import se.litsec.swedisheid.opensaml.saml2.metadata.MetadataUtils;
 import se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory.EntityCategoryMetadataHelper;
@@ -83,14 +85,12 @@ public class TemplateEntityDescriptorFactoryBean extends AbstractFactoryBean<Ent
       }
     }
     else {
-      String[] attributeValues = entityCategories.toArray(new String[] {});
-
       if (!entityAttributes.isPresent()) {
         if (this.template.getExtensions() == null) {
           this.template.setExtensions(SAMLUtils.createSamlObject(Extensions.class));
         }
         EntityAttributes ea = SAMLUtils.createSamlObject(EntityAttributes.class);
-        ea.getAttributes().add(EntityCategoryMetadataHelper.createEntityCategoryAttribute(attributeValues));
+        ea.getAttributes().add(EntityCategoryMetadataHelper.createEntityCategoryAttribute(entityCategories));
         this.template.getExtensions().getUnknownXMLObjects().add(ea);
       }
       else {
@@ -98,10 +98,16 @@ public class TemplateEntityDescriptorFactoryBean extends AbstractFactoryBean<Ent
           EntityCategoryMetadataHelper.ENTITY_CATEGORY_ATTRIBUTE_NAME, entityAttributes.get().getAttributes());
         if (attr.isPresent()) {
           attr.get().getAttributeValues().clear();
-          AttributeUtils.addAttributeStringValues(attr.get(), attributeValues);
+          
+          entityCategories.stream()
+            .forEach((e) -> {
+              XSString sv = AttributeBuilder.createValueObject(XSString.class);
+              sv.setValue(e);
+              attr.get().getAttributeValues().add(sv);
+            });          
         }
         else {
-          entityAttributes.get().getAttributes().add(EntityCategoryMetadataHelper.createEntityCategoryAttribute(attributeValues));
+          entityAttributes.get().getAttributes().add(EntityCategoryMetadataHelper.createEntityCategoryAttribute(entityCategories));
         }
       }
     }

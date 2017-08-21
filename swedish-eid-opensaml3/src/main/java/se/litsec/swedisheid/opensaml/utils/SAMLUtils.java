@@ -34,7 +34,9 @@ import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.XMLObjectBuilderFactory;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.MarshallingException;
+import org.opensaml.core.xml.io.Unmarshaller;
 import org.opensaml.core.xml.io.UnmarshallingException;
+import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.saml.common.SAMLObject;
 import org.opensaml.saml.common.SignableSAMLObject;
 import org.opensaml.saml.saml2.core.Extensions;
@@ -171,7 +173,7 @@ public class SAMLUtils {
    */
   @SuppressWarnings("unchecked")
   public static <T extends XMLObject> XMLObjectBuilder<T> getBuilder(QName elementName) {
-    return (XMLObjectBuilder<T>) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(elementName);
+    return (XMLObjectBuilder<T>) XMLObjectSupport.getBuilder(elementName); 
   }
 
   /**
@@ -184,7 +186,7 @@ public class SAMLUtils {
    *           for marshalling errors
    */
   public static <T extends XMLObject> Element marshall(T object) throws MarshallingException {
-    return XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(object).marshall(object);
+    return XMLObjectSupport.marshall(object);
   }
 
   /**
@@ -199,7 +201,11 @@ public class SAMLUtils {
    *           for unmarshalling errors
    */
   public static <T extends XMLObject> T unmarshall(Element xml, Class<T> targetClass) throws UnmarshallingException {
-    XMLObject xmlObject = XMLObjectProviderRegistrySupport.getUnmarshallerFactory().getUnmarshaller(xml).unmarshall(xml);
+    Unmarshaller unmarshaller = XMLObjectSupport.getUnmarshaller(xml);
+    if (unmarshaller == null) {
+      throw new UnmarshallingException("No unmarshaller found for " + xml.getNodeName()); 
+    }    
+    XMLObject xmlObject = unmarshaller.unmarshall(xml);
     return targetClass.cast(xmlObject);
   }
 

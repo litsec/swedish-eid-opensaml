@@ -21,14 +21,16 @@
 package se.litsec.swedisheid.opensaml.saml2.metadata.builders;
 
 import java.io.IOException;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.X509Certificate;
-import java.util.Base64;
+import java.io.InputStream;
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.joda.time.DateTime;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
+import org.opensaml.core.xml.schema.XSString;
 import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.saml.ext.saml2mdattr.EntityAttributes;
 import org.opensaml.saml.ext.saml2mdui.UIInfo;
@@ -40,14 +42,10 @@ import org.opensaml.saml.saml2.metadata.KeyDescriptor;
 import org.opensaml.saml.saml2.metadata.NameIDFormat;
 import org.opensaml.saml.saml2.metadata.Organization;
 import org.opensaml.saml.saml2.metadata.SSODescriptor;
-import org.opensaml.security.credential.UsageType;
-import org.opensaml.xmlsec.signature.KeyInfo;
-import org.opensaml.xmlsec.signature.KeyName;
-import org.opensaml.xmlsec.signature.X509Data;
-import org.springframework.core.io.Resource;
 
 import net.shibboleth.utilities.java.support.xml.XMLParserException;
 import se.litsec.swedisheid.opensaml.saml2.AbstractXMLObjectBuilder;
+import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeBuilder;
 import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeUtils;
 import se.litsec.swedisheid.opensaml.saml2.metadata.MetadataUtils;
 import se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory.EntityCategoryMetadataHelper;
@@ -57,7 +55,7 @@ import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
  * Abstract base builder for creating {@code EntityDescriptor} objects using the builder pattern, and optionally a
  * template object.
  * <p>
- * When a template object is used, the builder is created using the {@link #AbstractEntityDescriptorBuilder(Resource)}
+ * When a template object is used, the builder is created using the {@link #AbstractEntityDescriptorBuilder(InputStream)}
  * or {@link #AbstractEntityDescriptorBuilder(EntityDescriptor)} constructors. The user may later change, or add, any of
  * the elements and attributes of the template object using the assignment methods.
  * </p>
@@ -74,6 +72,12 @@ public abstract class AbstractEntityDescriptorBuilder<T extends AbstractXMLObjec
     AbstractXMLObjectBuilder<EntityDescriptor> {
 
   /**
+   * The validUntil attribute is assigned when the object is built. The attribute is assigned the current time + the
+   * validUntilDuration;
+   */
+  protected Duration validUntilDuration;
+
+  /**
    * Constructor setting up the builder with no template. This means that the entire {@code EntityDescriptor} object is
    * created from data assigned using the builder.
    */
@@ -82,7 +86,7 @@ public abstract class AbstractEntityDescriptorBuilder<T extends AbstractXMLObjec
   }
 
   /**
-   * Constructor setting up the builder with a template {@code EntityDescriptor} that is read from a resource. Users of
+   * Constructor setting up the builder with a template {@code EntityDescriptor} that is read from an input stream. Users of
    * the bean may now change, add or delete, the elements and attributes of the template object using the assignment
    * methods of the builder.
    * 
@@ -95,8 +99,8 @@ public abstract class AbstractEntityDescriptorBuilder<T extends AbstractXMLObjec
    * @throws XMLParserException
    *           for XML parsing errors
    */
-  public AbstractEntityDescriptorBuilder(Resource resource) throws XMLParserException, UnmarshallingException, IOException {
-    EntityDescriptor ed = SAMLUtils.unmarshall(resource.getInputStream(), EntityDescriptor.class);
+  public AbstractEntityDescriptorBuilder(InputStream resource) throws XMLParserException, UnmarshallingException, IOException {
+    EntityDescriptor ed = SAMLUtils.unmarshall(resource, EntityDescriptor.class);
     if (!this.matchingSSODescriptorType(ed)) {
       throw new IllegalArgumentException("The SSO descriptor of the template does not match the builder type");
     }
@@ -135,7 +139,7 @@ public abstract class AbstractEntityDescriptorBuilder<T extends AbstractXMLObjec
   }
 
   /**
-   * In order for us to be able to make chaining calls we need to return the concrete type of the bulder.
+   * In order for us to be able to make chaining calls we need to return the concrete type of the builder.
    * 
    * @return the concrete type of the builder
    */
@@ -158,6 +162,16 @@ public abstract class AbstractEntityDescriptorBuilder<T extends AbstractXMLObjec
    * @return {@code true} if the type is OK, and {@code false} otherwise
    */
   protected abstract boolean matchingSSODescriptorType(EntityDescriptor descriptor);
+
+  /** {@inheritDoc} */
+  @Override
+  public EntityDescriptor build() {
+    if (this.validUntilDuration != null) {
+      DateTime now = new DateTime();
+      this.object().setValidUntil(now.plus(this.validUntilDuration.toMillis()));
+    }
+    return super.build();
+  }
 
   /**
    * Assigns the entityID for the {@code EntityDescriptor}.
@@ -192,6 +206,41 @@ public abstract class AbstractEntityDescriptorBuilder<T extends AbstractXMLObjec
    */
   public T cacheDuration(Long cacheDuration) {
     this.object().setCacheDuration(cacheDuration);
+    return this.getThis();
+  }
+
+  /**
+   * Assigns the cacheDuration attribute for the {@code EntityDescriptor}.
+   * 
+   * @param cacheDuration
+   *          the cache duration (as a {@link Duration})
+   * @return the builder
+   */
+  public T cacheDuration(Duration cacheDuration) {
+    return this.cacheDuration(cacheDuration.toMillis());
+  }
+
+  /**
+   * Assigns the duration to add to the current time when assigning the validUntil attribute.
+   * 
+   * @param validUntilDuration
+   *          the duration (in millis)
+   * @return the builder
+   */
+  public T validUntilDuration(Long validUntilDuration) {
+    this.validUntilDuration = Duration.ofMillis(validUntilDuration);
+    return this.getThis();
+  }
+
+  /**
+   * Assigns the duration to add to the current time when assigning the validUntil attribute.
+   * 
+   * @param validUntilDuration
+   *          the duration (as a {@link Duration})
+   * @return the builder
+   */
+  public T validUntilDuration(Duration validUntilDuration) {
+    this.validUntilDuration = validUntilDuration;
     return this.getThis();
   }
 
@@ -242,7 +291,12 @@ public abstract class AbstractEntityDescriptorBuilder<T extends AbstractXMLObjec
       }
       else {
         ecAttribute.get().getAttributeValues().clear();
-        AttributeUtils.addAttributeStringValues(ecAttribute.get(), entityCategories);
+        
+        for (String v : entityCategories) {
+          XSString sv = AttributeBuilder.createValueObject(XSString.class);
+          sv.setValue(v);
+          ecAttribute.get().getAttributeValues().add(sv);
+        }
       }
     }
     return this.getThis();
@@ -287,150 +341,44 @@ public abstract class AbstractEntityDescriptorBuilder<T extends AbstractXMLObjec
   }
 
   /**
-   * Assigns a certificate to the {@code md:KeyDescriptor} element having the attribute {@code use="signing"}.
-   * 
-   * @param certificate
-   *          the certificate to assign
-   * @return the builder
-   */
-  public T signatureCertificate(X509Certificate certificate) {
-    this.setKeyInfoObject(certificate, UsageType.SIGNING, X509Certificate.class);
-    return this.getThis();
-  }
-
-  /**
-   * Assigns a key name to the {@code md:KeyDescriptor} element having the attribute {@code use="signing"}.
-   * 
-   * @param name
-   *          the name to assign
-   * @return the builder
-   */
-  public T signatureCertificateKeyName(String name) {
-    this.setKeyInfoObject(name, UsageType.SIGNING, String.class);
-    return this.getThis();
-  }
-
-  /**
-   * Assigns a certificate to the {@code md:KeyDescriptor} element having the attribute {@code use="encryption"}.
-   * 
-   * @param certificate
-   *          the certificate to assign
-   * @return the builder
-   */
-  public T encryptionCertificate(X509Certificate certificate) {
-    this.setKeyInfoObject(certificate, UsageType.ENCRYPTION, X509Certificate.class);
-    return this.getThis();
-  }
-
-  /**
-   * Assigns a key name to the {@code md:KeyDescriptor} element having the attribute {@code use="encryption"}.
-   * 
-   * @param name
-   *          the name to assign
-   * @return the builder
-   */
-  public T encryptionCertificateKeyName(String name) {
-    this.setKeyInfoObject(name, UsageType.ENCRYPTION, String.class);
-    return this.getThis();
-  }
-
-  /**
-   * Assigns a certificate to the {@code md:KeyDescriptor} element with no {@code use} attribute set. This means that
-   * the certificate may be used for both signing and encryption.
-   * 
-   * @param certificate
-   *          the certificate to assign
-   * @return the builder
-   */
-  public T genericCertificate(X509Certificate certificate) {
-    this.setKeyInfoObject(certificate, UsageType.UNSPECIFIED, X509Certificate.class);
-    return this.getThis();
-  }
-
-  /**
-   * Assigns a key name to the {@code md:KeyDescriptor} element with no {@code use} attribute set.
-   * 
-   * @param name
-   *          the name to assign
-   * @return the builder
-   */
-  public T genericCertificateKeyName(String name) {
-    this.setKeyInfoObject(name, UsageType.UNSPECIFIED, String.class);
-    return this.getThis();
-  }
-
-  /**
-   * Helper method that assigns a certificate or key name to the {@code md:KeyDescriptor} element.
+   * Assigns the {@code md:KeyDescriptor} elements.
    * <p>
-   * If {@code object} is {@code null} any matching occurences in the template will be removed.
+   * Note that any previous key descriptor elements are overwritten.
    * </p>
    * 
-   * @param object
-   *          the object to assign (certificate or name)
-   * @param usageType
-   *          the usage type
-   * @param type
-   *          the class of the object parameter
-   */
-  protected void setKeyInfoObject(Object object, UsageType usageType, Class<?> type) {
+   * @param keyDescriptors
+   *          key descriptor elements to add (will be cloned before assignment)
+   * @return the builder
+   */  
+  public T keyDescriptors(List<KeyDescriptor> keyDescriptors) {
     SSODescriptor ssoDescriptor = this.ssoDescriptor();
 
-    if (ssoDescriptor.getKeyDescriptors().isEmpty() && object == null) {
-      return;
+    ssoDescriptor.getKeyDescriptors().clear();
+    if (keyDescriptors != null) {
+      for (KeyDescriptor kd : keyDescriptors) {
+        try {
+          ssoDescriptor.getKeyDescriptors().add(XMLObjectSupport.cloneXMLObject(kd));
+        }
+        catch (MarshallingException | UnmarshallingException e) {
+          throw new RuntimeException(e);
+        }
+      }
     }
+    return this.getThis();
+  }
 
-    KeyDescriptor keyDescriptor = null;
-    for (KeyDescriptor kd : ssoDescriptor.getKeyDescriptors()) {
-      if (usageType.equals(kd.getUse()) || (usageType.equals(UsageType.UNSPECIFIED) && kd.getUse() == null)) {
-        keyDescriptor = kd;
-        break;
-      }
-    }
-    if (keyDescriptor == null) {
-      if (object == null) {
-        return;
-      }
-      keyDescriptor = SAMLUtils.createSamlObject(KeyDescriptor.class);
-      if (!usageType.equals(UsageType.UNSPECIFIED)) {
-        keyDescriptor.setUse(usageType);
-      }
-    }
-    if (keyDescriptor.getKeyInfo() == null) {
-      if (object == null) {
-        return;
-      }
-      keyDescriptor.setKeyInfo(SAMLUtils.createXMLObject(KeyInfo.class, KeyInfo.DEFAULT_ELEMENT_NAME));
-    }
-    if (type.isAssignableFrom(X509Certificate.class)) {
-      keyDescriptor.getKeyInfo().getX509Datas().clear();
-    }
-    else {
-      keyDescriptor.getKeyInfo().getKeyNames().clear();
-    }
-    if (object == null) {
-      if (keyDescriptor.getKeyInfo().getX509Datas().isEmpty() && keyDescriptor.getKeyInfo().getKeyNames().isEmpty()) {
-        ssoDescriptor.getKeyDescriptors().remove(keyDescriptor);
-      }
-      return;
-    }
-    if (type.isAssignableFrom(X509Certificate.class)) {
-      X509Data x509Data = SAMLUtils.createXMLObject(X509Data.class, X509Data.DEFAULT_ELEMENT_NAME);
-      org.opensaml.xmlsec.signature.X509Certificate cert = SAMLUtils.createXMLObject(
-        org.opensaml.xmlsec.signature.X509Certificate.class, org.opensaml.xmlsec.signature.X509Certificate.DEFAULT_ELEMENT_NAME);
-      try {
-        cert.setValue(Base64.getEncoder().encodeToString(((X509Certificate) object).getEncoded()));
-      }
-      catch (CertificateEncodingException e) {
-        throw new SecurityException(e);
-      }
-      x509Data.getX509Certificates().add(cert);
-      keyDescriptor.getKeyInfo().getX509Datas().add(x509Data);
-    }
-    else {
-      KeyName keyName = SAMLUtils.createXMLObject(KeyName.class, KeyName.DEFAULT_ELEMENT_NAME);
-      keyName.setValue((String) object);
-      keyDescriptor.getKeyInfo().getKeyNames().add(keyName);
-    }
+  /**
+   * Assigns the {@code md:KeyDescriptor} elements.
+   * <p>
+   * Note that any previous key descriptor elements are overwritten.
+   * </p>
+   * 
+   * @param keyDescriptors
+   *          key descriptor elements to add (will be cloned before assignment)
+   * @return the builder
+   */
+  public T keyDescriptors(KeyDescriptor... keyDescriptors) {
+    return this.keyDescriptors(keyDescriptors != null ? Arrays.asList(keyDescriptors) : (List<KeyDescriptor>) null);
   }
 
   /**
@@ -491,6 +439,17 @@ public abstract class AbstractEntityDescriptorBuilder<T extends AbstractXMLObjec
       }
     }
     return this.getThis();
+  }
+
+  /**
+   * Assigns the {@code ContactPerson} elements to the entity descriptor.
+   * 
+   * @param contactPersons
+   *          the contact person elements (will be cloned before assignment)
+   * @return the builder
+   */
+  public T contactPersons(ContactPerson... contactPersons) {
+    return this.contactPersons(contactPersons != null ? Arrays.asList(contactPersons) : (List<ContactPerson>) null);
   }
 
 }

@@ -29,6 +29,9 @@ import java.util.Locale;
  * @see Locale
  */
 public class LocalizedString {
+  
+  /** Default language tag if no tag is given. */
+  public static final String DEFAULT_LANGUAGE_TAG = "en";
 
   /** Localized string. */
   private String localizedString;
@@ -37,18 +40,19 @@ public class LocalizedString {
   private String language;
 
   /**
-   * Constructor creating an empty string with no language tag.
+   * Constructor creating an empty string with the default language tag.
    */
   public LocalizedString() {
   }
 
   /**
-   * Constructor creating a string with no language tag.
+   * Constructor creating a string with the default language tag.
    * 
    * @param localString
    *          the string
    */
   public LocalizedString(String localString) {
+    this.localizedString = localString;
   }
 
   /**
@@ -128,7 +132,7 @@ public class LocalizedString {
    * @return the language of the string
    */
   public String getLanguage() {
-    return this.language;
+    return this.language != null ? this.language : DEFAULT_LANGUAGE_TAG;
   }
 
   /**
@@ -174,7 +178,7 @@ public class LocalizedString {
   /** {@inheritDoc} */
   @Override
   public String toString() {
-    return this.language != null ? String.format("[%s] %s", this.language, this.localizedString) : this.localizedString;
+    return  String.format("[%s] %s", this.getLanguage(), this.localizedString);
   }
 
 }

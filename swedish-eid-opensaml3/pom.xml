@@ -3,7 +3,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>se.litsec.sweid.opensaml</groupId>
+  <groupId>se.litsec.sweid</groupId>
   <artifactId>swedish-eid-opensaml3</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>

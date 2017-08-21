@@ -48,7 +48,7 @@ public class ContactPersonBuilder extends AbstractXMLObjectBuilder<ContactPerson
     super();
     this.object().setType(type);
   }
-  
+
   /** {@inheritDoc} */
   @Override
   protected Class<ContactPerson> getObjectType() {
@@ -68,6 +68,9 @@ public class ContactPersonBuilder extends AbstractXMLObjectBuilder<ContactPerson
       c.setName(company);
       this.object().setCompany(c);
     }
+    else {
+      this.object().setCompany(null);
+    }
     return this;
   }
 
@@ -83,6 +86,9 @@ public class ContactPersonBuilder extends AbstractXMLObjectBuilder<ContactPerson
       GivenName gn = SAMLUtils.createSamlObject(GivenName.class);
       gn.setName(givenName);
       this.object().setGivenName(gn);
+    }
+    else {
+      this.object().setGivenName(null);
     }
     return this;
   }
@@ -100,6 +106,9 @@ public class ContactPersonBuilder extends AbstractXMLObjectBuilder<ContactPerson
       sn.setName(surname);
       this.object().setSurName(sn);
     }
+    else {
+      this.object().setSurName(null);
+    }
     return this;
   }
 
@@ -111,12 +120,14 @@ public class ContactPersonBuilder extends AbstractXMLObjectBuilder<ContactPerson
    * @return the builder
    */
   public ContactPersonBuilder emailAddresses(String... emailAddresses) {
-    if (emailAddresses != null) {
-      for (String e : emailAddresses) {
-        EmailAddress ea = SAMLUtils.createSamlObject(EmailAddress.class);
-        ea.setAddress(e);
-        this.object().getEmailAddresses().add(ea);
-      }
+    this.object().getEmailAddresses().clear();
+    if (emailAddresses == null) {
+      return this;
+    }
+    for (String e : emailAddresses) {
+      EmailAddress ea = SAMLUtils.createSamlObject(EmailAddress.class);
+      ea.setAddress(e);
+      this.object().getEmailAddresses().add(ea);
     }
     return this;
   }
@@ -129,12 +140,14 @@ public class ContactPersonBuilder extends AbstractXMLObjectBuilder<ContactPerson
    * @return the builder
    */
   public ContactPersonBuilder telephoneNumbers(String... telephoneNumbers) {
-    if (telephoneNumbers != null) {
-      for (String t : telephoneNumbers) {
-        TelephoneNumber tn = SAMLUtils.createSamlObject(TelephoneNumber.class);
-        tn.setNumber(t);
-        this.object().getTelephoneNumbers().add(tn);
-      }
+    this.object().getTelephoneNumbers().clear();
+    if (telephoneNumbers == null) {
+      return this;
+    }
+    for (String t : telephoneNumbers) {
+      TelephoneNumber tn = SAMLUtils.createSamlObject(TelephoneNumber.class);
+      tn.setNumber(t);
+      this.object().getTelephoneNumbers().add(tn);
     }
     return this;
   }

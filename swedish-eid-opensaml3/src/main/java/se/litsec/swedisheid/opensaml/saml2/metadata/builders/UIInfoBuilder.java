@@ -61,13 +61,15 @@ public class UIInfoBuilder extends AbstractXMLObjectBuilder<UIInfo> {
    * @return the builder
    */
   public UIInfoBuilder displayNames(LocalizedString... displayNames) {
-    if (displayNames != null) {
-      for (LocalizedString s : displayNames) {
-        DisplayName dn = SAMLUtils.createSamlObject(DisplayName.class);
-        dn.setValue(s.getLocalString());
-        dn.setXMLLang(s.getLanguage());
-        this.object().getDisplayNames().add(dn);
-      }
+    this.object().getDisplayNames().clear();
+    if (displayNames == null) {
+      return this;
+    }
+    for (LocalizedString s : displayNames) {
+      DisplayName dn = SAMLUtils.createSamlObject(DisplayName.class);
+      dn.setValue(s.getLocalString());
+      dn.setXMLLang(s.getLanguage());
+      this.object().getDisplayNames().add(dn);
     }
     return this;
   }
@@ -80,15 +82,17 @@ public class UIInfoBuilder extends AbstractXMLObjectBuilder<UIInfo> {
    * @return the builder
    */
   public UIInfoBuilder keywords(Map<String, List<String>> keywords) {
-    if (keywords != null) {
-      for (Map.Entry<String, List<String>> e : keywords.entrySet()) {
-        Keywords kw = SAMLUtils.createSamlObject(Keywords.class);
-        if (!e.getKey().isEmpty()) {
-          kw.setXMLLang(e.getKey());
-        }
-        kw.setKeywords(e.getValue());
-        this.object().getKeywords().add(kw);
+    this.object().getKeywords().clear();
+    if (keywords == null) {
+      return this;
+    }
+    for (Map.Entry<String, List<String>> e : keywords.entrySet()) {
+      Keywords kw = SAMLUtils.createSamlObject(Keywords.class);
+      if (!e.getKey().isEmpty()) {
+        kw.setXMLLang(e.getKey());
       }
+      kw.setKeywords(e.getValue());
+      this.object().getKeywords().add(kw);
     }
     return this;
   }
@@ -107,7 +111,7 @@ public class UIInfoBuilder extends AbstractXMLObjectBuilder<UIInfo> {
       return this.keywords(m);
     }
     else {
-      return this;
+      return this.keywords((Map<String, List<String>>) null);
     }
   }
 
@@ -119,13 +123,15 @@ public class UIInfoBuilder extends AbstractXMLObjectBuilder<UIInfo> {
    * @return the builder
    */
   public UIInfoBuilder descriptions(LocalizedString... descriptions) {
-    if (descriptions != null) {
-      for (LocalizedString s : descriptions) {
-        Description d = SAMLUtils.createSamlObject(Description.class);
-        d.setValue(s.getLocalString());
-        d.setXMLLang(s.getLanguage());
-        this.object().getDescriptions().add(d);
-      }
+    this.object().getDescriptions().clear();
+    if (descriptions == null) {
+      return this;
+    }
+    for (LocalizedString s : descriptions) {
+      Description d = SAMLUtils.createSamlObject(Description.class);
+      d.setValue(s.getLocalString());
+      d.setXMLLang(s.getLanguage());
+      this.object().getDescriptions().add(d);
     }
     return this;
   }
@@ -138,11 +144,13 @@ public class UIInfoBuilder extends AbstractXMLObjectBuilder<UIInfo> {
    * @return the builder
    */
   public UIInfoBuilder logos(Logo... logos) {
+    this.object().getLogos().clear();
+    if (logos == null) {
+      return this;
+    }
     try {
-      if (logos != null) {
-        for (Logo logo : logos) {
-          this.object().getLogos().add(XMLObjectSupport.cloneXMLObject(logo));
-        }
+      for (Logo logo : logos) {
+        this.object().getLogos().add(XMLObjectSupport.cloneXMLObject(logo));
       }
       return this;
     }
@@ -159,13 +167,15 @@ public class UIInfoBuilder extends AbstractXMLObjectBuilder<UIInfo> {
    * @return the builder
    */
   public UIInfoBuilder informationURLs(LocalizedString... informationURLs) {
-    if (informationURLs != null) {
-      for (LocalizedString u : informationURLs) {
-        InformationURL url = SAMLUtils.createSamlObject(InformationURL.class);
-        url.setValue(u.getLocalString());
-        url.setXMLLang(u.getLanguage());
-        this.object().getInformationURLs().add(url);
-      }
+    this.object().getInformationURLs().clear();
+    if (informationURLs == null) {
+      return this;
+    }
+    for (LocalizedString u : informationURLs) {
+      InformationURL url = SAMLUtils.createSamlObject(InformationURL.class);
+      url.setValue(u.getLocalString());
+      url.setXMLLang(u.getLanguage());
+      this.object().getInformationURLs().add(url);
     }
     return this;
   }
@@ -178,13 +188,15 @@ public class UIInfoBuilder extends AbstractXMLObjectBuilder<UIInfo> {
    * @return the builder
    */
   public UIInfoBuilder privacyStatementURLs(LocalizedString... privacyStatementURLs) {
-    if (privacyStatementURLs != null) {
-      for (LocalizedString u : privacyStatementURLs) {
-        PrivacyStatementURL url = SAMLUtils.createSamlObject(PrivacyStatementURL.class);
-        url.setValue(u.getLocalString());
-        url.setXMLLang(u.getLanguage());
-        this.object().getPrivacyStatementURLs().add(url);
-      }
+    this.object().getPrivacyStatementURLs().clear();
+    if (privacyStatementURLs == null) {
+      return this;
+    }
+    for (LocalizedString u : privacyStatementURLs) {
+      PrivacyStatementURL url = SAMLUtils.createSamlObject(PrivacyStatementURL.class);
+      url.setValue(u.getLocalString());
+      url.setXMLLang(u.getLanguage());
+      this.object().getPrivacyStatementURLs().add(url);
     }
     return this;
   }

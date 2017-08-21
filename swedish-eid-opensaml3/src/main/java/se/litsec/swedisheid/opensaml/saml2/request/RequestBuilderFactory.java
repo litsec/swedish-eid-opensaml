@@ -20,15 +20,17 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.request;
 
+import java.security.KeyStore.PrivateKeyEntry;
+
 import org.opensaml.saml.saml2.core.RequestAbstractType;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
- * Factory for creating request builder objects. The request builder returned are initiated with the settings the
- * factory collects by reading the metadata for the SP and IdP combined with the settings that are configured for the
- * factory.
+ * Factory for creating request builder objects. The request builder returned are initiated with the settings
+ * the factory collects by reading the metadata for the SP and IdP combined with the settings that are
+ * configured for the factory.
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  *
@@ -39,11 +41,11 @@ import net.shibboleth.utilities.java.support.resolver.ResolverException;
 public interface RequestBuilderFactory<T extends RequestAbstractType> {
 
   /**
-   * Creates a new builder object for creating a request that is to be sent to the IdP that is identified by the
-   * supplied entityID.
+   * Creates a new builder object for creating a request that is to be sent to the IdP that is identified by
+   * the supplied entityID.
    * <p>
-   * Note that the factory needs access to a metadata provider where it can locate the IdP metadata. If no such provider
-   * is installed, the {@link #newBuilder(EntityDescriptor)} method should be used.
+   * Note that the factory needs access to a metadata provider where it can locate the IdP metadata. If no
+   * such provider is installed, the {@link #newBuilder(EntityDescriptor)} method should be used.
    * </p>
    * 
    * @param idpEntityID
@@ -56,8 +58,8 @@ public interface RequestBuilderFactory<T extends RequestAbstractType> {
   RequestBuilder<T> newBuilder(String idpEntityID) throws ResolverException;
 
   /**
-   * Creates a new builder object for creating a request that is to be sent to the IdP that is identified by the
-   * supplied metadata entry.
+   * Creates a new builder object for creating a request that is to be sent to the IdP that is identified by
+   * the supplied metadata entry.
    * 
    * @param idpMetadata
    *          the metadata for the IdP that should received the request
@@ -79,8 +81,7 @@ public interface RequestBuilderFactory<T extends RequestAbstractType> {
    * Returns the bidning to use when sending the request message.
    * <p>
    * If not explicitly assigned the default binding is HTTP-Redirect (
-   * {@code urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect}), but HTTP-POST (
-   * {@code urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST}) is also supported.
+   * {@code urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect}).
    * </p>
    * <p>
    * This value may be overridded by using the {@link RequestBuilder#binding(String)} method.
@@ -89,6 +90,17 @@ public interface RequestBuilderFactory<T extends RequestAbstractType> {
    * @return the SAML binding telling how the request should be sent to the IdP
    */
   String getBinding();
+
+  /**
+   * Returns the signature credentials that have been configured to be used when signing requests.
+   * <p>
+   * The default credentials may be overridded using the
+   * {@link RequestBuilder#signatureCredentials(PrivateKeyEntry)} method.
+   * </p>
+   * 
+   * @return signature credentials, or {@code null} if none has been configured.
+   */
+  PrivateKeyEntry getSignatureCredentials();
 
   /**
    * Returns the number of characters that should be used when generating the ID attribute for the request.

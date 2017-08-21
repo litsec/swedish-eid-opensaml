@@ -180,17 +180,4 @@ public interface RequestBuilder<T extends RequestAbstractType> {
    */
   KeyStore.PrivateKeyEntry signatureCredentials();
 
-  /**
-   * <b>For testing purposes</b>
-   * <p>
-   * The method will change the endpoint to where the request will be sent, but will <b>not</b> modify the
-   * {@code Destination} attribute of the request element.
-   * </p>
-   * 
-   * @param url
-   *          the endpoint to assign
-   * @return an updated builder object
-   */
-  RequestBuilder<T> endpoint(String url);
-
 }

@@ -47,12 +47,12 @@ import org.slf4j.LoggerFactory;
 
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
-import se.litsec.swedisheid.opensaml.saml2.metadata.provider.MetadataProvider;
+import se.litsec.opensaml.saml2.metadata.provider.MetadataProvider;
+import se.litsec.opensaml.utils.ObjectUtils;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.EncryptedMessage;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.Message;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessage;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessageMimeTypeEnum;
-import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**
  * A builder for an easy way to create and encrypt messages for
@@ -119,12 +119,12 @@ public class SignMessageFactory {
   public SignMessage create(String message, SignMessageMimeTypeEnum mimeType, Boolean mustShow, String displayEntity, boolean encrypt)
       throws ResolverException, EncryptionException {
 
-    SignMessage signMessage = SAMLUtils.createSamlObject(SignMessage.class);
+    SignMessage signMessage = ObjectUtils.createSamlObject(SignMessage.class);
     signMessage.setDisplayEntity(displayEntity);
     signMessage.setMimeType(mimeType);
     signMessage.setMustShow(mustShow);
 
-    Message msg = SAMLUtils.createXMLObject(Message.class, Message.DEFAULT_ELEMENT_NAME);
+    Message msg = ObjectUtils.createXMLObject(Message.class, Message.DEFAULT_ELEMENT_NAME);
     msg.setContent(message);
 
     if (encrypt) {
@@ -234,7 +234,7 @@ public class SignMessageFactory {
     Encrypter encrypter = new Encrypter();
     EncryptedData encryptedData = encrypter.encryptElement(message, dataEncryptionParameters, kekParams);
 
-    EncryptedMessage encryptedMessage = SAMLUtils.createSamlObject(EncryptedMessage.class);
+    EncryptedMessage encryptedMessage = ObjectUtils.createSamlObject(EncryptedMessage.class);
     encryptedMessage.setEncryptedData(encryptedData);
     
     return encryptedMessage;

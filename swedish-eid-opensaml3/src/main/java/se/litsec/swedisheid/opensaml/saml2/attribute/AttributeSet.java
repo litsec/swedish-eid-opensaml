@@ -25,6 +25,8 @@ import java.util.List;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.metadata.RequestedAttribute;
 
+import se.litsec.opensaml.saml2.attribute.AttributeTemplate;
+
 /**
  * The specification "Attribute Specification for the Swedish eID Framework" of the Swedish eID Framework defines a
  * number of "Attribute Sets". This interface represents such an attribute set.

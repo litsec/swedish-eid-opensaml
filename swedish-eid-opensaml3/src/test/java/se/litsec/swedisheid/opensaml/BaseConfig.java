@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 
-import se.litsec.swedisheid.opensaml.config.OpenSAMLInitializer;
+import se.litsec.opensaml.config.OpenSAMLInitializer;
 
 /**
  * Base Spring configuration file for tests.
@@ -51,7 +51,6 @@ public class BaseConfig {
   public OpenSAMLInitializer openSAMLInitializer() throws Exception {
     OpenSAMLInitializer bootstrapper = OpenSAMLInitializer.getInstance();
     if (!bootstrapper.isInitialized()) {
-      bootstrapper.setInitOpenSAML(true);
       bootstrapper.initialize();
     }
     return bootstrapper;

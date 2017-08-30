@@ -20,6 +20,8 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.attribute;
 
+import se.litsec.opensaml.saml2.attribute.AttributeTemplate;
+
 /**
  * Contains constants for all attributes defined in section 3.1 of
  * "Attribute Specification for the Swedish eID Framework".
@@ -156,7 +158,7 @@ public class AttributeConstants {
 
   /** Attribute template for the "Country of citizenship" attribute (Multi-valued). */
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_COUNTRY_OF_CITIZENSHIP = new AttributeTemplate(
-    ATTRIBUTE_NAME_COUNTRY_OF_CITIZENSHIP, ATTRIBUTE_FRIENDLY_NAME_COUNTRY_OF_CITIZENSHIP, true);
+    ATTRIBUTE_NAME_COUNTRY_OF_CITIZENSHIP, ATTRIBUTE_FRIENDLY_NAME_COUNTRY_OF_CITIZENSHIP);
 
   /** The attribute name for the "Country of Residence" attribute (urn:oid:2.5.4.20). */
   public static final String ATTRIBUTE_NAME_COUNTRY_OF_RESIDENCE = "urn:oid:2.5.4.20";
@@ -176,7 +178,7 @@ public class AttributeConstants {
 
   /** Attribute template for the "Telephone number" attribute (Multi-valued). */
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_TELEPHONE_NUMBER = new AttributeTemplate(
-    ATTRIBUTE_NAME_TELEPHONE_NUMBER, ATTRIBUTE_FRIENDLY_NAME_TELEPHONE_NUMBER, true);
+    ATTRIBUTE_NAME_TELEPHONE_NUMBER, ATTRIBUTE_FRIENDLY_NAME_TELEPHONE_NUMBER);
 
   /** The attribute name for the "Mobile number" attribute (urn:oid:0.9.2342.19200300.100.1.3). */
   public static final String ATTRIBUTE_NAME_MOBILE = "urn:oid:0.9.2342.19200300.100.1.3";
@@ -186,7 +188,7 @@ public class AttributeConstants {
 
   /** Attribute template for the "Mobile number" attribute (Multi-valued). */
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_MOBILE = new AttributeTemplate(ATTRIBUTE_NAME_MOBILE,
-    ATTRIBUTE_FRIENDLY_NAME_MOBILE, true);
+    ATTRIBUTE_FRIENDLY_NAME_MOBILE);
 
   /** The attribute name for the "E-mail address" attribute (urn:oid:2.5.4.10). */
   public static final String ATTRIBUTE_NAME_MAIL = "urn:oid:2.5.4.10";
@@ -196,7 +198,7 @@ public class AttributeConstants {
 
   /** Attribute template for the "E-mail address" attribute (Multi-valued). */
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_MAIL = new AttributeTemplate(ATTRIBUTE_NAME_MAIL,
-    ATTRIBUTE_FRIENDLY_NAME_MAIL, true);
+    ATTRIBUTE_FRIENDLY_NAME_MAIL);
 
   /** The attribute name for the "Organization name" attribute (urn:oid:2.5.4.11). */
   public static final String ATTRIBUTE_NAME_O = "urn:oid:2.5.4.11";
@@ -216,7 +218,7 @@ public class AttributeConstants {
 
   /** Attribute template for the "Organizational unit name" attribute (Multi-valued). */
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_OU = new AttributeTemplate(ATTRIBUTE_NAME_OU,
-    ATTRIBUTE_FRIENDLY_NAME_OU, true);
+    ATTRIBUTE_FRIENDLY_NAME_OU);
 
   /** The attribute name for the "Organizational identifier code" attribute (urn:oid:1.2.752.201.3.1). */
   public static final String ATTRIBUTE_NAME_ORGANIZATION_IDENTIFIER = "urn:oid:1.2.752.201.3.1";
@@ -236,7 +238,7 @@ public class AttributeConstants {
 
   /** Attribute template for the "Organization affiliation" attribute (Multi-valued). */
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_ORG_AFFILIATION = new AttributeTemplate(
-    ATTRIBUTE_NAME_ORG_AFFILIATION, ATTRIBUTE_FRIENDLY_NAME_ORG_AFFILIATION, true);
+    ATTRIBUTE_NAME_ORG_AFFILIATION, ATTRIBUTE_FRIENDLY_NAME_ORG_AFFILIATION);
 
   /** The attribute name for the "Transaction identifier" attribute (urn:oid:1.2.752.201.3.2). */
   public static final String ATTRIBUTE_NAME_TRANSACTION_IDENTIFIER = "urn:oid:1.2.752.201.3.2";

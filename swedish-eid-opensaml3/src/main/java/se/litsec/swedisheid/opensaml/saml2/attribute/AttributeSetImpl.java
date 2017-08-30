@@ -31,6 +31,8 @@ import org.opensaml.saml.saml2.metadata.RequestedAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import se.litsec.opensaml.saml2.attribute.AttributeTemplate;
+
 /**
  * A bean representing an Attribute Set as defined in Attribute Specification for the Swedish eID Framework.
  * 

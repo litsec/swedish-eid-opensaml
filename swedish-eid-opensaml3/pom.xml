@@ -3,10 +3,10 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>se.litsec.sweid</groupId>
+  <groupId>se.litsec.opensaml.sweid</groupId>
   <artifactId>swedish-eid-opensaml3</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.9-SNAPSHOT</version>
 
   <name>Swedish eID :: OpenSAML 3.X</name>
   <description>OpenSAML 3.X extension library for the Swedish eID Framework</description>
@@ -40,18 +40,27 @@
     <java.version>1.8</java.version>
 
     <!-- Versions on dependencies -->
+    <opensaml.version>3.3.0</opensaml.version>
+    <shibboleth.java-support.version>7.3.0</shibboleth.java-support.version>
+    <opensaml-ext.version>0.9-SNAPSHOT</opensaml-ext.version>
 
-    <!-- TODO: 3.2.0 has been released but not yet published to maven central repo -->
-    <opensaml.version>3.1.1</opensaml.version>
+    <spring.version>4.3.2.RELEASE</spring.version>
 
-    <spring.version>4.2.5.RELEASE</spring.version>
-    <slf4j.version>1.7.5</slf4j.version>
-    
+    <slf4j.version>1.7.12</slf4j.version>
     <junit.version>4.12</junit.version>
 
   </properties>
 
   <dependencies>
+
+    <!-- OpenSAML extensions -->
+    <dependency>
+      <groupId>se.litsec.opensaml</groupId>
+      <artifactId>opensaml3-ext</artifactId>
+      <version>${opensaml-ext.version}</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
 
     <!-- OpenSAML -->
     <dependency>
@@ -101,19 +110,19 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-xmlsec-impl</artifactId>
       <version>${opensaml.version}</version>
       <type>jar</type>
       <scope>compile</scope>
-    </dependency>    
+    </dependency>
 
     <dependency>
       <groupId>net.shibboleth.utilities</groupId>
       <artifactId>java-support</artifactId>
-      <version>7.1.1</version>
+      <version>${shibboleth.java-support.version}</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
@@ -180,15 +189,15 @@
       <scope>test</scope>
       <type>jar</type>
     </dependency>
-    
+
     <dependency>
       <groupId>pl.pragmatists</groupId>
       <artifactId>JUnitParams</artifactId>
       <version>1.0.5</version>
       <scope>test</scope>
-      <type>jar</type>      
+      <type>jar</type>
     </dependency>
-    
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
@@ -197,15 +206,8 @@
       <type>jar</type>
     </dependency>
 
-<!-- 
-    <dependency>
-      <groupId>org.opensaml</groupId>
-      <artifactId>opensaml-core</artifactId>
-      <version>${opensaml.version}</version>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
--->
+    <!-- <dependency> <groupId>org.opensaml</groupId> <artifactId>opensaml-core</artifactId> <version>${opensaml.version}</version> <type>test-jar</type> 
+      <scope>test</scope> </dependency> -->
 
     <dependency>
       <groupId>org.eclipse.jetty</groupId>

@@ -25,14 +25,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.opensaml.saml.ext.saml2mdattr.EntityAttributes;
 import org.opensaml.saml.saml2.core.Attribute;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 
-import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeBuilder;
-import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeUtils;
-import se.litsec.swedisheid.opensaml.saml2.metadata.MetadataUtils;
+import se.litsec.opensaml.saml2.attribute.AttributeBuilder;
+import se.litsec.opensaml.saml2.attribute.AttributeUtils;
+import se.litsec.opensaml.saml2.metadata.MetadataUtils;
 
 /**
  * Helper class for handling entity categories in metadata.
@@ -69,7 +70,7 @@ public class EntityCategoryMetadataHelper {
     if (categories == null || categories.isEmpty()) {
       return null;
     }
-    AttributeBuilder builder = AttributeBuilder.builder().name(ENTITY_CATEGORY_ATTRIBUTE_NAME).nameFormat(Attribute.URI_REFERENCE);
+    AttributeBuilder builder = AttributeBuilder.builder(ENTITY_CATEGORY_ATTRIBUTE_NAME).nameFormat(Attribute.URI_REFERENCE);
     categories.stream().forEach(c -> builder.value(c));
     return builder.build();
   }
@@ -87,7 +88,9 @@ public class EntityCategoryMetadataHelper {
     if (!entityAttributes.isPresent()) {
       return Collections.emptyList();
     }
-    List<Attribute> attrs = AttributeUtils.getAttributes(ENTITY_CATEGORY_ATTRIBUTE_NAME, entityAttributes.get().getAttributes());
+    List<Attribute> attrs = entityAttributes.get().getAttributes().stream()
+        .filter(a -> a.getName().equals(ENTITY_CATEGORY_ATTRIBUTE_NAME))
+        .collect(Collectors.toList());
     List<String> categories = new ArrayList<String>();
     for (Attribute attr : attrs) {
       categories.addAll(AttributeUtils.getAttributeStringValues(attr));

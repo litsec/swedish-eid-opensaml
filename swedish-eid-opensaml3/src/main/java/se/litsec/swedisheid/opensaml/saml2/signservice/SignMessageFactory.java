@@ -70,7 +70,7 @@ public class SignMessageFactory {
 
   /** Finds encryption credentials from metadata. */
   private MetadataCredentialResolver credentialResolver;
-
+  
   /**
    * The encryption algorithm to use when encrypting messages. The default is
    * {@link org.opensaml.xml.encryption.EncryptionConstants#ALGO_ID_BLOCKCIPHER_AES128}.
@@ -103,7 +103,7 @@ public class SignMessageFactory {
    *          the MIME type of the message
    * @param mustShow
    *          when this parameter is set to {@code true} then the requested signature MUST NOT be created unless this
-   *          message has been displayed and accepted by the signer.
+   *          message has been displayed and accepted by the signer
    * @param displayEntity
    *          the entityID of the entity responsible for displaying the sign message to the signer. When the sign
    *          message is encrypted, then this entity is also the holder of the private decryption key necessary to
@@ -172,7 +172,7 @@ public class SignMessageFactory {
 
       Iterable<Credential> credentials = this.credentialResolver.resolve(criteriaSet);
       Iterator<Credential> i = credentials.iterator();
-      if (i.hasNext()) {
+      while (i.hasNext()) {
         Credential c = i.next();
         logger.debug("Found encryption key of type '{}' for IdP '{}'", c.getCredentialType().getName(), idpEntityID);
         return c;

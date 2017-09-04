@@ -24,7 +24,6 @@ package se.litsec.swedisheid.opensaml.saml2.signservice.dss;
  * Holds constants defined in "DSS Extension for Federated Central Signing Services - Version 1.1". 
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
- * @see DSS Extension for Federated Central Signing Services - Version 1.1
  */
 public class DssExtensionsConstants {
 

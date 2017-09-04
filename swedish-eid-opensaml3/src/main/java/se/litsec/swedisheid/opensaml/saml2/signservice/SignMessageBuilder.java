@@ -188,14 +188,14 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
           break;
         }
       }
-      
-      if (keyEncryptionCredential == null) { 
+
+      if (keyEncryptionCredential == null) {
         String msg = String.format("Failed to find valid encryption key for IdP '%s'", idp);
         logger.warn(msg);
         throw new EncryptionException(msg);
       }
-      
-      return this.buildEncrypted(keyEncryptionCredential);      
+
+      return this.buildEncrypted(keyEncryptionCredential);
     }
     catch (ResolverException e) {
       String msg = String.format("Failed to find encryption key for IdP '%s' - %s", idp, e.getMessage(), e);
@@ -206,13 +206,13 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
 
   /**
    * Assigns the data encryption parameters to use when encrypting. The default is to use the
-   * {@link org.opensaml.xml.encryption.EncryptionConstants#ALGO_ID_BLOCKCIPHER_AES256} algorithm.
+   * {@link EncryptionConstants#ALGO_ID_BLOCKCIPHER_AES256} algorithm.
    * 
    * <p>
    * Note the JCE unlimited strength policy files must be installed for using strong crypto. For Java 8, download it
    * from
    * <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html">http://www.oracle.com/
-   * technetwork/java/javase/downloads/jce8-download-2133166.html</a></li>.
+   * technetwork/java/javase/downloads/jce8-download-2133166.html</a>.
    * </p>
    * 
    * @param parameters
@@ -226,7 +226,7 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
 
   /**
    * Assigns the key encryption parameters to use when encrypting. The default is to use the
-   * {@link org.opensaml.xml.encryption.EncryptionConstants#ALGO_ID_KEYTRANSPORT_RSA15} algorithm.
+   * {@link EncryptionConstants#ALGO_ID_KEYTRANSPORT_RSA15} algorithm.
    * 
    * <p>
    * Note: The encryption credential ({@link KeyEncryptionParameters#setEncryptionCredential(Credential)}) should not be
@@ -236,11 +236,12 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
    * Note that if an algorithm that uses larger keys is required the JCE unlimited strength policy files must be
    * installed. For Java 8, download it from
    * <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html">http://www.oracle.com/
-   * technetwork/java/javase/downloads/jce8-download-2133166.html</a></li>.
+   * technetwork/java/javase/downloads/jce8-download-2133166.html</a>.
    * </p>
    * 
    * @param parameters
-   * @return
+   *          key encryption parameters
+   * @return the builder
    */
   public SignMessageBuilder keyEncryptionParameters(KeyEncryptionParameters parameters) {
     this.keyEncryptionParameters = parameters;

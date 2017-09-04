@@ -76,7 +76,7 @@ public interface AttributeSet {
 
   /**
    * Validates the attributes received in the assertion against the attribute set.
-   * <p>
+   * 
    * The validation logic is as follows:
    * <ul>
    * <li>Make sure that all the attributes that the set states as "required" are included in the assertion.</li>
@@ -84,7 +84,6 @@ public interface AttributeSet {
    * assertion. These requested attributes are listed in the SP metadata record as {@code <md:RequestedAttribute>}
    * elements.</li>
    * </ul>
-   * </p>
    * 
    * @param assertion
    *          the assertion containing the attributes to validate

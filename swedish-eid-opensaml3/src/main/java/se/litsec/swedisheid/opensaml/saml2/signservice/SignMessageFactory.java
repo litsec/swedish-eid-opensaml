@@ -243,19 +243,13 @@ public class SignMessageFactory {
   /**
    * Assigns the encryption algorithm to use when encrypting messages.
    * <p>
-   * The default is {@link org.opensaml.xml.encryption.EncryptionConstants#ALGO_ID_BLOCKCIPHER_AES128}.
+   * The default is {@link EncryptionConstants#ALGO_ID_BLOCKCIPHER_AES128}.
    * </p>
    * <p>
-   * Note that if you require an algorithm that uses larger keys you may need to install the JCE unlimited strength
-   * policy files.
-   * <ul>
-   * <li>For Java 7, download it from
-   * <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html">http://www.oracle.com/
-   * technetwork/java/javase/downloads/jce-7-download-432124.html</a></li>.
-   * <li>For Java 8, download it from
+   * Note that if an algorithm that uses larger keys is required the JCE unlimited strength policy files must be
+   * installed. For Java 8, download it from
    * <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html">http://www.oracle.com/
-   * technetwork/java/javase/downloads/jce8-download-2133166.html</a></li>.
-   * </ul>
+   * technetwork/java/javase/downloads/jce8-download-2133166.html</a>.
    * </p>
    * 
    * @param encryptionAlgorithmId

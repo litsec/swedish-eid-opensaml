@@ -33,6 +33,7 @@ import org.opensaml.saml.common.SAMLObject;
  * message is provided either in plain text using the {@code <Message>} child element or as an encrypted message using
  * the {@code <EncryptedMessage>} child element. This element's <b>SignMessageType</b> complex type includes the
  * following attributes and elements:
+ * </p>
  * <dl>
  * <dt>{@code MustShow} [Optional] (Default "false")</dt>
  * <dd>When this attribute is set to true then the requested signature MUST NOT be created unless this message has been
@@ -54,36 +55,36 @@ import org.opensaml.saml.common.SAMLObject;
  * <dd>An encrypted {@code <Message>} element. Either a {@code <Message>} or an {@code <EncryptedMessage>} element MUST
  * be present.</dd>
  * </dl>
- * </p>
- * <p>
+ * 
  * The following schema fragment defines the {@code <SignMessage>} element and the SignMessageType complex type:
  * 
- * <pre>
- *       <xs:complexType name="SignMessageType">
- *         <xs:choice>
- *             <xs:element ref="csig:Message"/>
- *             <xs:element ref="csig:EncryptedMessage"/>
- *         </xs:choice>
- *         <xs:attribute name="MustShow" type="xs:boolean" default="false"/>
- *         <xs:attribute name="DisplayEntity" type="xs:anyURI"/>
- *         <xs:attribute name="MimeType" default="text">
- *             <xs:simpleType>
- *                 <xs:restriction base="xs:string">
- *                     <xs:enumeration value="text/html"/>
- *                     <xs:enumeration value="text"/>
- *                     <xs:enumeration value="text/markdown"/>
- *                 </xs:restriction>
- *             </xs:simpleType>
- *         </xs:attribute>
- *         <xs:anyAttribute namespace="##other" processContents="lax"/>
- *       </xs:complexType>
- *       <xs:element name="Message" type="xs:base64Binary"/>
- *       <xs:element name="EncryptedMessage" type="saml:EncryptedElementType"/>
- * </pre>
+ * <pre>{@code
+ * <xs:complexType name="SignMessageType">
+ *   <xs:choice>
+ *     <xs:element ref="csig:Message"/>
+ *     <xs:element ref="csig:EncryptedMessage"/>
+ *   </xs:choice>
+ *   <xs:attribute name="MustShow" type="xs:boolean" default="false"/>
+ *   <xs:attribute name="DisplayEntity" type="xs:anyURI"/>
+ *   <xs:attribute name="MimeType" default="text">
+ *     <xs:simpleType>
+ *       <xs:restriction base="xs:string">
+ *         <xs:enumeration value="text/html"/>
+ *         <xs:enumeration value="text"/>
+ *         <xs:enumeration value="text/markdown"/>
+ *       </xs:restriction>
+ *     </xs:simpleType>
+ *   </xs:attribute>
+ *   <xs:anyAttribute namespace="##other" processContents="lax"/>
+ * </xs:complexType>
  * 
+ * <xs:element name="Message" type="xs:base64Binary"/>
+ * <xs:element name="EncryptedMessage" type="saml:EncryptedElementType"/>}
+ * </pre>
+ * <p>
+ * See "DSS Extension for Federated Central Signing Services - Version 1.1".
  * </p>
  * 
- * @see DSS Extension for Federated Central Signing Services - Version 1.1
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
 public interface SignMessage extends SAMLObject, AttributeExtensibleXMLObject {

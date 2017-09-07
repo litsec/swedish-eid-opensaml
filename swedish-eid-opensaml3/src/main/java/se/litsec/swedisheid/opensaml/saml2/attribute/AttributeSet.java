@@ -25,6 +25,8 @@ import java.util.List;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.metadata.RequestedAttribute;
 
+import se.litsec.opensaml.saml2.attribute.AttributeTemplate;
+
 /**
  * The specification "Attribute Specification for the Swedish eID Framework" of the Swedish eID Framework defines a
  * number of "Attribute Sets". This interface represents such an attribute set.
@@ -74,7 +76,7 @@ public interface AttributeSet {
 
   /**
    * Validates the attributes received in the assertion against the attribute set.
-   * <p>
+   * 
    * The validation logic is as follows:
    * <ul>
    * <li>Make sure that all the attributes that the set states as "required" are included in the assertion.</li>
@@ -82,7 +84,6 @@ public interface AttributeSet {
    * assertion. These requested attributes are listed in the SP metadata record as {@code <md:RequestedAttribute>}
    * elements.</li>
    * </ul>
-   * </p>
    * 
    * @param assertion
    *          the assertion containing the attributes to validate

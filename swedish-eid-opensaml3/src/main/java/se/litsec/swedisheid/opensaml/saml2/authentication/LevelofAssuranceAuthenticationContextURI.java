@@ -191,7 +191,7 @@ public class LevelofAssuranceAuthenticationContextURI {
    * Given an signature message authentication context URI the method returns the corresponding basic authentication
    * context URI.
    * 
-   * @param loaUri
+   * @param signatureMessageLoaUri
    *          authentication context URI
    * @return an authentication context URI
    */

@@ -20,10 +20,16 @@
  */
 package se.litsec.swedisheid.opensaml;
 
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.Resource;
 
-import se.litsec.swedisheid.opensaml.config.OpenSAMLInitializer;
+import se.litsec.opensaml.config.OpenSAMLInitializer;
 
 /**
  * Base Spring configuration file for tests.
@@ -31,6 +37,7 @@ import se.litsec.swedisheid.opensaml.config.OpenSAMLInitializer;
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
 @Configuration
+@PropertySource("test-config.properties")
 public class BaseConfig {
 
   /**
@@ -44,10 +51,41 @@ public class BaseConfig {
   public OpenSAMLInitializer openSAMLInitializer() throws Exception {
     OpenSAMLInitializer bootstrapper = OpenSAMLInitializer.getInstance();
     if (!bootstrapper.isInitialized()) {
-      bootstrapper.setInitOpenSAML(true);
       bootstrapper.initialize();
     }
     return bootstrapper;
+  }
+
+  /**
+   * Bean for SAML signing certificate used in tests.
+   * 
+   * @param location
+   *          the certificate location
+   * @return the signing certificate
+   * @throws Exception
+   *           for errors
+   */
+  @Bean(name = "samlSigningCertificate")
+  public X509Certificate samlSigningCertificate(@Value("${litsec.saml.signing-cert}") Resource location) throws Exception {
+    return this.getCertificate(location);
+  }
+  
+  /**
+   * Bean for SAML encryption certificate used in tests.
+   * 
+   * @param location
+   *          the certificate location
+   * @return the encryption certificate
+   * @throws Exception
+   *           for errors
+   */
+  @Bean(name = "samlEncryptionCertificate")
+  public X509Certificate samlEncryptionCertificate(@Value("${litsec.saml.encryption-cert}") Resource location) throws Exception {
+    return this.getCertificate(location);
+  }  
+  
+  private X509Certificate getCertificate(Resource location) throws Exception {
+    return (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(location.getInputStream());
   }
 
 }

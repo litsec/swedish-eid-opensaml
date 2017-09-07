@@ -20,6 +20,8 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.attribute;
 
+import se.litsec.opensaml.saml2.attribute.AttributeTemplate;
+
 /**
  * Defines all Attribute Set defined in section 2 of "Attribute Specification for the Swedish eID Framework".
  * 

@@ -47,12 +47,12 @@ import org.slf4j.LoggerFactory;
 
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
-import se.litsec.swedisheid.opensaml.saml2.metadata.provider.MetadataProvider;
+import se.litsec.opensaml.saml2.metadata.provider.MetadataProvider;
+import se.litsec.opensaml.utils.ObjectUtils;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.EncryptedMessage;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.Message;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessage;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessageMimeTypeEnum;
-import se.litsec.swedisheid.opensaml.utils.SAMLUtils;
 
 /**
  * A builder for an easy way to create and encrypt messages for
@@ -70,7 +70,7 @@ public class SignMessageFactory {
 
   /** Finds encryption credentials from metadata. */
   private MetadataCredentialResolver credentialResolver;
-
+  
   /**
    * The encryption algorithm to use when encrypting messages. The default is
    * {@link org.opensaml.xml.encryption.EncryptionConstants#ALGO_ID_BLOCKCIPHER_AES128}.
@@ -103,7 +103,7 @@ public class SignMessageFactory {
    *          the MIME type of the message
    * @param mustShow
    *          when this parameter is set to {@code true} then the requested signature MUST NOT be created unless this
-   *          message has been displayed and accepted by the signer.
+   *          message has been displayed and accepted by the signer
    * @param displayEntity
    *          the entityID of the entity responsible for displaying the sign message to the signer. When the sign
    *          message is encrypted, then this entity is also the holder of the private decryption key necessary to
@@ -119,12 +119,12 @@ public class SignMessageFactory {
   public SignMessage create(String message, SignMessageMimeTypeEnum mimeType, Boolean mustShow, String displayEntity, boolean encrypt)
       throws ResolverException, EncryptionException {
 
-    SignMessage signMessage = SAMLUtils.createSamlObject(SignMessage.class);
+    SignMessage signMessage = ObjectUtils.createSamlObject(SignMessage.class);
     signMessage.setDisplayEntity(displayEntity);
     signMessage.setMimeType(mimeType);
     signMessage.setMustShow(mustShow);
 
-    Message msg = SAMLUtils.createXMLObject(Message.class, Message.DEFAULT_ELEMENT_NAME);
+    Message msg = ObjectUtils.createXMLObject(Message.class, Message.DEFAULT_ELEMENT_NAME);
     msg.setContent(message);
 
     if (encrypt) {
@@ -172,7 +172,7 @@ public class SignMessageFactory {
 
       Iterable<Credential> credentials = this.credentialResolver.resolve(criteriaSet);
       Iterator<Credential> i = credentials.iterator();
-      if (i.hasNext()) {
+      while (i.hasNext()) {
         Credential c = i.next();
         logger.debug("Found encryption key of type '{}' for IdP '{}'", c.getCredentialType().getName(), idpEntityID);
         return c;
@@ -234,7 +234,7 @@ public class SignMessageFactory {
     Encrypter encrypter = new Encrypter();
     EncryptedData encryptedData = encrypter.encryptElement(message, dataEncryptionParameters, kekParams);
 
-    EncryptedMessage encryptedMessage = SAMLUtils.createSamlObject(EncryptedMessage.class);
+    EncryptedMessage encryptedMessage = ObjectUtils.createSamlObject(EncryptedMessage.class);
     encryptedMessage.setEncryptedData(encryptedData);
     
     return encryptedMessage;
@@ -243,19 +243,13 @@ public class SignMessageFactory {
   /**
    * Assigns the encryption algorithm to use when encrypting messages.
    * <p>
-   * The default is {@link org.opensaml.xml.encryption.EncryptionConstants#ALGO_ID_BLOCKCIPHER_AES128}.
+   * The default is {@link EncryptionConstants#ALGO_ID_BLOCKCIPHER_AES128}.
    * </p>
    * <p>
-   * Note that if you require an algorithm that uses larger keys you may need to install the JCE unlimited strength
-   * policy files.
-   * <ul>
-   * <li>For Java 7, download it from
-   * <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html">http://www.oracle.com/
-   * technetwork/java/javase/downloads/jce-7-download-432124.html</a></li>.
-   * <li>For Java 8, download it from
+   * Note that if an algorithm that uses larger keys is required the JCE unlimited strength policy files must be
+   * installed. For Java 8, download it from
    * <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html">http://www.oracle.com/
-   * technetwork/java/javase/downloads/jce8-download-2133166.html</a></li>.
-   * </ul>
+   * technetwork/java/javase/downloads/jce8-download-2133166.html</a>.
    * </p>
    * 
    * @param encryptionAlgorithmId

@@ -31,6 +31,8 @@ import org.opensaml.saml.saml2.metadata.RequestedAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import se.litsec.opensaml.saml2.attribute.AttributeTemplate;
+
 /**
  * A bean representing an Attribute Set as defined in Attribute Specification for the Swedish eID Framework.
  * 
@@ -73,8 +75,11 @@ public class AttributeSetImpl implements AttributeSet {
    *          the "friendly name" of the attribute set
    * @param requiredAttributes
    *          the required attributes for this attribute set
+   * @param recommendedAttributes
+   *          the recommended attributes for this attribute set
    */
-  public AttributeSetImpl(String identifier, String uri, String friendlyName, AttributeTemplate[] requiredAttributes, AttributeTemplate[] recommendedAttributes) {
+  public AttributeSetImpl(String identifier, String uri, String friendlyName, AttributeTemplate[] requiredAttributes,
+      AttributeTemplate[] recommendedAttributes) {
     this.setIdentifier(identifier);
     this.setUri(uri);
     this.setFriendlyName(friendlyName);
@@ -92,10 +97,10 @@ public class AttributeSetImpl implements AttributeSet {
     logger.trace("Validating the attributes from assertion '{}' against attribute set '{}' ({}) ...",
       assertion.getID(), this.identifier, this.uri);
 
-    List<Attribute> attributes = assertion.getAttributeStatements().get(0).getAttributes(); 
+    List<Attribute> attributes = assertion.getAttributeStatements().get(0).getAttributes();
 
     // Make sure that all attributes required by the attribute set was received in the assertion.
-    //            
+    //
     for (AttributeTemplate requiredAttribute : this.requiredAttributes) {
       Optional<Attribute> found = attributes.stream().filter(a -> requiredAttribute.getName().equals(a.getName())).findFirst();
       if (!found.isPresent()) {
@@ -112,7 +117,7 @@ public class AttributeSetImpl implements AttributeSet {
 
     // Next, check that all requested attributes are there.
     //
-    if (explicitlyRequestedAttributes != null) {      
+    if (explicitlyRequestedAttributes != null) {
       for (RequestedAttribute ra : explicitlyRequestedAttributes) {
         Optional<Attribute> found = attributes.stream().filter(a -> ra.getName().equals(a.getName())).findFirst();
         if (!found.isPresent()) {
@@ -169,16 +174,16 @@ public class AttributeSetImpl implements AttributeSet {
    */
   @Override
   public AttributeTemplate[] getRequiredAttributes() {
-    return this.requiredAttributes != null ? this.requiredAttributes.toArray(new AttributeTemplate[]{}) : new AttributeTemplate[0];  
+    return this.requiredAttributes != null ? this.requiredAttributes.toArray(new AttributeTemplate[] {}) : new AttributeTemplate[0];
   }
-  
+
   /**
    * {@inheritDoc}
    */
   @Override
   public AttributeTemplate[] getRecommendedAttributes() {
-    return this.recommendedAttributes != null ? this.recommendedAttributes.toArray(new AttributeTemplate[]{}) : new AttributeTemplate[0]; 
-  }  
+    return this.recommendedAttributes != null ? this.recommendedAttributes.toArray(new AttributeTemplate[] {}) : new AttributeTemplate[0];
+  }
 
   /**
    * Each attribute set within the Swedish eID Framework is assigned an unique profile identifier. This method assigns
@@ -219,7 +224,7 @@ public class AttributeSetImpl implements AttributeSet {
    *          the attributes to assign
    */
   public void setRequiredAttributes(AttributeTemplate[] requiredAttributes) {
-    this.requiredAttributes = requiredAttributes != null ? Arrays.asList(requiredAttributes) : Collections.emptyList(); 
+    this.requiredAttributes = requiredAttributes != null ? Arrays.asList(requiredAttributes) : Collections.emptyList();
   }
 
   /**
@@ -229,7 +234,7 @@ public class AttributeSetImpl implements AttributeSet {
    *          the attributes to assign
    */
   public void setRecommendedAttributes(AttributeTemplate[] recommendedAttributes) {
-    this.recommendedAttributes = recommendedAttributes != null ? Arrays.asList(recommendedAttributes) : Collections.emptyList(); 
+    this.recommendedAttributes = recommendedAttributes != null ? Arrays.asList(recommendedAttributes) : Collections.emptyList();
   }
 
 }

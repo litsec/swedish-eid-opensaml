@@ -112,7 +112,7 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
       kep.setEncryptionCredential(keyEncryptionCredential);
 
       Message msg = ObjectUtils.createXMLObject(Message.class, Message.DEFAULT_ELEMENT_NAME);
-      msg.setValue(this.object().getMessage().getContent());
+      msg.setValue(this.object().getMessage().getValue());
 
       Encrypter encrypter = new Encrypter();
       EncryptedData encryptedData = encrypter.encryptElement(msg, this.dataEncryptionParameters, kep);

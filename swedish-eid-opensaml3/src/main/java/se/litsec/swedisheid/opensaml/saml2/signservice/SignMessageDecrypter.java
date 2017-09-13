@@ -55,6 +55,9 @@ public class SignMessageDecrypter {
   /** Optional black list of algorithms. */
   private List<String> blacklistedAlgorithms;
 
+  /** Optional white list of algorithms. */
+  private List<String> whitelistedAlgorithms;
+
   /** The decrypter. */
   private Decrypter decrypter;
 
@@ -77,6 +80,16 @@ public class SignMessageDecrypter {
    */
   public SignMessageDecrypter(List<Credential> decryptionCredentials) {
     this.keyEncryptionKeyResolver = new StaticKeyInfoCredentialResolver(decryptionCredentials);
+  }
+
+  /**
+   * Constructor accepting a key encryption key resolver.
+   * 
+   * @param keyEncryptionKeyResolver
+   *          the resolver
+   */
+  public SignMessageDecrypter(KeyInfoCredentialResolver keyEncryptionKeyResolver) {
+    this.keyEncryptionKeyResolver = keyEncryptionKeyResolver;
   }
 
   /**
@@ -112,6 +125,7 @@ public class SignMessageDecrypter {
       pars.setKEKKeyInfoCredentialResolver(this.keyEncryptionKeyResolver);
       pars.setEncryptedKeyResolver(this.encryptedKeyResolver);
       pars.setBlacklistedAlgorithms(this.blacklistedAlgorithms);
+      pars.setWhitelistedAlgorithms(this.whitelistedAlgorithms);
       this.decrypter = new Decrypter(pars);
     }
     return this.decrypter;
@@ -125,6 +139,16 @@ public class SignMessageDecrypter {
    */
   public void setBlacklistedAlgorithms(List<String> blacklistedAlgorithms) {
     this.blacklistedAlgorithms = blacklistedAlgorithms;
+  }
+
+  /**
+   * Assigns a list of white listed algorithms
+   * 
+   * @param whitelistedAlgorithms
+   *          white listed algorithms
+   */
+  public void setWhitelistedAlgorithms(List<String> whitelistedAlgorithms) {
+    this.whitelistedAlgorithms = whitelistedAlgorithms;
   }
 
 }

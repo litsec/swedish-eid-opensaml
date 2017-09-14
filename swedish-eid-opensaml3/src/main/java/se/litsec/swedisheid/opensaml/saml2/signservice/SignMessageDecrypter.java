@@ -20,6 +20,7 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.signservice;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.opensaml.security.credential.Credential;
@@ -53,10 +54,10 @@ public class SignMessageDecrypter {
   private EncryptedKeyResolver encryptedKeyResolver = new InlineEncryptedKeyResolver();
 
   /** Optional black list of algorithms. */
-  private List<String> blacklistedAlgorithms;
+  private Collection<String> blacklistedAlgorithms;
 
   /** Optional white list of algorithms. */
-  private List<String> whitelistedAlgorithms;
+  private Collection<String> whitelistedAlgorithms;
 
   /** The decrypter. */
   private Decrypter decrypter;
@@ -137,7 +138,7 @@ public class SignMessageDecrypter {
    * @param blacklistedAlgorithms
    *          non allowed algorithms
    */
-  public void setBlacklistedAlgorithms(List<String> blacklistedAlgorithms) {
+  public void setBlacklistedAlgorithms(Collection<String> blacklistedAlgorithms) {
     this.blacklistedAlgorithms = blacklistedAlgorithms;
   }
 
@@ -147,7 +148,7 @@ public class SignMessageDecrypter {
    * @param whitelistedAlgorithms
    *          white listed algorithms
    */
-  public void setWhitelistedAlgorithms(List<String> whitelistedAlgorithms) {
+  public void setWhitelistedAlgorithms(Collection<String> whitelistedAlgorithms) {
     this.whitelistedAlgorithms = whitelistedAlgorithms;
   }
 

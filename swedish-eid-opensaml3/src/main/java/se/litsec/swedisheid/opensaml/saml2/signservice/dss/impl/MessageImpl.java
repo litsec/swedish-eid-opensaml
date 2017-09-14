@@ -21,10 +21,10 @@
 package se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 import org.opensaml.core.xml.schema.impl.XSBase64BinaryImpl;
 
+import net.shibboleth.utilities.java.support.codec.Base64Support;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.Message;
 
 /**
@@ -50,13 +50,13 @@ public class MessageImpl extends XSBase64BinaryImpl implements Message {
 
   @Override
   public String getContent() {
-    return this.getValue() != null ? new String(Base64.getDecoder().decode(this.getValue()), StandardCharsets.UTF_8) : null;
+    return this.getValue() != null ? new String(Base64Support.decode(this.getValue()), StandardCharsets.UTF_8) : null;
   }
 
   @Override
   public void setContent(String messageContent) {
     if (messageContent != null) {
-      this.setValue(Base64.getEncoder().encodeToString(messageContent.getBytes(StandardCharsets.UTF_8)));
+      this.setValue(Base64Support.encode(messageContent.getBytes(StandardCharsets.UTF_8), false));
     }
     else {
       this.setValue(null);

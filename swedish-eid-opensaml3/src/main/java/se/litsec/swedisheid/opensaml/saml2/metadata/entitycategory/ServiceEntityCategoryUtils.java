@@ -51,9 +51,10 @@ public class ServiceEntityCategoryUtils {
     Comparator<ServiceEntityCategory> sorter = new Comparator<ServiceEntityCategory>() {
       @Override
       public int compare(ServiceEntityCategory o1, ServiceEntityCategory o2) {
-        int l1 = LevelofAssuranceAuthenticationContextURI.getLevel(o1.getLevelOfAssurance());
-        int l2 = LevelofAssuranceAuthenticationContextURI.getLevel(o2.getLevelOfAssurance());
-        return l1 < l2 ? -1 : (l1 > l2 ? 1 : 0);
+        LevelofAssuranceAuthenticationContextURI.LoaEnum l1 = LevelofAssuranceAuthenticationContextURI.LoaEnum.parse(o1.getLevelOfAssurance());
+        LevelofAssuranceAuthenticationContextURI.LoaEnum l2 = LevelofAssuranceAuthenticationContextURI.LoaEnum.parse(o2.getLevelOfAssurance());
+        
+        return l1.getLevel() < l2.getLevel() ? -1 : (l1.getLevel() > l2.getLevel() ? 1 : 0);
       }
     };
     

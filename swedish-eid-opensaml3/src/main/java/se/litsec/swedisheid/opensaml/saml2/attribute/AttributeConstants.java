@@ -60,8 +60,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_DISPLAY_NAME = new AttributeTemplate(
     ATTRIBUTE_NAME_DISPLAY_NAME, ATTRIBUTE_FRIENDLY_NAME_DISPLAY_NAME);
 
-  /** The attribute name for the "Gender" attribute (urn:oid:1.2.752.29.4.13). */
-  public static final String ATTRIBUTE_NAME_GENDER = "urn:oid:1.2.752.29.4.13";
+  /** The attribute name for the "Gender" attribute (urn:oid:1.3.6.1.5.5.7.9.3). */
+  public static final String ATTRIBUTE_NAME_GENDER = "urn:oid:1.3.6.1.5.5.7.9.3";
 
   /** The attribute friendly name for the "Gender" attribute (gender). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_GENDER = "gender";
@@ -89,9 +89,19 @@ public class AttributeConstants {
   /** Attribute template for the "Date of birth" attribute. */
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_DATE_OF_BIRTH = new AttributeTemplate(
     ATTRIBUTE_NAME_DATE_OF_BIRTH, ATTRIBUTE_FRIENDLY_NAME_DATE_OF_BIRTH);
+  
+  /** The attribute name for the "birth name" attribute (urn:oid:1.2.752.201.3.8). */
+  public static final String ATTRIBUTE_NAME_BIRTH_NAME = "urn:oid:1.2.752.201.3.8";
 
-  /** The attribute name for the "Street address" attribute (urn:oid:2.5.4.18). */
-  public static final String ATTRIBUTE_NAME_STREET = "urn:oid:2.5.4.18";
+  /** The attribute friendly name for the "birth name" attribute (birthName). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_BIRTH_NAME = "birthName";
+
+  /** Attribute template for the "birth name" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_BIRTH_NAME = new AttributeTemplate(
+    ATTRIBUTE_NAME_BIRTH_NAME, ATTRIBUTE_FRIENDLY_NAME_BIRTH_NAME);  
+  
+  /** The attribute name for the "Street address" attribute (urn:oid:2.5.4.9). */
+  public static final String ATTRIBUTE_NAME_STREET = "urn:oid:2.5.4.9";
 
   /** The attribute friendly name for the "Street address" attribute (street). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_STREET = "street";
@@ -100,8 +110,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_STREET = new AttributeTemplate(ATTRIBUTE_NAME_STREET,
     ATTRIBUTE_FRIENDLY_NAME_STREET);
 
-  /** The attribute name for the "Post box" attribute (urn:oid:2.5.4.17). */
-  public static final String ATTRIBUTE_NAME_POST_OFFICE_BOX = "urn:oid:2.5.4.17";
+  /** The attribute name for the "Post box" attribute (urn:oid:2.5.4.18). */
+  public static final String ATTRIBUTE_NAME_POST_OFFICE_BOX = "urn:oid:2.5.4.18";
 
   /** The attribute friendly name for the "Post box" attribute (postOfficeBox). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_POST_OFFICE_BOX = "postOfficeBox";
@@ -110,8 +120,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_POST_OFFICE_BOX = new AttributeTemplate(
     ATTRIBUTE_NAME_POST_OFFICE_BOX, ATTRIBUTE_FRIENDLY_NAME_POST_OFFICE_BOX);
 
-  /** The attribute name for the "Postal code" attribute (urn:oid:2.5.4.7). */
-  public static final String ATTRIBUTE_NAME_POSTAL_CODE = "urn:oid:2.5.4.7";
+  /** The attribute name for the "Postal code" attribute (urn:oid:2.5.4.17). */
+  public static final String ATTRIBUTE_NAME_POSTAL_CODE = "urn:oid:2.5.4.17";
 
   /** The attribute friendly name for the "Postal code" attribute (postalCode). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_POSTAL_CODE = "postalCode";
@@ -120,8 +130,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_POSTAL_CODE = new AttributeTemplate(
     ATTRIBUTE_NAME_POSTAL_CODE, ATTRIBUTE_FRIENDLY_NAME_POSTAL_CODE);
 
-  /** The attribute name for the "Locality" attribute (urn:oid:2.5.4.6). */
-  public static final String ATTRIBUTE_NAME_L = "urn:oid:2.5.4.6";
+  /** The attribute name for the "Locality" attribute (urn:oid:2.5.4.7). */
+  public static final String ATTRIBUTE_NAME_L = "urn:oid:2.5.4.7";
 
   /** The attribute friendly name for the "Locality" attribute (l). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_L = "l";
@@ -130,8 +140,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_L = new AttributeTemplate(ATTRIBUTE_NAME_L,
     ATTRIBUTE_FRIENDLY_NAME_L);
 
-  /** The attribute name for the "Country" attribute (urn:oid:1.3.6.1.5.5.7.9.2). */
-  public static final String ATTRIBUTE_NAME_C = "urn:oid:1.3.6.1.5.5.7.9.2";
+  /** The attribute name for the "Country" attribute (urn:oid:2.5.4.6). */
+  public static final String ATTRIBUTE_NAME_C = "urn:oid:2.5.4.6";
 
   /** The attribute friendly name for the "Country" attribute (c). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_C = "c";
@@ -140,8 +150,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_C = new AttributeTemplate(ATTRIBUTE_NAME_C,
     ATTRIBUTE_FRIENDLY_NAME_C);
 
-  /** The attribute name for the "Place of birth" attribute (urn:oid:1.3.6.1.5.5.7.9.4). */
-  public static final String ATTRIBUTE_NAME_PLACE_OF_BIRTH = "urn:oid:1.3.6.1.5.5.7.9.4";
+  /** The attribute name for the "Place of birth" attribute (urn:oid:1.3.6.1.5.5.7.9.2). */
+  public static final String ATTRIBUTE_NAME_PLACE_OF_BIRTH = "urn:oid:1.3.6.1.5.5.7.9.2";
 
   /** The attribute friendly name for the "Place of birth" attribute (placeOfBirth). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_PLACE_OF_BIRTH = "placeOfBirth";
@@ -150,8 +160,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_PLACE_OF_BIRTH = new AttributeTemplate(
     ATTRIBUTE_NAME_PLACE_OF_BIRTH, ATTRIBUTE_FRIENDLY_NAME_PLACE_OF_BIRTH);
 
-  /** The attribute name for the "Country of citizenship" attribute (urn:oid:1.3.6.1.5.5.7.9.5). */
-  public static final String ATTRIBUTE_NAME_COUNTRY_OF_CITIZENSHIP = "urn:oid:1.3.6.1.5.5.7.9.5";
+  /** The attribute name for the "Country of citizenship" attribute (urn:oid:1.3.6.1.5.5.7.9.4). */
+  public static final String ATTRIBUTE_NAME_COUNTRY_OF_CITIZENSHIP = "urn:oid:1.3.6.1.5.5.7.9.4";
 
   /** The attribute friendly name for the "Country of citizenship" attribute (countryOfCitizenship). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_COUNTRY_OF_CITIZENSHIP = "countryOfCitizenship";
@@ -160,8 +170,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_COUNTRY_OF_CITIZENSHIP = new AttributeTemplate(
     ATTRIBUTE_NAME_COUNTRY_OF_CITIZENSHIP, ATTRIBUTE_FRIENDLY_NAME_COUNTRY_OF_CITIZENSHIP);
 
-  /** The attribute name for the "Country of Residence" attribute (urn:oid:2.5.4.20). */
-  public static final String ATTRIBUTE_NAME_COUNTRY_OF_RESIDENCE = "urn:oid:2.5.4.20";
+  /** The attribute name for the "Country of Residence" attribute (urn:oid:1.3.6.1.5.5.7.9.5). */
+  public static final String ATTRIBUTE_NAME_COUNTRY_OF_RESIDENCE = "urn:oid:1.3.6.1.5.5.7.9.5";
 
   /** The attribute friendly name for the "Country of Residence" attribute (countryOfResidence). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_COUNTRY_OF_RESIDENCE = "countryOfResidence";
@@ -170,8 +180,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_COUNTRY_OF_RESIDENCE = new AttributeTemplate(
     ATTRIBUTE_NAME_COUNTRY_OF_RESIDENCE, ATTRIBUTE_FRIENDLY_NAME_COUNTRY_OF_RESIDENCE);
 
-  /** The attribute name for the "Telephone number" attribute (urn:oid:0.9.2342.19200300.100.1.41). */
-  public static final String ATTRIBUTE_NAME_TELEPHONE_NUMBER = "urn:oid:0.9.2342.19200300.100.1.41";
+  /** The attribute name for the "Telephone number" attribute (urn:oid:2.5.4.20). */
+  public static final String ATTRIBUTE_NAME_TELEPHONE_NUMBER = "urn:oid:2.5.4.20";
 
   /** The attribute friendly name for the "Telephone number" attribute (telephoneNumber). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_TELEPHONE_NUMBER = "telephoneNumber";
@@ -180,8 +190,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_TELEPHONE_NUMBER = new AttributeTemplate(
     ATTRIBUTE_NAME_TELEPHONE_NUMBER, ATTRIBUTE_FRIENDLY_NAME_TELEPHONE_NUMBER);
 
-  /** The attribute name for the "Mobile number" attribute (urn:oid:0.9.2342.19200300.100.1.3). */
-  public static final String ATTRIBUTE_NAME_MOBILE = "urn:oid:0.9.2342.19200300.100.1.3";
+  /** The attribute name for the "Mobile number" attribute (urn:oid:0.9.2342.19200300.100.1.41). */
+  public static final String ATTRIBUTE_NAME_MOBILE = "urn:oid:0.9.2342.19200300.100.1.41";
 
   /** The attribute friendly name for the "Mobile number" attribute (mobile). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_MOBILE = "mobile";
@@ -190,8 +200,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_MOBILE = new AttributeTemplate(ATTRIBUTE_NAME_MOBILE,
     ATTRIBUTE_FRIENDLY_NAME_MOBILE);
 
-  /** The attribute name for the "E-mail address" attribute (urn:oid:2.5.4.10). */
-  public static final String ATTRIBUTE_NAME_MAIL = "urn:oid:2.5.4.10";
+  /** The attribute name for the "E-mail address" attribute (urn:oid:0.9.2342.19200300.100.1.3). */
+  public static final String ATTRIBUTE_NAME_MAIL = "urn:oid:0.9.2342.19200300.100.1.3";
 
   /** The attribute friendly name for the "E-mail address" attribute (mail). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_MAIL = "mail";
@@ -200,8 +210,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_MAIL = new AttributeTemplate(ATTRIBUTE_NAME_MAIL,
     ATTRIBUTE_FRIENDLY_NAME_MAIL);
 
-  /** The attribute name for the "Organization name" attribute (urn:oid:2.5.4.11). */
-  public static final String ATTRIBUTE_NAME_O = "urn:oid:2.5.4.11";
+  /** The attribute name for the "Organization name" attribute (urn:oid:2.5.4.10). */
+  public static final String ATTRIBUTE_NAME_O = "urn:oid:2.5.4.10";
 
   /** The attribute friendly name for the "Organization name" attribute (o). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_O = "o";
@@ -210,8 +220,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_O = new AttributeTemplate(ATTRIBUTE_NAME_O,
     ATTRIBUTE_FRIENDLY_NAME_O);
 
-  /** The attribute name for the "Organizational unit name" attribute (urn:oid:2.5.4.97). */
-  public static final String ATTRIBUTE_NAME_OU = "urn:oid:2.5.4.97";
+  /** The attribute name for the "Organizational unit name" attribute (urn:oid:2.5.4.11). */
+  public static final String ATTRIBUTE_NAME_OU = "urn:oid:2.5.4.11";
 
   /** The attribute friendly name for the "Organizational unit name" attribute (ou). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_OU = "ou";
@@ -220,8 +230,8 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_OU = new AttributeTemplate(ATTRIBUTE_NAME_OU,
     ATTRIBUTE_FRIENDLY_NAME_OU);
 
-  /** The attribute name for the "Organizational identifier code" attribute (urn:oid:1.2.752.201.3.1). */
-  public static final String ATTRIBUTE_NAME_ORGANIZATION_IDENTIFIER = "urn:oid:1.2.752.201.3.1";
+  /** The attribute name for the "Organizational identifier code" attribute (urn:oid:2.5.4.97). */
+  public static final String ATTRIBUTE_NAME_ORGANIZATION_IDENTIFIER = "urn:oid:2.5.4.97";
 
   /** The attribute friendly name for the "Organizational identifier code" attribute (organizationIdentifier). */
   public static final String ATTRIBUTE_FRIENDLY_NAME_ORGANIZATION_IDENTIFIER = "organizationIdentifier";
@@ -260,6 +270,95 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_AUTH_CONTEXT_PARAMS = new AttributeTemplate(
     ATTRIBUTE_NAME_AUTH_CONTEXT_PARAMS, ATTRIBUTE_FRIENDLY_NAME_AUTH_CONTEXT_PARAMS);
   
+  /** The attribute name for the "User certificate" attribute (urn:oid:1.2.752.201.3.10). */
+  public static final String ATTRIBUTE_NAME_USER_CERTIFICATE = "urn:oid:1.2.752.201.3.10";
+
+  /** The attribute friendly name for the "user certificate" attribute (userCertificate). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_USER_CERTIFICATE = "userCertificate";
+
+  /** Attribute template for the "user certificate" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_USER_CERTIFICATE = new AttributeTemplate(
+    ATTRIBUTE_NAME_USER_CERTIFICATE, ATTRIBUTE_FRIENDLY_NAME_USER_CERTIFICATE);
+  
+  /** The attribute name for the "User signature" attribute (urn:oid:1.2.752.201.3.11). */
+  public static final String ATTRIBUTE_NAME_USER_SIGNATURE = "urn:oid:1.2.752.201.3.11";
+
+  /** The attribute friendly name for the "user signature" attribute (userSignature). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_USER_SIGNATURE = "userSignature";
+
+  /** Attribute template for the "user signature" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_USER_SIGNATURE = new AttributeTemplate(
+    ATTRIBUTE_NAME_USER_SIGNATURE, ATTRIBUTE_FRIENDLY_NAME_USER_SIGNATURE);  
+  
+  /** The attribute name for the "Authentication server signature" attribute (urn:oid:1.2.752.201.3.13). */
+  public static final String ATTRIBUTE_NAME_AUTH_SERVER_SIGNATURE = "urn:oid:1.2.752.201.3.13";
+
+  /** The attribute friendly name for the "Authentication server signature" attribute (authServerSignature). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_AUTH_SERVER_SIGNATURE = "authServerSignature";
+
+  /** Attribute template for the "Authentication server signature" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_AUTH_SERVER_SIGNATURE = new AttributeTemplate(
+    ATTRIBUTE_NAME_AUTH_SERVER_SIGNATURE, ATTRIBUTE_FRIENDLY_NAME_AUTH_SERVER_SIGNATURE);  
+  
+  /** The attribute name for the "Signature activation data" attribute (urn:oid:1.2.752.201.3.12). */
+  public static final String ATTRIBUTE_NAME_SAD = "urn:oid:1.2.752.201.3.12";
+
+  /** The attribute friendly name for the "Signature activation data" attribute (sad). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_SAD = "sad";
+
+  /** Attribute template for the "Signature activation data" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_SAD = new AttributeTemplate(
+    ATTRIBUTE_NAME_SAD, ATTRIBUTE_FRIENDLY_NAME_SAD);
+  
+  /** The attribute name for the "Provisional identifier" attribute (urn:oid:1.2.752.201.3.4). */
+  public static final String ATTRIBUTE_NAME_PRID = "urn:oid:1.2.752.201.3.4";
+
+  /** The attribute friendly name for the "Provisional identifier" attribute (prid). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_PRID = "prid";
+
+  /** Attribute template for the "Provisional identifier" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_PRID = new AttributeTemplate(
+    ATTRIBUTE_NAME_PRID, ATTRIBUTE_FRIENDLY_NAME_PRID);
+  
+  /** The attribute name for the "Provisional identifier persistence indicator" attribute (urn:oid:1.2.752.201.3.5). */
+  public static final String ATTRIBUTE_NAME_PRID_PERSISTENCE = "urn:oid:1.2.752.201.3.5";
+
+  /** The attribute friendly name for the "Provisional identifier persistence indicator" attribute (pridPersistence). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_PRID_PERSISTENCE = "pridPersistence";
+
+  /** Attribute template for the "Provisional identifier persistence indicator" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_PRID_PERSISTENCE = new AttributeTemplate(
+    ATTRIBUTE_NAME_PRID_PERSISTENCE, ATTRIBUTE_FRIENDLY_NAME_PRID_PERSISTENCE);  
+    
+  /** The attribute name for the "National civic registration number/code binding URI" attribute (urn:oid:1.2.752.201.3.6). */
+  public static final String ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER_BINDING = "urn:oid:1.2.752.201.3.6";
+
+  /** The attribute friendly name for the "National civic registration number/code binding URI" attribute (personalIdentityNumberBinding). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_PERSONAL_IDENTITY_NUMBER_BINDING = "personalIdentityNumberBinding";
+
+  /** Attribute template for the "National civic registration number/code binding URI" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_PERSONAL_IDENTITY_NUMBER_BINDING = new AttributeTemplate(
+    ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER_BINDING, ATTRIBUTE_FRIENDLY_NAME_PERSONAL_IDENTITY_NUMBER_BINDING);
+  
+  /** The attribute name for the "eIDAS uniqueness identifier for natural persons" attribute (urn:oid:1.2.752.201.3.7). */
+  public static final String ATTRIBUTE_NAME_EIDAS_PERSON_IDENTIFIER = "urn:oid:1.2.752.201.3.7";
+
+  /** The attribute friendly name for the "eIDAS uniqueness identifier for natural persons" attribute (eidasPersonIdentifier). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_EIDAS_PERSON_IDENTIFIER = "eidasPersonIdentifier";
+
+  /** Attribute template for the "eIDAS uniqueness identifier for natural persons" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_EIDAS_PERSON_IDENTIFIER = new AttributeTemplate(
+    ATTRIBUTE_NAME_EIDAS_PERSON_IDENTIFIER, ATTRIBUTE_FRIENDLY_NAME_EIDAS_PERSON_IDENTIFIER);
+  
+  /** The attribute name for the "eIDAS Natural Person Address" attribute (urn:oid:1.2.752.201.3.9). */
+  public static final String ATTRIBUTE_NAME_EIDAS_NATURAL_PERSON_ADDRESS = "urn:oid:1.2.752.201.3.9";
+
+  /** The attribute friendly name for the "eIDAS Natural Person Address" attribute (eidasNaturalPersonAddress). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_EIDAS_NATURAL_PERSON_ADDRESS = "eidasNaturalPersonAddress";
+
+  /** Attribute template for the "eIDAS Natural Person Address" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_EIDAS_NATURAL_PERSON_ADDRESS = new AttributeTemplate(
+    ATTRIBUTE_NAME_EIDAS_NATURAL_PERSON_ADDRESS, ATTRIBUTE_FRIENDLY_NAME_EIDAS_NATURAL_PERSON_ADDRESS);  
   
   /*
    * Hidden constructor.

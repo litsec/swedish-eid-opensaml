@@ -8,11 +8,8 @@ import org.junit.Test;
 import org.opensaml.security.x509.BasicX509Credential;
 import org.opensaml.security.x509.impl.KeyStoreX509CredentialAdapter;
 import org.springframework.core.io.ClassPathResource;
-import org.w3c.dom.Element;
 
-import net.shibboleth.utilities.java.support.xml.SerializeSupport;
 import se.litsec.opensaml.utils.KeyStoreUtils;
-import se.litsec.opensaml.utils.ObjectUtils;
 import se.litsec.opensaml.utils.X509CertificateUtils;
 import se.litsec.swedisheid.opensaml.OpenSAMLTestBase;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.Message;

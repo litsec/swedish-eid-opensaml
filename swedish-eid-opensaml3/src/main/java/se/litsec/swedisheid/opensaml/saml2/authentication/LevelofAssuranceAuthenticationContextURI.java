@@ -149,7 +149,7 @@ public class LevelofAssuranceAuthenticationContextURI {
     /**
      * Returns the base URI when the LoA represents a notified or sign message URI.
      * 
-     * @return the base URI, or {@code null} if the URI represents a "plain" authentication context
+     * @return the base URI, or the URI itself if the URI represents a "plain" authentication context
      */
     public String getBaseUri() {
       return this.baseUri;
@@ -162,7 +162,23 @@ public class LevelofAssuranceAuthenticationContextURI {
      */
     public boolean isEidasUri() {
       return this.uri.contains("eidas");
-    }    
+    }
+
+    /**
+     * Given a 'sigmessage' URI, the method returns the corresponding LoA without the sigmessage.
+     * 
+     * @param loa
+     *          the LoA to transform
+     * @return the same LoA but without the sigmessages
+     */
+    public static LoaEnum minusSigMessage(LoaEnum loa) {
+      for (LoaEnum l : LoaEnum.values()) {
+        if (l.getBaseUri().equals(loa.getBaseUri()) && !l.isSignatureMessageUri() && l.isNotified() == loa.isNotified()) {
+          return l;
+        }
+      }
+      return null;
+    }
 
     /**
      * Enum constructor.
@@ -177,7 +193,7 @@ public class LevelofAssuranceAuthenticationContextURI {
      *          tells whether the identifier is an URI for a notified eID scheme
      */
     LoaEnum(int level, String uri, boolean sigMessage, boolean notified) {
-      this(level, uri, sigMessage, notified, null);
+      this(level, uri, sigMessage, notified, uri);
     }
 
     /**

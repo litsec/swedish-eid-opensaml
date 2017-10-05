@@ -198,8 +198,8 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
       return this.buildEncrypted(keyEncryptionCredential);
     }
     catch (ResolverException e) {
-      String msg = String.format("Failed to find encryption key for IdP '%s' - %s", idp, e.getMessage(), e);
-      logger.warn(msg);
+      String msg = String.format("Failed to find encryption key for IdP '%s' - %s", idp, e.getMessage());
+      logger.warn(msg, e);
       throw new EncryptionException(msg);
     }
   }

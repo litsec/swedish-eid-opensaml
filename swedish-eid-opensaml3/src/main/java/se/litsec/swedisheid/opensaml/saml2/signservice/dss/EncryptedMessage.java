@@ -32,10 +32,10 @@ import org.opensaml.saml.saml2.core.EncryptedElementType;
 public interface EncryptedMessage extends EncryptedElementType {
   
   /** Element local name. */
-  public static final String DEFAULT_ELEMENT_LOCAL_NAME = "EncryptedMessage";
+  String DEFAULT_ELEMENT_LOCAL_NAME = "EncryptedMessage";
 
   /** Default element name. */
-  public static final QName DEFAULT_ELEMENT_NAME = new QName(DssExtensionsConstants.SWEID_DSS_EXT_NS,
+  QName DEFAULT_ELEMENT_NAME = new QName(DssExtensionsConstants.SWEID_DSS_EXT_NS,
     DEFAULT_ELEMENT_LOCAL_NAME, DssExtensionsConstants.SWEID_DSS_EXT_PREFIX);
 
 }

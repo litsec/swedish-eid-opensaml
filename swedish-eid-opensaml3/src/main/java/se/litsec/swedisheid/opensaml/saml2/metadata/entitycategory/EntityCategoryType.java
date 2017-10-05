@@ -41,5 +41,5 @@ public enum EntityCategoryType {
   /**
    * Declares the type of service provided by a consuming service.
    */
-  SERVICE_TYPE;
+  SERVICE_TYPE
 }

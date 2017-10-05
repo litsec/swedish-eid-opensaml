@@ -46,7 +46,7 @@ public enum SignMessageMimeTypeEnum {
     return null;
   }
   
-  private SignMessageMimeTypeEnum(String mimeType) {
+  SignMessageMimeTypeEnum(String mimeType) {
     this.mimeType = mimeType;
   }
   

@@ -22,6 +22,7 @@ package se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
@@ -48,20 +49,17 @@ public class ServiceEntityCategoryUtils {
   public static List<String> getLoAIdentifiersFromEntityCategories(EntityDescriptor ed,
       EntityCategoryRegistry entityCategoryRegistry) {
         
-    Comparator<ServiceEntityCategory> sorter = new Comparator<ServiceEntityCategory>() {
-      @Override
-      public int compare(ServiceEntityCategory o1, ServiceEntityCategory o2) {
-        LevelofAssuranceAuthenticationContextURI.LoaEnum l1 = LevelofAssuranceAuthenticationContextURI.LoaEnum.parse(o1.getLevelOfAssurance());
-        LevelofAssuranceAuthenticationContextURI.LoaEnum l2 = LevelofAssuranceAuthenticationContextURI.LoaEnum.parse(o2.getLevelOfAssurance());
-        
-        return l1.getLevel() < l2.getLevel() ? -1 : (l1.getLevel() > l2.getLevel() ? 1 : 0);
-      }
+    Comparator<ServiceEntityCategory> sorter = (o1, o2) -> {
+      LevelofAssuranceAuthenticationContextURI.LoaEnum l1 = LevelofAssuranceAuthenticationContextURI.LoaEnum.parse(o1.getLevelOfAssurance());
+      LevelofAssuranceAuthenticationContextURI.LoaEnum l2 = LevelofAssuranceAuthenticationContextURI.LoaEnum.parse(o2.getLevelOfAssurance());
+
+      return l1.getLevel() < l2.getLevel() ? -1 : (l1.getLevel() > l2.getLevel() ? 1 : 0);
     };
     
     return EntityCategoryMetadataHelper.getEntityCategories(ed).stream()
-      .map(e -> entityCategoryRegistry.getEntityCategory(e))
-      .filter(e -> e.isPresent())
-      .map(e -> e.get())
+      .map(entityCategoryRegistry::getEntityCategory)
+      .filter(Optional::isPresent)
+      .map(Optional::get)
       .filter(e -> EntityCategoryType.SERVICE_ENTITY.equals(e.getType()))
       .map(ServiceEntityCategory.class::cast)
       .sorted(sorter)

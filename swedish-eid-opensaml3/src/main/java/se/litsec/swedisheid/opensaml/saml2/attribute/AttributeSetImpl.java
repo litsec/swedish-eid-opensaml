@@ -121,7 +121,7 @@ public class AttributeSetImpl implements AttributeSet {
       for (RequestedAttribute ra : explicitlyRequestedAttributes) {
         Optional<Attribute> found = attributes.stream().filter(a -> ra.getName().equals(a.getName())).findFirst();
         if (!found.isPresent()) {
-          if (ra.isRequired() != null && ra.isRequired().booleanValue()) {
+          if (ra.isRequired() != null && ra.isRequired()) {
             String msg = String.format(
               "Attribute '%s' (%s) is listed a RequestedAttribute with isRequired=true in SP metadata, but does not appear in assertion '%s'",
               ra.getName(), ra.getFriendlyName(), assertion.getID());

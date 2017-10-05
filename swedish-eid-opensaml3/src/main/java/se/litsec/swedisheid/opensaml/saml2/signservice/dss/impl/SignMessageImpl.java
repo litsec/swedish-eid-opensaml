@@ -76,7 +76,7 @@ public class SignMessageImpl extends AbstractSAMLObject implements SignMessage {
 
   @Override
   public List<XMLObject> getOrderedChildren() {
-    ArrayList<XMLObject> children = new ArrayList<XMLObject>();
+    ArrayList<XMLObject> children = new ArrayList<>();
 
     if (this.message != null) {
       children.add(this.message);

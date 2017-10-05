@@ -90,23 +90,23 @@ import org.opensaml.saml.common.SAMLObject;
 public interface SignMessage extends SAMLObject, AttributeExtensibleXMLObject {
 
   /** Name of the element. */
-  public static final String DEFAULT_ELEMENT_LOCAL_NAME = "SignMessage";
+  String DEFAULT_ELEMENT_LOCAL_NAME = "SignMessage";
 
   /** Default element name. */
-  public static final QName DEFAULT_ELEMENT_NAME = new QName(DssExtensionsConstants.SWEID_DSS_EXT_NS, DEFAULT_ELEMENT_LOCAL_NAME,
+  QName DEFAULT_ELEMENT_NAME = new QName(DssExtensionsConstants.SWEID_DSS_EXT_NS, DEFAULT_ELEMENT_LOCAL_NAME,
     DssExtensionsConstants.SWEID_DSS_EXT_PREFIX);
 
   /** Local name of the type */
-  public final static String TYPE_LOCAL_NAME = "SignMessageType";
+  String TYPE_LOCAL_NAME = "SignMessageType";
 
   /** Attribute label for the MustShow attribute. */
-  public static final String MUST_SHOW_ATTR_NAME = "MustShow";
+  String MUST_SHOW_ATTR_NAME = "MustShow";
 
   /** Attribute label for the DisplayEntity attribute. */
-  public static final String DISPLAY_ENTITY_ATTR_NAME = "DisplayEntity";
+  String DISPLAY_ENTITY_ATTR_NAME = "DisplayEntity";
 
   /** Attribute label for the MimeType attribute. */
-  public static final String MIME_TYPE_ATTR_NAME = "MimeType";
+  String MIME_TYPE_ATTR_NAME = "MimeType";
 
   /**
    * Returns the value of the {@code MustShow} attribute.

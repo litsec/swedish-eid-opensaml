@@ -80,7 +80,7 @@ public class AttributeSetConstants {
   /**
    * Organizational Identity for Natural Persons - The “Organizational Identity for Natural Persons” attribute set
    * provides basic organizational identity information about a person. The organizational identity does not necessarily
-   * imply that the subject has any particular rela-tionship with or standing within the organization, but rather that
+   * imply that the subject has any particular relationship with or standing within the organization, but rather that
    * this identity has been issued/provided by that organization for any particular reason (employee, customer,
    * consultant, etc.).
    * <p>

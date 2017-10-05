@@ -71,7 +71,7 @@ public class EntityCategoryMetadataHelper {
       return null;
     }
     AttributeBuilder builder = AttributeBuilder.builder(ENTITY_CATEGORY_ATTRIBUTE_NAME).nameFormat(Attribute.URI_REFERENCE);
-    categories.stream().forEach(c -> builder.value(c));
+    categories.stream().forEach(builder::value);
     return builder.build();
   }
 
@@ -91,7 +91,7 @@ public class EntityCategoryMetadataHelper {
     List<Attribute> attrs = entityAttributes.get().getAttributes().stream()
         .filter(a -> a.getName().equals(ENTITY_CATEGORY_ATTRIBUTE_NAME))
         .collect(Collectors.toList());
-    List<String> categories = new ArrayList<String>();
+    List<String> categories = new ArrayList<>();
     for (Attribute attr : attrs) {
       categories.addAll(AttributeUtils.getAttributeStringValues(attr));
     }

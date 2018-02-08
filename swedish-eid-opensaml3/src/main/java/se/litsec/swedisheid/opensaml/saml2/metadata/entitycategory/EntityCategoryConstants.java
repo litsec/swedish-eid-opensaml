@@ -48,6 +48,27 @@ public class EntityCategoryConstants {
   public static final ServiceEntityCategory SERVICE_ENTITY_CATEGORY_LOA4_PNR = new ServiceEntityCategoryImpl(
     "http://id.elegnamnden.se/ec/1.0/loa4-pnr", LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA4,
     AttributeSetConstants.ATTRIBUTE_SET_NATURAL_PERSON_WITH_PERSONAL_ID);
+  
+  /**
+   * Service entity category: User authentication according to any of the eIDAS assurance levels and attribute release 
+   * according to “eIDAS Natural Person Attribute Set” (ELN-AP-eIDAS-NatPer-01).
+   */
+  public static final ServiceEntityCategory SERVICE_ENTITY_CATEGORY_EIDAS_NATURAL_PERSON = new ServiceEntityCategoryImpl(
+    "http://id.elegnamnden.se/ec/1.0/eidas-naturalperson", null,
+    AttributeSetConstants.ATTRIBUTE_SET_EIDAS_NATURAL_PERSON);
+  
+  /**
+   * Service entity category: For asserting a Swedish identity to a foreign service provider via the Swedish eIDAS Proxy 
+   * Service. This entity category MUST NOT be set by any entity other than Identity Provider providing identity assertions
+   * to the Swedish eIDAS Proxy Service and by the Swedish eIDAS Proxy Service itself.
+   * 
+   * Note that the Identity Providers release attributes according to the "Natural Personal Identity with Civic Registration
+   * Number" attribute set. It is the responsibility of the Swedish eIDAS Proxy Service to transform these attributes into 
+   * eIDAS attributes.
+   */
+  public static final ServiceEntityCategory SERVICE_ENTITY_CATEGORY_EIDAS_PNR_DELIVERY = new ServiceEntityCategoryImpl(
+    "http://id.elegnamnden.se/ec/1.0/eidas-pnr-delivery", null,
+    AttributeSetConstants.ATTRIBUTE_SET_NATURAL_PERSON_WITH_PERSONAL_ID);  
 
   /**
    * Service property category: For a providing service, i.e. an Identity Provider, inclusion of the mobile-auth
@@ -59,6 +80,22 @@ public class EntityCategoryConstants {
    */
   public static final EntityCategory SERVICE_PROPERTY_CATEGORY_MOBILE_AUTH = new EntityCategoryImpl(
     "http://id.elegnamnden.se/sprop/1.0/mobile-auth", EntityCategoryType.SERVICE_PROPERTY);
+  
+  /**
+   * Service property category: A service property declaring that the service is adapted to support Sole Control 
+   * Assurance Level 2 (SCAL2) in accordance with the "Signature Activation Protocol for Federated Signing"
+   * specification.
+   * 
+   * For a providing service, i.e. an Identity Provider, inclusion of the scal2 service property states that the 
+   * Identity Provider will return a "SAD" in response to a {@code SADRequest} in an authentication requests from 
+   * a signing service.
+   * 
+   * For consuming services, Signature Services MAY include this service property if all authentication requests 
+   * from the particular Signature Service include a {@code SADRequest} extension. A Service Provider that is not 
+   * declared as a Signature Service MUST NOT include this service property in its metadata.
+   */
+  public static final EntityCategory SERVICE_PROPERTY_CATEGORY_SCAL2 = new EntityCategoryImpl(
+    "http://id.elegnamnden.se/sprop/1.0/scal2", EntityCategoryType.SERVICE_PROPERTY);
 
   /**
    * Service type category: A service type for a Service Provider that provides electronic signature services within the
@@ -66,6 +103,22 @@ public class EntityCategoryConstants {
    */
   public static final EntityCategory SERVICE_TYPE_CATEGORY_SIGSERVICE = new EntityCategoryImpl(
     "http://id.elegnamnden.se/st/1.0/sigservice", EntityCategoryType.SERVICE_TYPE);
+  
+  /**
+   * Service type category: A service type that indicates that an Service Provider is a "public sector" SP. This category 
+   * MUST be used by public sector Service Providers wishing to use eIDAS authentication so that the Swedish eIDAS connector 
+   * may include this information in the eIDAS authentication request.
+   */
+  public static final EntityCategory SERVICE_TYPE_CATEGORY_PUBLIC_SECTOR_SP = new EntityCategoryImpl(
+    "http://id.elegnamnden.se/st/1.0/public-sector-sp", EntityCategoryType.SERVICE_TYPE);
+  
+  /**
+   * Service type category: A service type that indicates that an Service Provider is a "private sector" SP. This category 
+   * MUST be used by public sector Service Providers wishing to use eIDAS authentication so that the Swedish eIDAS connector 
+   * may include this information in the eIDAS authentication request.
+   */
+  public static final EntityCategory SERVICE_TYPE_CATEGORY_PRIVATE_SECTOR_SP = new EntityCategoryImpl(
+    "http://id.elegnamnden.se/st/1.0/private-sector-sp", EntityCategoryType.SERVICE_TYPE);  
 
   /*
    * Hidden.

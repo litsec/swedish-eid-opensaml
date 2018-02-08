@@ -32,7 +32,8 @@ public interface ServiceEntityCategory extends EntityCategory {
    * Service Entity Category MUST be able to provide this level of assurance.
    * </p>
    * 
-   * @return the URI representing the Level of Assurance
+   * @return the URI representing the Level of Assurance, or {@code null} if no level of assurance is associated with
+   *         the category
    */
   String getLevelOfAssurance();
 

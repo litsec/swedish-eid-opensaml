@@ -113,12 +113,12 @@ public class AttributeSetConstants {
         AttributeConstants.ATTRIBUTE_TEMPLATE_DATE_OF_BIRTH,
         AttributeConstants.ATTRIBUTE_TEMPLATE_SN,
         AttributeConstants.ATTRIBUTE_TEMPLATE_GIVEN_NAME,
-        AttributeConstants.ATTRIBUTE_TEMPLATE_TRANSACTION_IDENTIFIER,
+        AttributeConstants.ATTRIBUTE_TEMPLATE_TRANSACTION_IDENTIFIER },
+    new AttributeTemplate[] {
         AttributeConstants.ATTRIBUTE_TEMPLATE_BIRTH_NAME,
         AttributeConstants.ATTRIBUTE_TEMPLATE_PLACE_OF_BIRTH,
         AttributeConstants.ATTRIBUTE_TEMPLATE_EIDAS_NATURAL_PERSON_ADDRESS,
-        AttributeConstants.ATTRIBUTE_TEMPLATE_GENDER },
-    new AttributeTemplate[] {
+        AttributeConstants.ATTRIBUTE_TEMPLATE_GENDER,        
         AttributeConstants.ATTRIBUTE_TEMPLATE_PERSONAL_IDENTITY_NUMBER,
         AttributeConstants.ATTRIBUTE_TEMPLATE_PERSONAL_IDENTITY_NUMBER_BINDING
     });

@@ -1,22 +1,17 @@
 /*
- * The swedish-eid-opensaml project is an open-source package that extends OpenSAML
- * with functions for the Swedish eID Framework.
+ * Copyright 2016-2018 Litsec AB
  *
- * More details on <https://github.com/litsec/swedish-eid-opensaml> 
- * Copyright (C) 2016 Litsec AB
- * 
- * This program is free software: you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation, either version 3 of the License, or 
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License 
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package se.litsec.swedisheid.opensaml.saml2.signservice.dss;
 
@@ -26,17 +21,38 @@ package se.litsec.swedisheid.opensaml.saml2.signservice.dss;
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
 public enum SignMessageMimeTypeEnum {
-  
+
+  /**
+   * Represents HTML sign message format.
+   */
   TEXT_HTML("text/html"),
-  
+
+  /**
+   * Represents a sign message in text format.
+   */
   TEXT("text"),
-  
+
+  /**
+   * Represents markdown sign message format.
+   */
   TEXT_MARKDOWN("text/markdown");
-  
+
+  /**
+   * Returns the string representation of the MIME type.
+   * 
+   * @return the MIME type
+   */
   public String getMimeType() {
     return this.mimeType;
   }
-  
+
+  /**
+   * Parses the supplied MIME type into its corresponding enum value.
+   * 
+   * @param mimeType
+   *          the MIME type in string representation
+   * @return the enum value, or {@code null} if no match is found
+   */
   public static SignMessageMimeTypeEnum parse(String mimeType) {
     for (SignMessageMimeTypeEnum e : SignMessageMimeTypeEnum.values()) {
       if (e.getMimeType().equals(mimeType)) {
@@ -45,11 +61,18 @@ public enum SignMessageMimeTypeEnum {
     }
     return null;
   }
-  
+
+  /**
+   * Constructor.
+   * 
+   * @param mimeType
+   *          the MIME type
+   */
   SignMessageMimeTypeEnum(String mimeType) {
     this.mimeType = mimeType;
   }
-  
+
+  /** The MIME type. */
   private String mimeType;
 
 }

@@ -3,6 +3,9 @@
 ------
 
 # swedish-eid-opensaml
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/se.litsec.opensaml.sweid/swedish-eid-opensaml3/badge.svg)](https://maven-badges.herokuapp.com/maven-central/se.litsec.opensaml.sweid/swedish-eid-opensaml3)
+
 OpenSAML extensions for the Swedish eID Framework
 
 This open source package is an extension to OpenSAML 3.X that offers interfaces and classes for the Swedish eID Framework, see https://github.com/elegnamnden/technical-framework.

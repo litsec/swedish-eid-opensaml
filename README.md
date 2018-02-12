@@ -22,6 +22,10 @@ The library contains support for the following functionality:
 
 * Validation support for validating SAML responses according to the [Deployment Profile for the Swedish eID Framework](http://elegnamnden.github.io/technical-framework/latest/ELN-0602_-_Deployment_Profile_for_the_Swedish_eID_Framework.html) specification.
 
+Java API documentation of the swedish-eid-opensaml library is found at [https://litsec.github.io/swedish-eid-opensaml](https://litsec.github.io/swedish-eid-opensaml/).
+
+Generated project information is found at [https://litsec.github.io/swedish-eid-opensaml/site](https://litsec.github.io/swedish-eid-opensaml/site).
+
 ------
 
 Copyright &copy; 2016-2018, [Litsec AB](http://www.litsec.se). Licensed under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).

@@ -43,7 +43,7 @@
     <!-- Versions on dependencies -->
     <opensaml.version>3.3.0</opensaml.version>
     <shibboleth.java-support.version>7.3.0</shibboleth.java-support.version>
-    <opensaml-ext.version>0.9.3</opensaml-ext.version>
+    <opensaml-ext.version>0.9.4</opensaml-ext.version>
     <spring.version>4.3.2.RELEASE</spring.version>
 
     <slf4j.version>1.7.12</slf4j.version>
@@ -80,6 +80,12 @@
       <version>${opensaml.version}</version>
       <type>jar</type>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -186,7 +192,7 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2.16</version>
+      <version>1.2.17</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -242,6 +248,12 @@
           </filesets>
         </configuration>
       </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>      
+      </plugin>      
 
     </plugins>
 
@@ -346,6 +358,7 @@
                 <link>http://www.atetric.com/atetric/javadoc/org.opensaml/opensaml-storage-impl/${opensaml.version}/</link>
                 <link>http://www.atetric.com/atetric/javadoc/org.opensaml/opensaml-xmlsec-api/${opensaml.version}/</link>
                 <link>http://www.atetric.com/atetric/javadoc/org.opensaml/opensaml-xmlsec-impl/${opensaml.version}/</link>
+                <link>https://litsec.github.io/opensaml-ext/javadoc/opensaml3/${opensaml-ext.version}/</link>
               </links>
               <detectJavaApiLink>true</detectJavaApiLink>
             </configuration>

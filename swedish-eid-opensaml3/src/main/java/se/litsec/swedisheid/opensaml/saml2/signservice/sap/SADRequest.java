@@ -39,7 +39,7 @@ import org.opensaml.saml.common.SAMLObject;
  * signing service and an Identity Provider.</dd>
  * </dl>
  * 
- * The following schema fragment defines the <sap:SADRequest> element:
+ * The following schema fragment defines the {@code <sap:SADRequest>} element:
  * 
  * <pre>
  * {@code 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XMLTooling xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:csig="http://id.elegnamnden.se/csig/1.1/dss-ext/ns" 
+  xmlns:sap="http://id.elegnamnden.se/csig/1.1/sap/ns"
   xmlns="http://www.opensaml.org/xmltooling-config"
   xsi:schemaLocation="http://www.opensaml.org/xmltooling-config ../../src/schema/xmltooling-config.xsd">
 
@@ -26,7 +27,49 @@
       <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl.EncryptedMessageBuilder" />
       <MarshallingClass className="org.opensaml.saml.saml2.core.impl.EncryptedElementTypeMarshaller" />
       <UnmarshallingClass className="org.opensaml.saml.saml2.core.impl.EncryptedElementTypeUnmarshaller" />
-    </ObjectProvider>        
+    </ObjectProvider>
+    
+    <!-- sap:SADRequest -->
+    <ObjectProvider qualifiedName="sap:SADRequest">
+      <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.SADRequestBuilder" />
+      <MarshallingClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.SADRequestMarshaller" />
+      <UnmarshallingClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.SADRequestUnmarshaller" />
+    </ObjectProvider>
+    
+    <!-- sap:SignRequestID -->
+    <ObjectProvider qualifiedName="sap:SignRequestID">
+      <BuilderClass className="org.opensaml.core.xml.schema.impl.XSStringBuilder" />
+      <MarshallingClass className="org.opensaml.core.xml.schema.impl.XSStringMarshaller" />
+      <UnmarshallingClass className="org.opensaml.core.xml.schema.impl.XSStringUnmarshaller" />
+    </ObjectProvider>
+    
+    <!-- sap:DocCount -->
+    <ObjectProvider qualifiedName="sap:DocCount">
+      <BuilderClass className="org.opensaml.core.xml.schema.impl.XSIntegerBuilder" />
+      <MarshallingClass className="org.opensaml.core.xml.schema.impl.XSIntegerMarshaller" />
+      <UnmarshallingClass className="org.opensaml.core.xml.schema.impl.XSIntegerUnmarshaller" />
+    </ObjectProvider>
+    
+    <!-- sap:RequestedVersion -->
+    <ObjectProvider qualifiedName="sap:RequestedVersion">
+      <BuilderClass className="org.opensaml.core.xml.schema.impl.XSStringBuilder" />
+      <MarshallingClass className="org.opensaml.core.xml.schema.impl.XSStringMarshaller" />
+      <UnmarshallingClass className="org.opensaml.core.xml.schema.impl.XSStringUnmarshaller" />
+    </ObjectProvider>
+    
+    <!-- sap:Parameter -->
+    <ObjectProvider qualifiedName="sap:Parameter">
+      <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.ParameterBuilder" />
+      <MarshallingClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.ParameterMarshaller" />
+      <UnmarshallingClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.ParameterUnmarshaller" />
+    </ObjectProvider>
+    
+    <!-- sap:RequestParams -->
+    <ObjectProvider qualifiedName="sap:RequestParams">
+      <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.RequestParamsBuilder" />
+      <MarshallingClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.RequestParamsMarshaller" />
+      <UnmarshallingClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.RequestParamsUnmarshaller" />
+    </ObjectProvider>
 
   </ObjectProviders>
 

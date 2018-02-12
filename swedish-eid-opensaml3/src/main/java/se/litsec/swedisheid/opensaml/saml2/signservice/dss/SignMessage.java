@@ -77,7 +77,7 @@ import org.opensaml.saml.common.SAMLObject;
  * <xs:element name="EncryptedMessage" type="saml:EncryptedElementType"/>}
  * </pre>
  * <p>
- * See "DSS Extension for Federated Central Signing Services - Version 1.1".
+ * See "DSS Extension for Federated Central Signing Services".
  * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
@@ -93,6 +93,9 @@ public interface SignMessage extends SAMLObject, AttributeExtensibleXMLObject {
 
   /** Local name of the type */
   String TYPE_LOCAL_NAME = "SignMessageType";
+  
+  /** QName of the XSI type. */
+  QName TYPE_NAME = new QName(DssExtensionsConstants.SWEID_DSS_EXT_NS, TYPE_LOCAL_NAME, DssExtensionsConstants.SWEID_DSS_EXT_PREFIX);
 
   /** Attribute label for the MustShow attribute. */
   String MUST_SHOW_ATTR_NAME = "MustShow";

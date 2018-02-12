@@ -44,7 +44,6 @@
     <opensaml.version>3.3.0</opensaml.version>
     <shibboleth.java-support.version>7.3.0</shibboleth.java-support.version>
     <opensaml-ext.version>0.9.3</opensaml-ext.version>
-
     <spring.version>4.3.2.RELEASE</spring.version>
 
     <slf4j.version>1.7.12</slf4j.version>

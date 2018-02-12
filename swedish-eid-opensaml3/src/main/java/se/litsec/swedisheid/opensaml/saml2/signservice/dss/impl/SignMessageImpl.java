@@ -1,22 +1,17 @@
 /*
- * The swedish-eid-opensaml project is an open-source package that extends OpenSAML
- * with functions for the Swedish eID Framework.
+ * Copyright 2016-2018 Litsec AB
  *
- * More details on <https://github.com/litsec/swedish-eid-opensaml> 
- * Copyright (C) 2016 Litsec AB
- * 
- * This program is free software: you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation, either version 3 of the License, or 
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License 
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl;
 
@@ -74,6 +69,7 @@ public class SignMessageImpl extends AbstractSAMLObject implements SignMessage {
     this.unknownAttributes = new AttributeMap(this);
   }
 
+  /** {@inheritDoc} */
   @Override
   public List<XMLObject> getOrderedChildren() {
     ArrayList<XMLObject> children = new ArrayList<>();
@@ -90,6 +86,7 @@ public class SignMessageImpl extends AbstractSAMLObject implements SignMessage {
     return Collections.unmodifiableList(children);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Boolean isMustShow() {
     if (this.mustShow != null) {
@@ -98,11 +95,13 @@ public class SignMessageImpl extends AbstractSAMLObject implements SignMessage {
     return Boolean.FALSE;
   }
 
+  /** {@inheritDoc} */
   @Override
   public XSBooleanValue isMustShowXSBoolean() {
     return this.mustShow;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setMustShow(Boolean mustShow) {
     if (mustShow != null) {
@@ -113,36 +112,43 @@ public class SignMessageImpl extends AbstractSAMLObject implements SignMessage {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setMustShow(XSBooleanValue mustShow) {
     this.mustShow = prepareForAssignment(this.mustShow, mustShow);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getDisplayEntity() {
     return this.displayEntity;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setDisplayEntity(String displayEntity) {
     this.displayEntity = this.prepareForAssignment(this.displayEntity, displayEntity);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getMimeType() {
     return this.mimeType;
   }
 
+  /** {@inheritDoc} */
   @Override
   public SignMessageMimeTypeEnum getMimeTypeEnum() {
     return SignMessageMimeTypeEnum.parse(this.mimeType);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setMimeType(String mimeType) {
     this.mimeType = this.prepareForAssignment(this.mimeType, mimeType);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setMimeType(SignMessageMimeTypeEnum mimeType) {
     if (mimeType != null) {
@@ -150,26 +156,31 @@ public class SignMessageImpl extends AbstractSAMLObject implements SignMessage {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public Message getMessage() {
     return this.message;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setMessage(Message message) {
     this.message = this.prepareForAssignment(this.message, message);
   }
 
+  /** {@inheritDoc} */
   @Override
   public EncryptedMessage getEncryptedMessage() {
     return this.encryptedMessage;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setEncryptedMessage(EncryptedMessage encryptedMessage) {
     this.encryptedMessage = this.prepareForAssignment(this.encryptedMessage, encryptedMessage);
   }
 
+  /** {@inheritDoc} */
   @Override
   public AttributeMap getUnknownAttributes() {
     return this.unknownAttributes;

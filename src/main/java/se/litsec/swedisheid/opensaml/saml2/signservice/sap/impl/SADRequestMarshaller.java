@@ -15,7 +15,10 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl;
 
+import org.opensaml.core.xml.XMLObject;
+import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.saml.common.AbstractSAMLObjectMarshaller;
+import org.w3c.dom.Element;
 
 import se.litsec.swedisheid.opensaml.saml2.signservice.sap.SADRequest;
 
@@ -25,4 +28,15 @@ import se.litsec.swedisheid.opensaml.saml2.signservice.sap.SADRequest;
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
 public class SADRequestMarshaller extends AbstractSAMLObjectMarshaller {
+
+  /** {@inheritDoc} */
+  protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
+    SADRequest sadRequest = (SADRequest) samlObject;
+
+    if (sadRequest.getID() != null) {
+      domElement.setAttributeNS(null, SADRequest.ID_ATTRIB_NAME, sadRequest.getID());
+      domElement.setIdAttributeNS(null, SADRequest.ID_ATTRIB_NAME, true);
+    }
+  }
+  
 }

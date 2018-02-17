@@ -34,7 +34,7 @@ public class ParameterUnmarshaller extends XSStringUnmarshaller {
     
     Parameter p = (Parameter) xmlObject;
     
-    if (Parameter.NAME_ATTR_NAME.equals(attribute.getLocalName())) {
+    if (Parameter.NAME_ATTR_NAME.equalsIgnoreCase(attribute.getLocalName())) {
       p.setName(attribute.getValue());
     }
   }

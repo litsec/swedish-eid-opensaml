@@ -96,7 +96,7 @@ public class SADParser {
    *          certificate(s) to be used when verifying the JWT signature
    * @return a {@code SADValidator} instance
    */
-  public SADValidator getValidator(X509Certificate... validationCertificates) {
+  public static SADValidator getValidator(X509Certificate... validationCertificates) {
     return new SADValidator(validationCertificates);
   }
 
@@ -108,7 +108,7 @@ public class SADParser {
    *          metadata provider
    * @return a {@code SADValidator} instance
    */
-  public SADValidator getValidator(MetadataProvider metadataProvider) {
+  public static SADValidator getValidator(MetadataProvider metadataProvider) {
     return new SADValidator(metadataProvider);
   }
 
@@ -120,7 +120,7 @@ public class SADParser {
    *          the IdP metadata
    * @return a {@code SADValidator} instance
    */
-  public SADValidator getValidator(EntityDescriptor idpMetadata) {
+  public static SADValidator getValidator(EntityDescriptor idpMetadata) {
     return new SADValidator(idpMetadata);
   }
 
@@ -470,7 +470,7 @@ public class SADParser {
         String msg = String.format("SAD indicated '%s' number of documents - expected '%d'", sad.getSeElnSadext().getNumberOfDocuments(),
           expectedNoDocs);
         logger.info(msg);
-        throw new SADValidationException(ErrorCode.VALIDATION_BAD_LOA, msg);
+        throw new SADValidationException(ErrorCode.VALIDATION_BAD_DOCS, msg);
       }
 
       // Assert that the given SignRequest ID corresponds with the SAD reqid.

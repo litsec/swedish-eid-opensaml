@@ -19,8 +19,6 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeConstants;
 import se.litsec.swedisheid.opensaml.saml2.authentication.LevelofAssuranceAuthenticationContextURI;
 
@@ -62,16 +60,11 @@ public class SADTest {
     DateTime exp = sad.getExpiryDateTime();
     Assert.assertEquals(sad.getExpiry().intValue(), (int) (exp.getMillis() / 1000));
     
-    System.out.println(exp);
-
     String json = sad.toJson();
 
     SAD sad2 = SAD.fromJson(json);
 
     Assert.assertEquals(sad, sad2);
-
-    json = (new ObjectMapper()).writerWithDefaultPrettyPrinter().writeValueAsString(sad);
-    System.out.println(json);
 
     SAD sad3 = SAD.fromJson(json);
 

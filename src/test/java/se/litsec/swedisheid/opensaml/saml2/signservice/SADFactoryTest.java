@@ -25,7 +25,6 @@ import org.junit.Test;
 import org.opensaml.security.x509.impl.KeyStoreX509CredentialAdapter;
 import org.springframework.core.io.ClassPathResource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.factories.DefaultJWSVerifierFactory;
 import com.nimbusds.jose.proc.JWSVerifierFactory;
@@ -60,18 +59,10 @@ public class SADFactoryTest {
         .requestID("f6e7d061a23293b0053dc7b038a04dad")
         .numberOfDocuments(1)
         .buildSAD();
-    
-    sad.setExpiry(1516195657);
-    sad.setIssuedAt(1516195357);
-    sad.setJwtId("d4073fc74b1b9199");
-    
-    System.out.println((new ObjectMapper()).writerWithDefaultPrettyPrinter().writeValueAsString(sad));
-    
+        
     // Create the signed JWT
     //
     String jwt = factory.createJwt(sad);
-    
-    System.out.println(jwt);
     
     // Decode
     //

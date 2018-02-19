@@ -20,7 +20,7 @@ The library contains support for the following functionality:
 
 * Support for the `SignMessage` extension type, including utility classes for building sign message extensions and for decrypting sign messages. See the [DSS Extension for Federated Central Signing Services](http://elegnamnden.github.io/technical-framework/latest/ELN-0609_-_DSS_Extension_for_Federated_Signing_Services.html) specification.
 
-* Support for the `SADRequest` extension type as well as the SAD JWT. The SAD supports also includes a SAD factory for creating and signing a SAD JWT and a SAD parser with validation support. See the [Signature Activation Protocol for Federated Signing](http://elegnamnden.github.io/technical-framework/updates/ELN-0613_-_Signature_Activation_Protocol.html) specification.
+* Support for the `SADRequest` extension type as well as the SAD JWT. The SAD support also includes a SAD factory for creating and signing a SAD JWT and a SAD parser with validation support. See the [Signature Activation Protocol for Federated Signing](http://elegnamnden.github.io/technical-framework/updates/ELN-0613_-_Signature_Activation_Protocol.html) specification.
 
 * Validation support for validating SAML responses according to the [Deployment Profile for the Swedish eID Framework](http://elegnamnden.github.io/technical-framework/latest/ELN-0602_-_Deployment_Profile_for_the_Swedish_eID_Framework.html) specification.
 

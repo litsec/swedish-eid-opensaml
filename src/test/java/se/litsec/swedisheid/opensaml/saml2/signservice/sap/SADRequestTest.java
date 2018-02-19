@@ -41,6 +41,8 @@ public class SADRequestTest extends OpenSAMLTestBase {
   @Test
   public void testMarshallUnmarshall() throws Exception {
     SADRequest request = ObjectUtils.createSamlObject(SADRequest.class);
+    request.setID("_a74a068d0548a919e503e5f9ef901851");
+    request.setRequesterID("http://www.example.com/sigservice");
     request.setSignRequestID("123456");
     request.setDocCount(5);
     request.setRequestedVersion(SADVersion.VERSION_10);
@@ -59,9 +61,11 @@ public class SADRequestTest extends OpenSAMLTestBase {
     request.setRequestParams(rp);
 
     Element element = ObjectUtils.marshall(request);
-
+    
     SADRequest request2 = ObjectUtils.unmarshall(element, SADRequest.class);
 
+    Assert.assertEquals(request.getID(), request2.getID());
+    Assert.assertEquals(request.getRequesterID(), request2.getRequesterID());
     Assert.assertEquals(request.getSignRequestID(), request2.getSignRequestID());
     Assert.assertEquals(request.getDocCount(), request2.getDocCount());
     Assert.assertEquals(request.getRequestedVersion(), request2.getRequestedVersion());
@@ -76,7 +80,8 @@ public class SADRequestTest extends OpenSAMLTestBase {
   public void testUnmarshallOtherNs() throws Exception {
 
     String xml = 
-        "<xyz:SADRequest xmlns:xyz=\"http://id.elegnamnden.se/csig/1.1/sap/ns\">\n" +
+        "<xyz:SADRequest ID=\"_a74a068d0548a919e503e5f9ef901851\" xmlns:xyz=\"http://id.elegnamnden.se/csig/1.1/sap/ns\">\n" +
+        "  <xyz:RequesterID>http://www.example.com/sigservice</xyz:RequesterID>" +
         "  <xyz:SignRequestID>123456</xyz:SignRequestID>\n" +
         "  <xyz:DocCount>5</xyz:DocCount>\n" +
         "  <xyz:RequestedVersion>2.0</xyz:RequestedVersion>\n" +
@@ -88,6 +93,8 @@ public class SADRequestTest extends OpenSAMLTestBase {
 
     SADRequest request = ObjectUtils.unmarshall(new ByteArrayInputStream(xml.getBytes(Charset.forName("UTF-8"))), SADRequest.class);
     
+    Assert.assertEquals("_a74a068d0548a919e503e5f9ef901851", request.getID());
+    Assert.assertEquals("http://www.example.com/sigservice", request.getRequesterID());
     Assert.assertEquals("123456", request.getSignRequestID());
     Assert.assertEquals(new Integer(5), request.getDocCount());
     Assert.assertEquals(SADVersion.valueOf("2.0"), request.getRequestedVersion());

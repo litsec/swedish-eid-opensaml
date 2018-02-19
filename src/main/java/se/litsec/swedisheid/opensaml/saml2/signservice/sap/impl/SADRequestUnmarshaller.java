@@ -22,6 +22,7 @@ import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.schema.XSInteger;
 import org.opensaml.core.xml.schema.XSString;
 import org.opensaml.saml.common.AbstractSAMLObjectUnmarshaller;
+import org.w3c.dom.Attr;
 
 import se.litsec.swedisheid.opensaml.saml2.signservice.sap.RequestParams;
 import se.litsec.swedisheid.opensaml.saml2.signservice.sap.SADRequest;
@@ -40,17 +41,28 @@ public class SADRequestUnmarshaller extends AbstractSAMLObjectUnmarshaller {
       throws UnmarshallingException {
 
     SADRequest sadRequest = (SADRequest) parentSAMLObject;
-    
-    final QName signRequestIdQName = new QName(sadRequest.getElementQName().getNamespaceURI(), 
-      SADRequest.SIGN_REQUEST_ID_LOCAL_NAME, sadRequest.getElementQName().getPrefix());
-    
-    final QName docCountQName = new QName(sadRequest.getElementQName().getNamespaceURI(), 
-      SADRequest.DOC_COUNT_LOCAL_NAME, sadRequest.getElementQName().getPrefix());
-    
-    final QName requestedVersionQName = new QName(sadRequest.getElementQName().getNamespaceURI(), 
-      SADRequest.REQUESTED_VERSION_LOCAL_NAME, sadRequest.getElementQName().getPrefix());
+
+    final QName requesterIdQName = new QName(sadRequest.getElementQName().getNamespaceURI(),
+      SADRequest.REQUESTER_ID_LOCAL_NAME, sadRequest.getElementQName().getPrefix());
         
-    if ((childSAMLObject instanceof XSString) && signRequestIdQName.equals(childSAMLObject.getElementQName())) {
+    final QName signRequestIdQName = new QName(sadRequest.getElementQName().getNamespaceURI(),
+      SADRequest.SIGN_REQUEST_ID_LOCAL_NAME, sadRequest.getElementQName().getPrefix());
+
+    final QName docCountQName = new QName(sadRequest.getElementQName().getNamespaceURI(),
+      SADRequest.DOC_COUNT_LOCAL_NAME, sadRequest.getElementQName().getPrefix());
+
+    final QName requestedVersionQName = new QName(sadRequest.getElementQName().getNamespaceURI(),
+      SADRequest.REQUESTED_VERSION_LOCAL_NAME, sadRequest.getElementQName().getPrefix());
+
+    if ((childSAMLObject instanceof XSString) && requesterIdQName.equals(childSAMLObject.getElementQName())) {
+      if (sadRequest instanceof SADRequestImpl) {
+        ((SADRequestImpl) sadRequest).setRequesterID((XSString) childSAMLObject);
+      }
+      else {
+        sadRequest.setRequesterID(((XSString) childSAMLObject).getValue());
+      }
+    }
+    else if ((childSAMLObject instanceof XSString) && signRequestIdQName.equals(childSAMLObject.getElementQName())) {
       if (sadRequest instanceof SADRequestImpl) {
         ((SADRequestImpl) sadRequest).setSignRequestID((XSString) childSAMLObject);
       }
@@ -81,5 +93,18 @@ public class SADRequestUnmarshaller extends AbstractSAMLObjectUnmarshaller {
       super.processChildElement(parentSAMLObject, childSAMLObject);
     }
   }
-    
+
+  /** {@inheritDoc} */
+  protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    SADRequest sadRequest = (SADRequest) samlObject;
+
+    if (attribute.getLocalName().equals(SADRequest.ID_ATTRIB_NAME)) {
+      sadRequest.setID(attribute.getValue());
+      attribute.getOwnerElement().setIdAttributeNode(attribute, true);
+    }
+    else {
+      super.processAttribute(samlObject, attribute);
+    }
+  }
+
 }

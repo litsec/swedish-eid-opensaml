@@ -53,7 +53,7 @@ public interface Parameter extends XSString, SAMLObject {
   QName TYPE_NAME = new QName(SAPConstants.SAP_NS, TYPE_LOCAL_NAME, SAPConstants.SAP_NS_PREFIX);
 
   /** Attribute label for the Name attribute. */
-  String NAME_ATTR_NAME = "Name";
+  String NAME_ATTR_NAME = "name";
 
   /**
    * Returns the "Name" attribute.

@@ -57,6 +57,13 @@
       <UnmarshallingClass className="org.opensaml.core.xml.schema.impl.XSStringUnmarshaller" />
     </ObjectProvider>
     
+    <!-- sap:RequesterID -->
+    <ObjectProvider qualifiedName="sap:RequesterID">
+      <BuilderClass className="org.opensaml.core.xml.schema.impl.XSStringBuilder" />
+      <MarshallingClass className="org.opensaml.core.xml.schema.impl.XSStringMarshaller" />
+      <UnmarshallingClass className="org.opensaml.core.xml.schema.impl.XSStringUnmarshaller" />
+    </ObjectProvider>    
+    
     <!-- sap:Parameter -->
     <ObjectProvider qualifiedName="sap:Parameter">
       <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.ParameterBuilder" />

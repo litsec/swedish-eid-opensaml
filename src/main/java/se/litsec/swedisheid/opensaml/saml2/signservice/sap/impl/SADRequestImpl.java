@@ -36,6 +36,12 @@ import se.litsec.swedisheid.opensaml.saml2.signservice.sap.SADVersion;
  */
 public class SADRequestImpl extends AbstractSAMLObject implements SADRequest {
 
+  /** ID of the message. */
+  private String id;
+
+  /** The requester ID. */
+  private XSString requesterID;
+
   /** The signature request ID. */
   private XSString signRequestID;
 
@@ -44,7 +50,7 @@ public class SADRequestImpl extends AbstractSAMLObject implements SADRequest {
 
   /** The SAD version. */
   private XSString requestedVersion;
-  
+
   /** The {@code RequestParams} element. */
   private RequestParams requestParams;
 
@@ -66,6 +72,9 @@ public class SADRequestImpl extends AbstractSAMLObject implements SADRequest {
   @Override
   public List<XMLObject> getOrderedChildren() {
     ArrayList<XMLObject> children = new ArrayList<>();
+    if (this.requesterID != null) {
+      children.add(this.requesterID);
+    }
     if (this.signRequestID != null) {
       children.add(this.signRequestID);
     }
@@ -82,6 +91,48 @@ public class SADRequestImpl extends AbstractSAMLObject implements SADRequest {
       return null;
     }
     return children;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public String getID() {
+    return this.id;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void setID(String id) {
+    String oldID = this.id;
+    this.id = this.prepareForAssignment(this.id, id);
+    this.registerOwnID(oldID, this.id);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public String getRequesterID() {
+    return this.requesterID != null ? this.requesterID.getValue() : null;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void setRequesterID(String requesterID) {
+    XSString id = null;
+    if (requesterID != null) {
+      id = (new XSStringBuilder()).buildObject(this.getElementQName().getNamespaceURI(), REQUESTER_ID_LOCAL_NAME,
+        this.getElementQName().getPrefix());
+      id.setValue(requesterID);
+    }
+    this.setRequesterID(id);
+  }
+
+  /**
+   * Assigns the requester ID as a {@code XSString} string type.
+   * 
+   * @param requesterID
+   *          the requester ID
+   */
+  public void setRequesterID(XSString requesterID) {
+    this.requesterID = this.prepareForAssignment(this.requesterID, requesterID);
   }
 
   /** {@inheritDoc} */

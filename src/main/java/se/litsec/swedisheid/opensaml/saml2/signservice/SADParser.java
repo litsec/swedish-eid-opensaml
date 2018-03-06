@@ -298,7 +298,7 @@ public class SADParser {
 
     /**
      * Validates a SAD based on expected data. If the {@code AuthnRequest} and issued {@code Assertion} is available,
-     * the method {@link #validate(AuthnRequest, Assertion, String)} is a better option.
+     * the method {@link #validate(AuthnRequest, Assertion)} is a better option.
      * 
      * <p>
      * Note: It is assumed that the supplied {@code expectedSubject} parameter is a attribute value read from the

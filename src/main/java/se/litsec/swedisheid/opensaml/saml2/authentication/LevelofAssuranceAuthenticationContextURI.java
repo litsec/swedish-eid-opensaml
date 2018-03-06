@@ -53,10 +53,18 @@ public class LevelofAssuranceAuthenticationContextURI {
 
     /** eIDAS "low". */
     LOA_EIDAS_LOW(2, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW, false, false),
+    
+    /** eIDAS "low" - notified eID scheme. */
+    LOA_EIDAS_LOW_NOTIFIED(2, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW_NF, false, true,
+      LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW),
 
     /** eIDAS "low" - for use in signature services. */
     LOA_EIDAS_LOW_SIGMESSAGE(2, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW_SIGMESSAGE, true, false,
         LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW),
+    
+    /** eIDAS "substantial" - notified eID scheme for use in signature services. */
+    LOA_EIDAS_LOW_NOTIFIED_SIGMESSAGE(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW_NF_SIGMESSAGE,
+        true, true, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW),
 
     /** eIDAS "substantial". */
     LOA_EIDAS_SUBSTANTIAL(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL, false, false),
@@ -69,7 +77,7 @@ public class LevelofAssuranceAuthenticationContextURI {
     LOA_EIDAS_SUBSTANTIAL_SIGMESSAGE(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL_SIGMESSAGE, true, false,
         LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL),
 
-    /** eIDAS "substantial" - notified eID scheme for use in signature services.. */
+    /** eIDAS "substantial" - notified eID scheme for use in signature services. */
     LOA_EIDAS_SUBSTANTIAL_NOTIFIED_SIGMESSAGE(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL_NF_SIGMESSAGE,
         true, true, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL),
 
@@ -256,9 +264,18 @@ public class LevelofAssuranceAuthenticationContextURI {
 
   /** The Authentication Context URI for eIDAS "low". */
   public static final String AUTH_CONTEXT_URI_EIDAS_LOW = "http://id.elegnamnden.se/loa/1.0/eidas-low";
+  
+  /** The Authentication Context URI for eIDAS "low" for notified eID:s. */
+  public static final String AUTH_CONTEXT_URI_EIDAS_LOW_NF = "http://id.elegnamnden.se/loa/1.0/eidas-nf-low";  
 
   /** The Authentication Context URI for eIDAS "low" for use during "authentication for signature". */
   public static final String AUTH_CONTEXT_URI_EIDAS_LOW_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/eidas-low-sigm";
+  
+  /**
+   * The Authentication Context URI for eIDAS "low" of notified eID:s for use during "authentication for
+   * signature".
+   */
+  public static final String AUTH_CONTEXT_URI_EIDAS_LOW_NF_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/eidas-nf-low-sigm";  
 
   /** The Authentication Context URI for eIDAS "substantial". */
   public static final String AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL = "http://id.elegnamnden.se/loa/1.0/eidas-sub";

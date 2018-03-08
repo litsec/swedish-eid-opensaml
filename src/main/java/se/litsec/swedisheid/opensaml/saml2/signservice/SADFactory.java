@@ -289,10 +289,10 @@ public class SADFactory {
     }
 
     /**
-     * Assigns the ID of the SAML {@code AuthnRequest} message associated with this SAD.
+     * Assigns the ID of the {@code SADRequest} message that requested this SAD.
      * 
      * @param irt
-     *          ID of corresponding {@code AuthnRequest}
+     *          ID of corresponding {@code SADRequest}
      * @return the SAD builder
      */
     public SADBuilder inResponseTo(String irt) {

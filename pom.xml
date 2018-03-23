@@ -43,7 +43,7 @@
     <!-- Versions on dependencies -->
     <opensaml.version>3.3.0</opensaml.version>
     <shibboleth.java-support.version>7.3.0</shibboleth.java-support.version>
-    <opensaml-ext.version>0.9.4</opensaml-ext.version>
+    <opensaml-ext.version>0.9.5-SNAPSHOT</opensaml-ext.version>
     <spring.version>4.3.2.RELEASE</spring.version>
     <jackson.version>2.9.4</jackson.version>
     <nimbus.version>4.23</nimbus.version>

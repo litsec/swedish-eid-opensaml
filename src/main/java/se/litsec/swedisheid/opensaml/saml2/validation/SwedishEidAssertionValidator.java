@@ -73,7 +73,7 @@ public class SwedishEidAssertionValidator extends AssertionValidator {
    * <ul>
    * <li>confirmationValidators: {@link SwedishEidSubjectConfirmationValidator}</li>
    * <li>conditionValidators: {@link AudienceRestrictionConditionValidator}</li>
-   * <li>statementValidators: {@link SwedishEidAuthnStatementValidator}</li>
+   * <li>statementValidators: {@link SwedishEidAuthnStatementValidator}, {@link SwedishEidAttributeStatementValidator}.</li>
    * </ul>
    * 
    * @param trustEngine
@@ -82,8 +82,10 @@ public class SwedishEidAssertionValidator extends AssertionValidator {
    *          the signature pre-validator used to pre-validate the object's signature
    */
   public SwedishEidAssertionValidator(SignatureTrustEngine trustEngine, SignaturePrevalidator signaturePrevalidator) {
-    this(trustEngine, signaturePrevalidator, Arrays.asList(new SwedishEidSubjectConfirmationValidator()),
-      Arrays.asList(new AudienceRestrictionConditionValidator()), Arrays.asList(new SwedishEidAuthnStatementValidator()));
+    this(trustEngine, signaturePrevalidator, 
+      Arrays.asList(new SwedishEidSubjectConfirmationValidator()),
+      Arrays.asList(new AudienceRestrictionConditionValidator()), 
+      Arrays.asList(new SwedishEidAuthnStatementValidator(), new SwedishEidAttributeStatementValidator()));
   }
     
   /**

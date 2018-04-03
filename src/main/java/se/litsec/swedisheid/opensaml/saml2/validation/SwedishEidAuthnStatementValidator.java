@@ -37,13 +37,13 @@ import se.litsec.opensaml.saml2.common.assertion.AuthnStatementValidator;
  * 
  * <p>
  * Supports the following {@link ValidationContext} static parameters:
+ * </p>
  * <ul>
  * <li>The ones defined in {@link AuthnStatementValidator}.</li>
  * <li>{@link #AUTHN_REQUEST_REQUESTED_AUTHNCONTEXTURIS}: Holds a collection of AuthnContext URIs that are matched
  * against the {@code AuthnContextClassRef} element of the authentication statement. If not supplied, the values are
  * read from {@link CoreValidatorParameters#AUTHN_REQUEST}.</li>
  * </ul>
- * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */

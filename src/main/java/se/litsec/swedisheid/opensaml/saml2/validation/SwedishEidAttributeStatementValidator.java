@@ -37,16 +37,18 @@ import se.litsec.swedisheid.opensaml.saml2.attribute.AttributesValidationExcepti
  * 
  * <p>
  * Supports the following {@link ValidationContext} static parameters:
+ * </p>
  * <ul>
  * <li>{@link #REQUIRED_ATTRIBUTE_SET}: Optional. Holds a {@link AttributeSet} that tells which attributes we require to
  * find in the assertion.</li>
  * <li>{@link #REQUIRED_ATTRIBUTES}: Optional. Holds a collection of strings that are the attribute names that we
  * require to find in the assertion.</li>
  * </ul>
- * </p>
  * 
+ * <p>
  * Note that the two above parameters may be combined. If no parameter for requested attributes is passed, no validation
  * will be performed.
+ * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */

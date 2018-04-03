@@ -47,6 +47,7 @@ import se.litsec.opensaml.saml2.common.assertion.AssertionValidator;
  * <p>
  * Apart from the validation parameters documented for {@link AssertionValidator}, the following static parameters are
  * handled:
+ * </p>
  * 
  * <ul>
  * <li>
@@ -59,7 +60,6 @@ import se.litsec.opensaml.saml2.common.assertion.AssertionValidator;
  * {@link SAML2AssertionValidationParameters#COND_VALID_AUDIENCES}: Required. A set of valid audiences of the assertion.
  * </li>
  * </ul>
- * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */

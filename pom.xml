@@ -6,7 +6,7 @@
   <groupId>se.litsec.opensaml.sweid</groupId>
   <artifactId>swedish-eid-opensaml3</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.0-SNAPSHOT</version>
+  <version>1.2.0</version>
 
   <name>Swedish eID :: OpenSAML 3.X</name>
   <description>OpenSAML 3.X extension library for the Swedish eID Framework</description>
@@ -35,6 +35,11 @@
       <organizationUrl>http://www.litsec.se</organizationUrl>
     </developer>
   </developers>
+  
+  <organization>
+    <name>Litsec AB</name>
+    <url>http://www.litsec.se</url>
+  </organization>  
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,7 +48,7 @@
     <!-- Versions on dependencies -->
     <opensaml.version>3.4.0</opensaml.version>
     <shibboleth.java-support.version>7.4.0</shibboleth.java-support.version>
-    <opensaml-ext.version>1.2.0-SNAPSHOT</opensaml-ext.version>
+    <opensaml-ext.version>1.2.0</opensaml-ext.version>
     <spring.version>4.3.19.RELEASE</spring.version>    
     <jackson.version>2.9.7</jackson.version>
     
@@ -131,6 +136,12 @@
       <version>${opensaml.version}</version>
       <type>jar</type>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-codec</groupId>
+          <artifactId>commons-codec</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -420,7 +431,7 @@
                 <link>https://litsec.github.io/opensaml-ext/javadoc/ext/org/opensaml/opensaml-xmlsec-api/${opensaml.version}/</link>
                 <link>https://litsec.github.io/opensaml-ext/javadoc/ext/org/opensaml/opensaml-xmlsec-impl/${opensaml.version}/</link>
                 <link>https://litsec.github.io/opensaml-ext/javadoc/ext/net/shibboleth/utilities/java-support/${shibboleth.java-support.version}/</link>                
-                <link>https://litsec.github.io/opensaml-ext/javadoc/ext/net/shibboleth/ext/spring-extensions/5.3.0/</link>
+                <link>https://litsec.github.io/opensaml-ext/javadoc/ext/net/shibboleth/ext/spring-extensions/5.4.0/</link>
               </links>
               <detectJavaApiLink>true</detectJavaApiLink>
             </configuration>

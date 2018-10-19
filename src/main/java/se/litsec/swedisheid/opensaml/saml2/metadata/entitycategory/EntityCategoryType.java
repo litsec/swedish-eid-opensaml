@@ -27,14 +27,75 @@ public enum EntityCategoryType {
    * service. Meaning for a providing service: Represents the ability to deliver assertions in accordance with each
    * declared category.
    */
-  SERVICE_ENTITY,
+  SERVICE_ENTITY(EntityCategoryConstants.SERVICE_ENTITY_CATEGORY_PREFIX, EntityCategoryConstants.SERVICE_ENTITY_CATEGORY_PREFIX_SC),
   /**
    * Meaning for a consuming service: Represents a property of this service. Meaning for a providing service: Represents
    * the ability to deliver assertions to a consuming service that has the declared property.
    */
-  SERVICE_PROPERTY,
+  SERVICE_PROPERTY(EntityCategoryConstants.SERVICE_PROPERTY_CATEGORY_PREFIX),
   /**
    * Declares the type of service provided by a consuming service.
    */
-  SERVICE_TYPE
+  SERVICE_TYPE(EntityCategoryConstants.SERVICE_TYPE_CATEGORY_PREFIX),
+
+  /**
+   * Declares a service contract entity category.
+   */
+  SERVICE_CONTRACT(EntityCategoryConstants.SERVICE_CONTRACT_CATEGORY_PREFIX);
+
+  /**
+   * Given an entity category URI, the method returns the type of entity category.
+   * 
+   * @param uri
+   *          entity category URI
+   * @return the entity category type, or {@code null} if no match is found
+   */
+  public static EntityCategoryType getType(String uri) {
+    if (uri == null) {
+      return null;
+    }
+    for (EntityCategoryType type : EntityCategoryType.values()) {
+      for (String p : type.prefix) {
+        if (uri.startsWith(p)) {
+          return type;
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Predicate that tells if the supplied entity category URI is of the supplied entity category type.
+   * 
+   * @param uri
+   *          entity category URI
+   * @param type
+   *          the entity category type to test for
+   * @return if the supplied URI is of the given type {@code true} is returned, otherwise {@code false}
+   */
+  public static boolean isType(String uri, EntityCategoryType type) {
+    if (uri == null) {
+      return false;
+    }
+    for (String p : type.prefix) {
+      if (uri.startsWith(p)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Hidden constructor.
+   * 
+   * @param prefix
+   *          the URI prefix(es) for the type
+   */
+  private EntityCategoryType(String... prefix) {
+    this.prefix = prefix;
+  }
+
+  /** The URI prefix(es) for the type. */
+  private String[] prefix;
+
 }

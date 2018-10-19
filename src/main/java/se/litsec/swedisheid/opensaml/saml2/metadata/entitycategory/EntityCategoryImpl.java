@@ -47,11 +47,7 @@ public class EntityCategoryImpl implements EntityCategory {
     this.type = type;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.sveleg.saml2.entitycategory.EntityCategory#getUri()
-   */
+  /** {@inheritDoc} */
   @Override
   public String getUri() {
     return this.uri;
@@ -67,11 +63,7 @@ public class EntityCategoryImpl implements EntityCategory {
     this.uri = uri;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.sveleg.saml2.entitycategory.EntityCategory#getType()
-   */
+  /** {@inheritDoc} */
   @Override
   public EntityCategoryType getType() {
     return this.type;

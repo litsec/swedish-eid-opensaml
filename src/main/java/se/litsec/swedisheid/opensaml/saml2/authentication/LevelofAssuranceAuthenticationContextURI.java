@@ -43,6 +43,13 @@ public class LevelofAssuranceAuthenticationContextURI {
     /** Level of Assurance 3 - for use in signature services. */
     LOA_3_SIGMESSAGE(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE, true, false,
         LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3),
+    
+    /** Uncertified (self-declared) LoA 3. */
+    LOA_3_UNCERTIFIED(0, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_UNCERTIFIED_LOA3, false, false),
+    
+    /** Uncertified (self-declared) LoA 3  - for use in signature services. */
+    LOA_3_UNCERTIFIED_SIGMESSAGE(0, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_UNCERTIFIED_LOA3_SIGMESSAGE, true, false,
+      LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_UNCERTIFIED_LOA3),
 
     /** Level of Assurance 4. */
     LOA_4(4, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA4, false, false),
@@ -255,6 +262,12 @@ public class LevelofAssuranceAuthenticationContextURI {
 
   /** The Authentication Context URI for Level of Assurance 3 for use during "authentication for signature". */
   public static final String AUTH_CONTEXT_URI_LOA3_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/loa3-sigmessage";
+  
+  /** The Authentication Context URI for uncertified (self-declared) Level of Assurance 3 compliance. */
+  public static final String AUTH_CONTEXT_URI_UNCERTIFIED_LOA3 = "http://id.swedenconnect.se/loa/1.0/uncertified-loa3";
+  
+  /** The Authentication Context URI for uncertified (self-declared) Level of Assurance 3 for use during "authentication for signature". */
+  public static final String AUTH_CONTEXT_URI_UNCERTIFIED_LOA3_SIGMESSAGE = "http://id.swedenconnect.se/loa/1.0/uncertified-loa3-sigmessage";
 
   /** The Authentication Context URI for Level of Assurance 4. */
   public static final String AUTH_CONTEXT_URI_LOA4 = "http://id.elegnamnden.se/loa/1.0/loa4";

@@ -120,6 +120,15 @@
       <version>${opensaml.version}</version>
       <type>jar</type>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <!-- 
+            See https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32412 and https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32369 
+          -->
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk15on</artifactId>        
+        </exclusion>      
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -171,14 +180,15 @@
       <version>${opensaml.version}</version>
       <type>jar</type>
       <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>net.shibboleth.utilities</groupId>
-      <artifactId>java-support</artifactId>
-      <version>${shibboleth.java-support.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <!-- 
+            See https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32412 and https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32369 
+          -->
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk15on</artifactId>        
+        </exclusion>      
+      </exclusions>
     </dependency>
 
     <!-- Optionally use Spring -->

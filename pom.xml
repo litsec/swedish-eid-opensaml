@@ -89,6 +89,19 @@
   </distributionManagement>
 
   <dependencies>
+  
+    <!-- 
+      Explict dependency to org.bouncycastle:bcprov-jdk15on. OpenSAML 3.4.0 uses 1.59 which has been
+      reported to have vulnerabilities https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32412 and
+      https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32369. 
+    -->
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>1.60</version>
+      <scope>compile</scope>
+      <type>jar</type>
+    </dependency>    
 
     <!-- OpenSAML extensions -->
     <dependency>

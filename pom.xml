@@ -48,11 +48,11 @@
     <!-- Versions on dependencies -->
     <opensaml.version>3.4.0</opensaml.version>
     <shibboleth.java-support.version>7.4.0</shibboleth.java-support.version>
-    <opensaml-ext.version>1.2.0</opensaml-ext.version>
+    <opensaml-ext.version>1.2.1-SNAPSHOT</opensaml-ext.version>
     <spring.version>4.3.19.RELEASE</spring.version>    
     <jackson.version>2.9.7</jackson.version>
     
-    <nimbus.version>4.23</nimbus.version>
+    <nimbus.version>4.41.2</nimbus.version>
 
     <slf4j.version>1.7.25</slf4j.version>
     <junit.version>4.12</junit.version>
@@ -128,6 +128,19 @@
       <version>${opensaml.version}</version>
       <type>jar</type>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.velocity</groupId>
+          <artifactId>velocity</artifactId>
+        </exclusion>
+        <exclusion>
+          <!-- 
+            See https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32412 and https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32369 
+          -->
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk15on</artifactId>        
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>

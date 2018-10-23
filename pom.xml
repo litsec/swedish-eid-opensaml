@@ -51,7 +51,7 @@
     <opensaml-ext.version>1.2.1-SNAPSHOT</opensaml-ext.version>
     <spring.version>4.3.19.RELEASE</spring.version>    
     <jackson.version>2.9.7</jackson.version>
-    
+    <guava.version>27.0-jre</guava.version>
     <nimbus.version>4.41.2</nimbus.version>
 
     <slf4j.version>1.7.25</slf4j.version>
@@ -95,6 +95,34 @@
       <groupId>se.litsec.opensaml</groupId>
       <artifactId>opensaml3-ext</artifactId>
       <version>${opensaml-ext.version}</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>net.shibboleth.utilities</groupId>
+      <artifactId>java-support</artifactId>
+      <version>${shibboleth.java-support.version}</version>
+      <type>jar</type>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <!-- https://app.snyk.io/vuln/SNYK-JAVA-COMGOOGLEGUAVA-32236 -->
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+        <exclusion>
+          <!-- Our explicit include of guava introduces a newer version -->
+          <groupId>com.google.code.findbugs</groupId>
+          <artifactId>jsr305</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>  
+    
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>

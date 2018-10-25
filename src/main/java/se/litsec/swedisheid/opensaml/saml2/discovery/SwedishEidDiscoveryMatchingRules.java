@@ -41,16 +41,18 @@ public class SwedishEidDiscoveryMatchingRules {
    * <p>
    * The algorithm is defined in section 1.4 of <a href=
    * "https://docs.swedenconnect.se/technical-framework/latest/ELN-0606_-_Entity_Categories_for_the_Swedish_eID_Framework.html">Entity
-   * Categories for the Swedish eID Framework</a>. <br />
+   * Categories for the Swedish eID Framework</a>.
    * The discovery process SHOULD display Identity Providers as a plausible choice, if and only if, the following
    * conditions apply;
+   * </p>
    * <ul>
    * <li>the Identity Provider declares at least of the Service Entity Category identifiers declared by the Service
    * Provider (see {@link #isServiceEntityMatch(Collection, Collection)}),</li>
    * <li>f the Identity Provider declares at least one Service Contract identifier, the Service Provider must declare at
-   * least one of declared identifiers ({@link #isServiceContractCategoryMatch(Collection, Collection)), and,</li>
+   * least one of declared identifiers ({@link #isServiceContractMatch(Collection, Collection)}), and,</li>
    * <li>all of the Service Property identifiers declared by the Service Provider must be declared by the Identity
-   * Provider.</li> </ul> </p>
+   * Provider ({@link #isServicePropertyMatch(Collection, Collection)}).</li> 
+   * </ul> 
    * 
    * @param consumingService
    *          the entity categories declared by the consuming service (SP)
@@ -59,6 +61,7 @@ public class SwedishEidDiscoveryMatchingRules {
    * @return {@code true} if the above algorithm evaluates to {@code true} and {@code false} otherwise
    * @see #isServiceEntityMatch(Collection, Collection)
    * @see #isServiceContractMatch(Collection, Collection)
+   * @see #isServicePropertyMatch(Collection, Collection)
    */
   public static boolean isMatch(final Collection<String> consumingService, final Collection<String> providingService) {
 

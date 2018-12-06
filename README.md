@@ -4,7 +4,7 @@
 
 # swedish-eid-opensaml
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/se.litsec.opensaml.sweid/swedish-eid-opensaml3/badge.svg)](https://maven-badges.herokuapp.com/maven-central/se.litsec.opensaml.sweid/swedish-eid-opensaml3) [![Known Vulnerabilities](https://snyk.io/test/github/litsec/swedish-eid-opensaml/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/litsec/swedish-eid-opensaml?targetFile=pom.xml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/se.litsec.opensaml.sweid/swedish-eid-opensaml3/badge.svg)](https://maven-badges.herokuapp.com/maven-central/se.litsec.opensaml.sweid/swedish-eid-opensaml3) [![Known Vulnerabilities](https://snyk.io/test/github/litsec/swedish-eid-opensaml/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/litsec/swedish-eid-opensaml?targetFile=pom.xml)
 
 OpenSAML extensions for the Swedish eID Framework
 

@@ -50,7 +50,7 @@
     <shibboleth.java-support.version>7.4.0</shibboleth.java-support.version>
     <opensaml-ext.version>1.2.1</opensaml-ext.version>
     <spring.version>4.3.19.RELEASE</spring.version>    
-    <jackson.version>2.9.7</jackson.version>
+    <jackson.version>2.9.8</jackson.version>
     <guava.version>27.0-jre</guava.version>
     <nimbus.version>4.41.2</nimbus.version>
 

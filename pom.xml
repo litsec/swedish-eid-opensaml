@@ -6,7 +6,7 @@
   <groupId>se.litsec.opensaml.sweid</groupId>
   <artifactId>swedish-eid-opensaml3</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.2-SNAPSHOT</version>
+  <version>1.2.2</version>
 
   <name>Swedish eID :: OpenSAML 3.X</name>
   <description>OpenSAML 3.X extension library for the Swedish eID Framework</description>
@@ -139,6 +139,10 @@
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j-api</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>net.shibboleth.utilities</groupId>
+          <artifactId>java-support</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -155,7 +159,11 @@
           -->
           <groupId>org.bouncycastle</groupId>
           <artifactId>bcprov-jdk15on</artifactId>        
-        </exclusion>      
+        </exclusion>
+        <exclusion>
+          <groupId>net.shibboleth.utilities</groupId>
+          <artifactId>java-support</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -177,6 +185,10 @@
           <groupId>org.bouncycastle</groupId>
           <artifactId>bcprov-jdk15on</artifactId>        
         </exclusion>
+        <exclusion>
+          <groupId>net.shibboleth.utilities</groupId>
+          <artifactId>java-support</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -194,7 +206,11 @@
         <exclusion>
           <groupId>org.bouncycastle</groupId>
           <artifactId>bcprov-jdk15on</artifactId>        
-        </exclusion>        
+        </exclusion>
+        <exclusion>
+          <groupId>net.shibboleth.utilities</groupId>
+          <artifactId>java-support</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -208,6 +224,10 @@
         <exclusion>
           <groupId>org.bouncycastle</groupId>
           <artifactId>bcprov-jdk15on</artifactId>        
+        </exclusion>
+        <exclusion>
+          <groupId>net.shibboleth.utilities</groupId>
+          <artifactId>java-support</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -225,7 +245,11 @@
           -->
           <groupId>org.bouncycastle</groupId>
           <artifactId>bcprov-jdk15on</artifactId>        
-        </exclusion>      
+        </exclusion>
+        <exclusion>
+          <groupId>net.shibboleth.utilities</groupId>
+          <artifactId>java-support</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 

@@ -6,7 +6,7 @@
   <groupId>se.litsec.opensaml.sweid</groupId>
   <artifactId>swedish-eid-opensaml3</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.3-SNAPSHOT</version>
+  <version>1.2.3</version>
 
   <name>Swedish eID :: OpenSAML 3.X</name>
   <description>OpenSAML 3.X extension library for the Swedish eID Framework</description>
@@ -48,7 +48,7 @@
     <!-- Versions on dependencies -->
     <opensaml.version>3.4.2</opensaml.version>
     <shibboleth.java-support.version>7.4.2</shibboleth.java-support.version>
-    <opensaml-ext.version>1.2.4-SNAPSHOT</opensaml-ext.version>
+    <opensaml-ext.version>1.2.4</opensaml-ext.version>
     <spring.version>4.3.19.RELEASE</spring.version>    
     <jackson.version>2.9.8</jackson.version>
     <guava.version>27.0-jre</guava.version>

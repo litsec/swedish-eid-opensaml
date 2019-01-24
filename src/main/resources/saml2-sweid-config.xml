@@ -2,6 +2,7 @@
 <XMLTooling xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:csig="http://id.elegnamnden.se/csig/1.1/dss-ext/ns" 
   xmlns:sap="http://id.elegnamnden.se/csig/1.1/sap/ns"
+  xmlns:psc="http://id.swedenconnect.se/authn/1.0/principal-selection/ns"
   xmlns="http://www.opensaml.org/xmltooling-config"
   xsi:schemaLocation="http://www.opensaml.org/xmltooling-config ../../src/schema/xmltooling-config.xsd">
 
@@ -76,6 +77,20 @@
       <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.RequestParamsBuilder" />
       <MarshallingClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.RequestParamsMarshaller" />
       <UnmarshallingClass className="se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl.RequestParamsUnmarshaller" />
+    </ObjectProvider>
+    
+    <!-- psc:PrincipalSelection -->
+    <ObjectProvider qualifiedName="psc:PrincipalSelection">
+      <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.PrincipalSelectionBuilder" />
+      <MarshallingClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.PrincipalSelectionMarshaller" />
+      <UnmarshallingClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.PrincipalSelectionUnmarshaller" />
+    </ObjectProvider>
+    
+    <!-- psc:MatchValue -->
+    <ObjectProvider qualifiedName="psc:MatchValue">
+      <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.MatchValueBuilder" />
+      <MarshallingClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.MatchValueMarshaller" />
+      <UnmarshallingClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.MatchValueUnmarshaller" />
     </ObjectProvider>
 
   </ObjectProviders>

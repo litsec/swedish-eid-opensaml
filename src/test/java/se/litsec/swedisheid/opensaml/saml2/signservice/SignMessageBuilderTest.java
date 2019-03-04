@@ -38,6 +38,7 @@ import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessageMimeTypeEn
  */
 public class SignMessageBuilderTest extends OpenSAMLTestBase {
 
+  @SuppressWarnings("deprecation")
   @Test
   public void testBuild() throws Exception {
     

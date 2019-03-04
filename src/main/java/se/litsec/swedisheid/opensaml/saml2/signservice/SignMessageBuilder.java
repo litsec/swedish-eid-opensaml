@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2019 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +52,11 @@ import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessageMimeTypeEn
 
 /**
  * Creates a {@link SignMessage} instance using the builder patterns.
+ * <p>
+ * Note: The {@link #buildEncrypted(Credential)} and {@link #buildEncrypted(MetadataProvider)} methods are deprecated.
+ * Instead, build a {@link SignMessage} object containing a clear text message ({@code Message}) and then, if encryption
+ * is required, encrypt using the {@link SignMessageEncrypter} class.
+ * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
@@ -68,7 +73,7 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
 
   /**
    * The key encryption parameters to use when (if) encrypting. By default the algorithm
-   * {@link EncryptionConstants#ALGO_ID_KEYTRANSPORT_RSA15} is used.
+   * {@link EncryptionConstants#ALGO_ID_KEYTRANSPORT_RSAOAEP} is used.
    */
   private KeyEncryptionParameters keyEncryptionParameters;
 
@@ -81,6 +86,17 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
     return new SignMessageBuilder();
   }
 
+  /**
+   * Deprecated. Instead encrypt a sign message using {@link SignMessageEncrypter}.
+   * 
+   * @param keyEncryptionCredential
+   *          the credentials to use
+   * @return an encrypted sign message
+   * @throws EncryptionException
+   *           for encryption errors
+   * 
+   */
+  @Deprecated
   public SignMessage buildEncrypted(Credential keyEncryptionCredential) throws EncryptionException {
 
     if (this.object().getMessage() == null || this.object().getMessage().getValue() == null) {
@@ -98,7 +114,7 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
       KeyEncryptionParameters kep;
       if (this.keyEncryptionParameters == null) {
         kep = new KeyEncryptionParameters();
-        kep.setAlgorithm(EncryptionConstants.ALGO_ID_KEYTRANSPORT_RSA15);
+        kep.setAlgorithm(EncryptionConstants.ALGO_ID_KEYTRANSPORT_RSAOAEP);
       }
       else {
         keAlgo = this.keyEncryptionParameters.getAlgorithm();
@@ -128,6 +144,17 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
     }
   }
 
+  /**
+   * Deprecated. Instead encrypt a sign message using {@link SignMessageEncrypter}.
+   * 
+   * @param metadataProvider
+   *          the provider used to find the peer credentials
+   * @return an encrypted sign message
+   * @throws EncryptionException
+   *           for encryption errors
+   * 
+   */
+  @Deprecated
   public SignMessage buildEncrypted(MetadataProvider metadataProvider) throws EncryptionException {
 
     if (this.object().getDisplayEntity() == null) {
@@ -200,44 +227,40 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
   }
 
   /**
+   * Deprecated. Instead encrypt a sign message using {@link SignMessageEncrypter}.
+   * <p>
    * Assigns the data encryption parameters to use when encrypting. The default is to use the
    * {@link EncryptionConstants#ALGO_ID_BLOCKCIPHER_AES256} algorithm.
-   * 
-   * <p>
-   * Note the JCE unlimited strength policy files must be installed for using strong crypto. For Java 8, download it
-   * from
-   * <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html">http://www.oracle.com/
-   * technetwork/java/javase/downloads/jce8-download-2133166.html</a>.
    * </p>
    * 
    * @param parameters
    *          data encryption parameters
    * @return the builder
    */
+  @Deprecated
   public SignMessageBuilder dataEncryptionParameters(DataEncryptionParameters parameters) {
     this.dataEncryptionParameters = parameters;
     return this;
   }
 
   /**
+   * Deprecated. Instead encrypt a sign message using {@link SignMessageEncrypter}.
+   * 
+   * <p>
    * Assigns the key encryption parameters to use when encrypting. The default is to use the
    * {@link EncryptionConstants#ALGO_ID_KEYTRANSPORT_RSA15} algorithm.
+   * </p>
    * 
    * <p>
    * Note: The encryption credential ({@link KeyEncryptionParameters#setEncryptionCredential(Credential)}) should not be
    * given in the supplied parameter. This will be added by the {@code buildEncrypted} methods.
-   * </p>
-   * <p>
-   * Note that if an algorithm that uses larger keys is required the JCE unlimited strength policy files must be
-   * installed. For Java 8, download it from
-   * <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html">http://www.oracle.com/
-   * technetwork/java/javase/downloads/jce8-download-2133166.html</a>.
    * </p>
    * 
    * @param parameters
    *          key encryption parameters
    * @return the builder
    */
+  @Deprecated
   public SignMessageBuilder keyEncryptionParameters(KeyEncryptionParameters parameters) {
     this.keyEncryptionParameters = parameters;
     return this;
@@ -246,9 +269,7 @@ public class SignMessageBuilder extends AbstractSAMLObjectBuilder<SignMessage> {
   /**
    * Assigns the message to include.
    * <p>
-   * If the message should be encrypted, the {@link SignMessage} should be built using
-   * {@link #buildEncrypted(Credential)} or {@link #buildEncrypted(MetadataProvider)}. For sign messages in cleartext
-   * use the ordinary {@link #build()} method.
+   * If the message should be encrypted, use {@link SignMessageEncrypter} after the {@code SignMessage} has been built.
    * </p>
    * 
    * @param message

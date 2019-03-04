@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2019 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,9 +52,13 @@ import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessageMimeTypeEn
 /**
  * A builder for an easy way to create and encrypt messages for
  * {@link se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessage}.
+ * <p>
+ * Deprecated. Use {@link SignMessageBuilder} and {@link SignMessageEncrypter} instead.
+ * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
+@Deprecated
 public class SignMessageFactory {
 
   /** Logger instance. */
@@ -65,7 +69,7 @@ public class SignMessageFactory {
 
   /** Finds encryption credentials from metadata. */
   private MetadataCredentialResolver credentialResolver;
-  
+
   /**
    * The encryption algorithm to use when encrypting messages. The default is
    * {@link org.opensaml.xml.encryption.EncryptionConstants#ALGO_ID_BLOCKCIPHER_AES128}.
@@ -80,8 +84,8 @@ public class SignMessageFactory {
    */
   public SignMessageFactory(MetadataProvider federationMetadataProvider) {
     this.metadataProvider = federationMetadataProvider;
-    
-    this.credentialResolver = new MetadataCredentialResolver();    
+
+    this.credentialResolver = new MetadataCredentialResolver();
     List<KeyInfoProvider> keyInfoProviders = new ArrayList<>();
     keyInfoProviders.add(new DSAKeyValueProvider());
     keyInfoProviders.add(new RSAKeyValueProvider());
@@ -211,27 +215,27 @@ public class SignMessageFactory {
 
     DataEncryptionParameters dataEncryptionParameters = new DataEncryptionParameters();
     dataEncryptionParameters.setAlgorithm(this.encryptionAlgorithmId);
-    
-//    EncryptionParameters encParams = new EncryptionParameters();
-//    encParams.setDataEncryptionAlgorithm(this.encryptionAlgorithmId);
+
+    // EncryptionParameters encParams = new EncryptionParameters();
+    // encParams.setDataEncryptionAlgorithm(this.encryptionAlgorithmId);
 
     KeyEncryptionParameters kekParams = new KeyEncryptionParameters();
     kekParams.setEncryptionCredential(credential);
     // kekParams.setAlgorithm(EncryptionConstants.ALGO_ID_KEYTRANSPORT_RSAOAEP); // TODO: make configurable
     kekParams.setAlgorithm(EncryptionConstants.ALGO_ID_KEYTRANSPORT_RSA15);
-    
-//    KeyInfoGeneratorFactory kigf = Configuration.getGlobalSecurityConfiguration()
-//      .getKeyInfoGeneratorManager()
-//      .getDefaultManager()
-//      .getFactory(credential);
-//    kekParams.setKeyInfoGenerator(kigf.newInstance());
-    
+
+    // KeyInfoGeneratorFactory kigf = Configuration.getGlobalSecurityConfiguration()
+    // .getKeyInfoGeneratorManager()
+    // .getDefaultManager()
+    // .getFactory(credential);
+    // kekParams.setKeyInfoGenerator(kigf.newInstance());
+
     Encrypter encrypter = new Encrypter();
     EncryptedData encryptedData = encrypter.encryptElement(message, dataEncryptionParameters, kekParams);
 
     EncryptedMessage encryptedMessage = ObjectUtils.createSamlObject(EncryptedMessage.class);
     encryptedMessage.setEncryptedData(encryptedData);
-    
+
     return encryptedMessage;
   }
 

@@ -17,6 +17,8 @@ package se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl;
 
 import org.opensaml.saml.common.AbstractSAMLObjectMarshaller;
 
+import se.litsec.swedisheid.opensaml.saml2.authentication.psc.PrincipalSelection;
+
 /**
  * A marshaller for {@link PrincipalSelection}.
  * 

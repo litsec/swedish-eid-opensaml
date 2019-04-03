@@ -1,0 +1,14 @@
+se.litsec.swedisheid.opensaml.config
+se.litsec.swedisheid.opensaml.saml2.attribute
+se.litsec.swedisheid.opensaml.saml2.authentication
+se.litsec.swedisheid.opensaml.saml2.authentication.psc
+se.litsec.swedisheid.opensaml.saml2.authentication.psc.build
+se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl
+se.litsec.swedisheid.opensaml.saml2.discovery
+se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory
+se.litsec.swedisheid.opensaml.saml2.signservice
+se.litsec.swedisheid.opensaml.saml2.signservice.dss
+se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl
+se.litsec.swedisheid.opensaml.saml2.signservice.sap
+se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl
+se.litsec.swedisheid.opensaml.saml2.validation

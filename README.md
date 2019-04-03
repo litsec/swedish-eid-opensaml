@@ -22,6 +22,8 @@ The library contains support for the following functionality:
 
 * Support for the `SADRequest` extension type as well as the SAD JWT. The SAD support also includes a SAD factory for creating and signing a SAD JWT and a SAD parser with validation support. See the [Signature Activation Protocol for Federated Signing](https://docs.swedenconnect.se/technical-framework/latest/ELN-0613_-_Signature_Activation_Protocol.html) specification.
 
+* Support for the `PrincipalSelection` extension type that allows a requester to include a hint about the person that is about to be authenticated (especially useful for signature services). See the [Principal Selection in SAML Authentication Requests](https://docs.swedenconnect.se/technical-framework/updates/ELN-0614_-_Principal_Selection_in_SAML_Authentication_Requests.html) specification.
+
 * Validation support for validating SAML responses according to the [Deployment Profile for the Swedish eID Framework](https://docs.swedenconnect.se/technical-framework/latest/ELN-0602_-_Deployment_Profile_for_the_Swedish_eID_Framework.html) specification.
 
 Java API documentation of the swedish-eid-opensaml library is found at [https://litsec.github.io/swedish-eid-opensaml](https://litsec.github.io/swedish-eid-opensaml/).

@@ -25,7 +25,10 @@ import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.springframework.core.io.Resource;
 
 import net.shibboleth.utilities.java.support.xml.XMLParserException;
-import se.litsec.opensaml.config.OpenSAMLInitializer;
+import se.litsec.swedisheid.opensaml.xmlsec.config.SwedishEidSecurityConfiguration;
+import se.swedenconnect.opensaml.OpenSAMLInitializer;
+import se.swedenconnect.opensaml.OpenSAMLSecurityDefaultsConfig;
+import se.swedenconnect.opensaml.OpenSAMLSecurityExtensionConfig;
 
 /**
  * Abstract base class that initializes OpenSAML for test classes.
@@ -44,7 +47,9 @@ public abstract class OpenSAMLTestBase {
   public static void initializeOpenSAML() throws Exception {
     OpenSAMLInitializer bootstrapper = OpenSAMLInitializer.getInstance();
     if (!bootstrapper.isInitialized()) {
-      bootstrapper.initialize();
+      bootstrapper.initialize(
+        new OpenSAMLSecurityDefaultsConfig(new SwedishEidSecurityConfiguration()),
+        new OpenSAMLSecurityExtensionConfig());
     }
   }
 

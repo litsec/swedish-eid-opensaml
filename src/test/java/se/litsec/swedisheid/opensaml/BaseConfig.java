@@ -24,7 +24,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 
-import se.litsec.opensaml.config.OpenSAMLInitializer;
+import se.litsec.swedisheid.opensaml.xmlsec.config.SwedishEidSecurityConfiguration;
+import se.swedenconnect.opensaml.OpenSAMLInitializer;
+import se.swedenconnect.opensaml.OpenSAMLSecurityDefaultsConfig;
+import se.swedenconnect.opensaml.OpenSAMLSecurityExtensionConfig;
 
 /**
  * Base Spring configuration file for tests.
@@ -46,7 +49,9 @@ public class BaseConfig {
   public OpenSAMLInitializer openSAMLInitializer() throws Exception {
     OpenSAMLInitializer bootstrapper = OpenSAMLInitializer.getInstance();
     if (!bootstrapper.isInitialized()) {
-      bootstrapper.initialize();
+      bootstrapper.initialize(
+        new OpenSAMLSecurityDefaultsConfig(new SwedishEidSecurityConfiguration()),
+        new OpenSAMLSecurityExtensionConfig());
     }
     return bootstrapper;
   }

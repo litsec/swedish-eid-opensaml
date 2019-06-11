@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -35,30 +36,29 @@
       <organizationUrl>http://www.litsec.se</organizationUrl>
     </developer>
   </developers>
-  
+
   <organization>
     <name>Litsec AB</name>
     <url>http://www.litsec.se</url>
-  </organization>  
+  </organization>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
 
     <!-- Versions on dependencies -->
-    <opensaml.version>3.4.2</opensaml.version>
-    <shibboleth.java-support.version>7.4.2</shibboleth.java-support.version>
-    <opensaml-ext.version>1.2.5</opensaml-ext.version>
-    <spring.version>4.3.19.RELEASE</spring.version>    
+    <opensaml.version>3.4.3</opensaml.version>
+    <opensaml-security-ext.version>1.0.3</opensaml-security-ext.version>
+    <opensaml-ext.version>1.4.0</opensaml-ext.version>
+    <spring.version>4.3.19.RELEASE</spring.version>
     <jackson.version>2.9.9</jackson.version>
-    <guava.version>27.0-jre</guava.version>
     <nimbus.version>4.41.2</nimbus.version>
 
     <slf4j.version>1.7.25</slf4j.version>
     <junit.version>4.12</junit.version>
 
   </properties>
-  
+
   <repositories>
     <repository>
       <id>central</id>
@@ -75,7 +75,7 @@
       <name>Spring Repository</name>
       <url>http://repo.spring.io/release</url>
     </repository>
-  </repositories>  
+  </repositories>
 
   <distributionManagement>
     <snapshotRepository>
@@ -88,9 +88,32 @@
     </repository>
   </distributionManagement>
 
+  <dependencyManagement>
+    <dependencies>
+
+      <dependency>
+        <groupId>se.swedenconnect.opensaml</groupId>
+        <artifactId>opensaml-bom</artifactId>
+        <version>${opensaml.version}.R2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+
   <dependencies>
-      
+
     <!-- OpenSAML extensions -->
+    <dependency>
+      <groupId>se.swedenconnect.opensaml</groupId>
+      <artifactId>opensaml-security-ext</artifactId>
+      <version>${opensaml-security-ext.version}</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+
     <dependency>
       <groupId>se.litsec.opensaml</groupId>
       <artifactId>opensaml3-ext</artifactId>
@@ -98,159 +121,41 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>net.shibboleth.utilities</groupId>
       <artifactId>java-support</artifactId>
-      <version>${shibboleth.java-support.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <!-- https://app.snyk.io/vuln/SNYK-JAVA-COMGOOGLEGUAVA-32236 -->
-          <groupId>com.google.guava</groupId>
-          <artifactId>guava</artifactId>
-        </exclusion>
-        <exclusion>
-          <!-- Our explicit include of guava introduces a newer version -->
-          <groupId>com.google.code.findbugs</groupId>
-          <artifactId>jsr305</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>  
-    
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <!-- OpenSAML -->
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-core</artifactId>
-      <version>${opensaml.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>net.shibboleth.utilities</groupId>
-          <artifactId>java-support</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-saml-api</artifactId>
-      <version>${opensaml.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <!-- 
-            See https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32412 and https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32369 
-          -->
-          <groupId>org.bouncycastle</groupId>
-          <artifactId>bcprov-jdk15on</artifactId>        
-        </exclusion>
-        <exclusion>
-          <groupId>net.shibboleth.utilities</groupId>
-          <artifactId>java-support</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-saml-impl</artifactId>
-      <version>${opensaml.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.apache.velocity</groupId>
-          <artifactId>velocity</artifactId>
-        </exclusion>
-        <exclusion>
-          <!-- 
-            See https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32412 and https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32369 
-          -->
-          <groupId>org.bouncycastle</groupId>
-          <artifactId>bcprov-jdk15on</artifactId>        
-        </exclusion>
-        <exclusion>
-          <groupId>net.shibboleth.utilities</groupId>
-          <artifactId>java-support</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-security-api</artifactId>
-      <version>${opensaml.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-codec</groupId>
-          <artifactId>commons-codec</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.bouncycastle</groupId>
-          <artifactId>bcprov-jdk15on</artifactId>        
-        </exclusion>
-        <exclusion>
-          <groupId>net.shibboleth.utilities</groupId>
-          <artifactId>java-support</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-xmlsec-api</artifactId>
-      <version>${opensaml.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.bouncycastle</groupId>
-          <artifactId>bcprov-jdk15on</artifactId>        
-        </exclusion>
-        <exclusion>
-          <groupId>net.shibboleth.utilities</groupId>
-          <artifactId>java-support</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-xmlsec-impl</artifactId>
-      <version>${opensaml.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <!-- 
-            See https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32412 and https://app.snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-32369 
-          -->
-          <groupId>org.bouncycastle</groupId>
-          <artifactId>bcprov-jdk15on</artifactId>        
-        </exclusion>
-        <exclusion>
-          <groupId>net.shibboleth.utilities</groupId>
-          <artifactId>java-support</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <!-- Optionally use Spring -->
@@ -280,7 +185,7 @@
       <type>jar</type>
       <optional>true</optional>
     </dependency>
-    
+
     <!-- JSON support -->
     <dependency>
       <groupId>com.nimbusds</groupId>
@@ -295,7 +200,7 @@
       <scope>compile</scope>
       <type>jar</type>
     </dependency>
-    
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
@@ -303,7 +208,7 @@
       <scope>compile</scope>
       <type>jar</type>
     </dependency>
-    
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
@@ -322,8 +227,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-      <type>jar</type>
     </dependency>
 
     <!-- For testing -->
@@ -402,12 +305,32 @@
           </filesets>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.9</version>      
-      </plugin>      
+        <version>2.9</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.0.0-M2</version>
+        <executions>
+          <execution>
+            <id>enforce</id>
+            <configuration>
+              <rules>
+                <dependencyConvergence />
+              </rules>
+            </configuration>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
 
     </plugins>
 
@@ -432,10 +355,9 @@
               <serverId>ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
               <autoReleaseAfterClose>false</autoReleaseAfterClose>
-              <!-- 
-                Allows manual inspection of the staging repo before deploying it to the central repo. 
-                Use 'mvn nexus-staging:release -Prelease' to release and 'mvn nexus-staging:drop' to abort. 
-              -->
+              <!-- Allows manual inspection of the staging repo before deploying 
+                it to the central repo. Use 'mvn nexus-staging:release -Prelease' to release and 
+                'mvn nexus-staging:drop' to abort. -->
             </configuration>
           </plugin>
 
@@ -487,19 +409,18 @@
               </execution>
             </executions>
             <configuration>
-              <doctitle>OpenSAML 3.X extension library for the Swedish eID Framework - ${project.version}</doctitle>
-              <windowtitle>OpenSAML 3.X extension library for the Swedish eID Framework - ${project.version}</windowtitle>
+              <doctitle>OpenSAML 3.X extension library for the Swedish eID
+                Framework - ${project.version}</doctitle>
+              <windowtitle>OpenSAML 3.X extension library for the Swedish eID
+                Framework - ${project.version}</windowtitle>
 
               <links>
-                <!-- 
-                  Doesn't work to use the Shib Wiki links for API docs since the Shib webserver sets X-Frame-Options 
-                  to SAMEORIGIN which makes it impossible to use frames. 
-                -->
-                <!--               
-                <link>https://build.shibboleth.net/nexus/content/sites/site/java-opensaml/3.2.0/apidocs/</link>
-                <link>https://build.shibboleth.net/nexus/content/sites/site/java-support/7.2.0/apidocs/</link>
-                <link>https://build.shibboleth.net/nexus/content/sites/site/spring-extensions/5.2.0/apidocs/</link>
-                -->
+                <!-- Doesn't work to use the Shib Wiki links for API docs since the 
+                  Shib webserver sets X-Frame-Options to SAMEORIGIN which makes it impossible to use 
+                  frames. -->
+                <!-- <link>https://build.shibboleth.net/nexus/content/sites/site/java-opensaml/3.2.0/apidocs/</link> 
+                  <link>https://build.shibboleth.net/nexus/content/sites/site/java-support/7.2.0/apidocs/</link> 
+                  <link>https://build.shibboleth.net/nexus/content/sites/site/spring-extensions/5.2.0/apidocs/</link> -->
                 <link>https://litsec.github.io/opensaml-javadoc-mirror/org/opensaml/opensaml-core/${opensaml.version}/</link>
                 <link>https://litsec.github.io/opensaml-javadoc-mirror/org/opensaml/opensaml-messaging-api/${opensaml.version}/</link>
                 <link>https://litsec.github.io/opensaml-javadoc-mirror/org/opensaml/opensaml-messaging-impl/${opensaml.version}/</link>
@@ -515,7 +436,7 @@
                 <link>https://litsec.github.io/opensaml-javadoc-mirror/org/opensaml/opensaml-storage-impl/${opensaml.version}/</link>
                 <link>https://litsec.github.io/opensaml-javadoc-mirror/org/opensaml/opensaml-xmlsec-api/${opensaml.version}/</link>
                 <link>https://litsec.github.io/opensaml-javadoc-mirror/org/opensaml/opensaml-xmlsec-impl/${opensaml.version}/</link>
-                <link>https://litsec.github.io/opensaml-javadoc-mirror/net/shibboleth/utilities/java-support/${shibboleth.java-support.version}/</link>                
+                <link>https://litsec.github.io/opensaml-javadoc-mirror/net/shibboleth/utilities/java-support/${shibboleth.java-support.version}/</link>
                 <link>https://litsec.github.io/opensaml-javadoc-mirror/net/shibboleth/ext/spring-extensions/5.4.1/</link>
               </links>
               <detectJavaApiLink>true</detectJavaApiLink>

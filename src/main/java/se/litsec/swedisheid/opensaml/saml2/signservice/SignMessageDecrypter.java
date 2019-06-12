@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2019 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,10 @@ import org.opensaml.xmlsec.keyinfo.impl.StaticKeyInfoCredentialResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import se.litsec.opensaml.xmlsec.SAMLObjectDecrypter;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.Message;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessage;
+import se.swedenconnect.opensaml.xmlsec.encryption.support.Pkcs11Decrypter;
 
 /**
  * A bean for decrypting encrypted messages within {@link SignMessage} objects.
@@ -56,6 +58,14 @@ public class SignMessageDecrypter {
 
   /** The decrypter. */
   private Decrypter decrypter;
+  
+  /**
+   * If using a HSM it is likely that the SunPKCS11 crypto provider is used. This provider does not have support for
+   * OAEP padding. This is used commonly for XML encryption since
+   * {@code http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p} is the default algorithm to use for key encryption. This
+   * class has a workaround for this limitation that is enabled by setting the {@code pkcs11Workaround} flag.
+   */
+  private boolean pkcs11Workaround = false;  
 
   /**
    * Constructor given the credential to use to decrypt the messages (certificate or key pair)
@@ -86,6 +96,10 @@ public class SignMessageDecrypter {
    */
   public SignMessageDecrypter(KeyInfoCredentialResolver keyEncryptionKeyResolver) {
     this.keyEncryptionKeyResolver = keyEncryptionKeyResolver;
+  }
+  
+  public SignMessageDecrypter(SAMLObjectDecrypter decrypter) {
+    
   }
 
   /**
@@ -121,8 +135,9 @@ public class SignMessageDecrypter {
       pars.setKEKKeyInfoCredentialResolver(this.keyEncryptionKeyResolver);
       pars.setEncryptedKeyResolver(this.encryptedKeyResolver);
       pars.setBlacklistedAlgorithms(this.blacklistedAlgorithms);
-      pars.setWhitelistedAlgorithms(this.whitelistedAlgorithms);
-      this.decrypter = new Decrypter(pars);
+      pars.setWhitelistedAlgorithms(this.whitelistedAlgorithms);      
+      this.decrypter = this.pkcs11Workaround ? new Pkcs11Decrypter(pars) : new Decrypter(pars);
+      this.decrypter.setRootInNewDocument(true);
     }
     return this.decrypter;
   }
@@ -146,5 +161,18 @@ public class SignMessageDecrypter {
   public void setWhitelistedAlgorithms(Collection<String> whitelistedAlgorithms) {
     this.whitelistedAlgorithms = whitelistedAlgorithms;
   }
+  
+  /**
+   * If using a HSM it is likely that the SunPKCS11 crypto provider is used. This provider does not have support for
+   * OAEP padding. This is used commonly for XML encryption since
+   * {@code http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p} is the default algorithm to use for key encryption. This
+   * class has a workaround for this limitation that is enabled by setting the {@code pkcs11Workaround} flag.
+   * 
+   * @param pkcs11Workaround
+   *          whether to run in PKCS11 workaround mode
+   */
+  public void setPkcs11Workaround(boolean pkcs11Workaround) {
+    this.pkcs11Workaround = pkcs11Workaround;
+  }  
 
 }

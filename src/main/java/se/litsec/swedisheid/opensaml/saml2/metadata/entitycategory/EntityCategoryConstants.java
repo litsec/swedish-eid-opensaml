@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2019 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,10 +39,13 @@ public class EntityCategoryConstants {
   
   /** The prefix for Service Contract categories. */
   public static final String SERVICE_CONTRACT_CATEGORY_PREFIX = "http://id.swedenconnect.se/contract/";
+  
+  /** The prefix for General categories. */
+  public static final String GENERAL_CATEGORY_PREFIX = "http://id.swedenconnect.se/general-ec";
 
   /**
    * Service entity category: User authentication according to assurance level 3 and attribute release according to the
-   * attribute set “Natural Personal Identity with Civic Registration Number (personnum-mer)” (ELN-AP-Pnr-01).
+   * attribute set “Natural Personal Identity with Civic Registration Number (personnummer)” (ELN-AP-Pnr-01).
    */
   public static final ServiceEntityCategory SERVICE_ENTITY_CATEGORY_LOA3_PNR = new ServiceEntityCategoryImpl(
     SERVICE_ENTITY_CATEGORY_PREFIX + "1.0/loa3-pnr", LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3,

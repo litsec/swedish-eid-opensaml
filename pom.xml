@@ -54,7 +54,7 @@
     <spring.version>4.3.19.RELEASE</spring.version>
     <jackson.version>2.9.10</jackson.version>
     <!-- <nimbus.version>4.41.2</nimbus.version> -->
-    <nimbus.version>7.8</nimbus.version>
+    <nimbus.version>7.9</nimbus.version>
 
     <slf4j.version>1.7.25</slf4j.version>
     <junit.version>4.12</junit.version>

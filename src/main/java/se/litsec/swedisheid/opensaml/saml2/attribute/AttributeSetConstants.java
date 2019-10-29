@@ -113,7 +113,8 @@ public class AttributeSetConstants {
         AttributeConstants.ATTRIBUTE_TEMPLATE_DATE_OF_BIRTH,
         AttributeConstants.ATTRIBUTE_TEMPLATE_SN,
         AttributeConstants.ATTRIBUTE_TEMPLATE_GIVEN_NAME,
-        AttributeConstants.ATTRIBUTE_TEMPLATE_TRANSACTION_IDENTIFIER },
+        AttributeConstants.ATTRIBUTE_TEMPLATE_TRANSACTION_IDENTIFIER,
+        AttributeConstants.ATTRIBUTE_TEMPLATE_C },
     new AttributeTemplate[] {
         AttributeConstants.ATTRIBUTE_TEMPLATE_BIRTH_NAME,
         AttributeConstants.ATTRIBUTE_TEMPLATE_PLACE_OF_BIRTH,

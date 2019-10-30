@@ -15,15 +15,6 @@
  */
 package se.litsec.swedisheid.opensaml.xmlsec.config;
 
-import org.opensaml.xmlsec.DecryptionConfiguration;
-import org.opensaml.xmlsec.EncryptionConfiguration;
-import org.opensaml.xmlsec.config.impl.DefaultSecurityConfigurationBootstrap;
-import org.opensaml.xmlsec.encryption.support.EncryptionConstants;
-import org.opensaml.xmlsec.encryption.support.RSAOAEPParameters;
-import org.opensaml.xmlsec.impl.BasicDecryptionConfiguration;
-import org.opensaml.xmlsec.impl.BasicEncryptionConfiguration;
-import org.opensaml.xmlsec.signature.support.SignatureConstants;
-
 import se.swedenconnect.opensaml.xmlsec.config.SAML2IntSecurityConfiguration;
 import se.swedenconnect.opensaml.xmlsec.config.SecurityConfiguration;
 
@@ -31,9 +22,7 @@ import se.swedenconnect.opensaml.xmlsec.config.SecurityConfiguration;
  * A {@link SecurityConfiguration} instance with algorithm defaults according to the Swedish eID Framework (see
  * https://docs.swedenconnect.se).
  * <p>
- * The Swedish eID Framework follows SAML2Int ({@link SAML2IntSecurityConfiguration}) with the exception that we it does
- * not black lists RSA 1.5 for decryption (for interop and historical reasons) and that SHA-1 is used for RSA-OAEP
- * key transport.
+ * Currently the implementation equals {@link SAML2IntSecurityConfiguration}.
  * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
@@ -44,29 +33,6 @@ public class SwedishEidSecurityConfiguration extends SAML2IntSecurityConfigurati
   @Override
   public String getProfileName() {
     return "swedish-eid-framework";
-  }
-
-  /**
-   * Some implementations (specifically those built using OpenSAML 2 do not handle SHA-256 for RSAOAEP).
-   */
-  @Override
-  protected EncryptionConfiguration createDefaultEncryptionConfiguration() {
-    BasicEncryptionConfiguration config = (BasicEncryptionConfiguration) super.createDefaultEncryptionConfiguration();
-
-    config.setRSAOAEPParameters(
-      new RSAOAEPParameters(SignatureConstants.ALGO_ID_DIGEST_SHA1, EncryptionConstants.ALGO_ID_MGF1_SHA1, null));
-
-    return config;
-  }
-
-  /**
-   * Removes the blacklisting of RSA 1.5.
-   */
-  @Override
-  protected DecryptionConfiguration createDefaultDecryptionConfiguration() {
-    BasicDecryptionConfiguration config = DefaultSecurityConfigurationBootstrap.buildDefaultDecryptionConfiguration();
-    config.setBlacklistedAlgorithms(null);
-    return config;
   }
 
 }

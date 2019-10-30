@@ -159,6 +159,13 @@ public class EntityCategoryConstants {
    */
   public static final EntityCategory SERVICE_CONTRACT_CATEGORY_EID_CHOICE_2017 = new EntityCategoryImpl(
     SERVICE_CONTRACT_CATEGORY_PREFIX + "sc/eid-choice-2017", EntityCategoryType.SERVICE_CONTRACT);
+  
+  /**
+   * General category: A category that indicates that secure authenticator binding is requested (SP) or
+   * is supported (IdP).
+   */
+  public static final EntityCategory GENERAL_CATEGORY_SECURE_AUTHENTICATOR_BINDING = new EntityCategoryImpl(
+    GENERAL_CATEGORY_PREFIX + "1.0/secure-authenticator-binding", EntityCategoryType.GENERAL);
 
   /*
    * Hidden.

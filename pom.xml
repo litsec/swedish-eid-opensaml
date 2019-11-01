@@ -52,7 +52,7 @@
     <opensaml-security-ext.version>1.0.6</opensaml-security-ext.version>
     <opensaml-ext.version>1.4.4</opensaml-ext.version>
     <spring.version>4.3.19.RELEASE</spring.version>
-    <jackson.version>2.9.10</jackson.version>
+    <jackson.version>2.10.0</jackson.version>
     <!-- <nimbus.version>4.41.2</nimbus.version> -->
     <nimbus.version>7.9</nimbus.version>
 

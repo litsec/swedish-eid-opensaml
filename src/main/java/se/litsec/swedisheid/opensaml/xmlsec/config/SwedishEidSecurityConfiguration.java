@@ -15,6 +15,12 @@
  */
 package se.litsec.swedisheid.opensaml.xmlsec.config;
 
+import java.util.Arrays;
+
+import org.opensaml.xmlsec.EncryptionConfiguration;
+import org.opensaml.xmlsec.encryption.support.EncryptionConstants;
+import org.opensaml.xmlsec.impl.BasicEncryptionConfiguration;
+
 import se.swedenconnect.opensaml.xmlsec.config.SAML2IntSecurityConfiguration;
 import se.swedenconnect.opensaml.xmlsec.config.SecurityConfiguration;
 
@@ -22,7 +28,8 @@ import se.swedenconnect.opensaml.xmlsec.config.SecurityConfiguration;
  * A {@link SecurityConfiguration} instance with algorithm defaults according to the Swedish eID Framework (see
  * https://docs.swedenconnect.se).
  * <p>
- * Currently the implementation equals {@link SAML2IntSecurityConfiguration}.
+ * Currently the implementation equals {@link SAML2IntSecurityConfiguration} with the exception that it
+ * defaults to AES-CBC before AES-GCM for compatibility reasons.
  * </p>
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
@@ -35,4 +42,23 @@ public class SwedishEidSecurityConfiguration extends SAML2IntSecurityConfigurati
     return "swedish-eid-framework";
   }
 
+  /** {@inheritDoc} */
+  @Override
+  protected EncryptionConfiguration createDefaultEncryptionConfiguration() {
+    BasicEncryptionConfiguration config = (BasicEncryptionConfiguration) super.createDefaultEncryptionConfiguration();
+    
+    config.setDataEncryptionAlgorithms(Arrays.asList(
+      EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES256,
+      EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES192,
+      EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES128,      
+      EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES256_GCM,
+      EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES192_GCM,
+      EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES128_GCM,      
+      EncryptionConstants.ALGO_ID_BLOCKCIPHER_TRIPLEDES));
+    
+    return config;
+  }
+
+  
+  
 }

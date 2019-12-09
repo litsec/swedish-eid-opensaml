@@ -305,6 +305,16 @@ public class AttributeConstants {
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_SAD = new AttributeTemplate(
     ATTRIBUTE_NAME_SAD, ATTRIBUTE_FRIENDLY_NAME_SAD);
   
+  /** The attribute name for the "Sign message digest" attribute (urn:oid:1.2.752.201.3.14). */
+  public static final String ATTRIBUTE_NAME_SIGNMESSAGE_DIGEST = "urn:oid:1.2.752.201.3.14";
+  
+  /** The attribute friendly name for the "Sign message digest" attribute (signMessageDigest). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_SIGNMESSAGE_DIGEST = "signMessageDigest";
+  
+  /** Attribute template for the "Sign message digest" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_SIGNMESSAGE_DIGEST = new AttributeTemplate(
+    ATTRIBUTE_NAME_SIGNMESSAGE_DIGEST, ATTRIBUTE_FRIENDLY_NAME_SIGNMESSAGE_DIGEST);
+  
   /** The attribute name for the "Provisional identifier" attribute (urn:oid:1.2.752.201.3.4). */
   public static final String ATTRIBUTE_NAME_PRID = "urn:oid:1.2.752.201.3.4";
 

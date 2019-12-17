@@ -15,6 +15,7 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.signservice;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -106,7 +107,7 @@ public class SignMessageDigestIssuer {
     catch (final NoSuchAlgorithmException e) {
       throw new SecurityException(e);
     }
-    final byte[] digestValue = messageDigest.digest(message.getValue().getBytes());
+    final byte[] digestValue = messageDigest.digest(message.getContent().getBytes(StandardCharsets.UTF_8));      
 
     final String attributeValue = String.format("%s;%s", digestAlgorithm, Base64.getEncoder().encodeToString(digestValue));
 

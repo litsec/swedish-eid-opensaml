@@ -15,6 +15,7 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.signservice;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 
@@ -69,19 +70,20 @@ public class SignMessageDigestIssuerTest extends OpenSAMLTestBase {
       .message(SignMessageDigestIssuerTest.CONTENTS)
       .mimeType(SignMessageMimeTypeEnum.TEXT)
       .build();
+    
     final Attribute attr = issuer.create(signMessage.getMessage());
     Assert.assertEquals(
       String.format("%s;%s",
-        SignMessageDigestIssuer.DEFAULT_DIGEST_METHOD, this.hash(signMessage.getMessage().getValue(),
+        SignMessageDigestIssuer.DEFAULT_DIGEST_METHOD, this.hash(CONTENTS,
           SignMessageDigestIssuer.DEFAULT_DIGEST_METHOD)),
       AttributeUtils.getAttributeStringValue(attr));
   }
 
-  private String hash(final String encodedText, final String digestAlgorithm) throws Exception {
+  private String hash(final String text, final String digestAlgorithm) throws Exception {
     final AlgorithmRegistry registry = AlgorithmSupport.getGlobalAlgorithmRegistry();
     final AlgorithmDescriptor descriptor = registry.get(digestAlgorithm);
     final MessageDigest messageDigest = MessageDigest.getInstance(descriptor.getJCAAlgorithmID());
-    final byte[] digestValue = messageDigest.digest(encodedText.getBytes());
+    final byte[] digestValue = messageDigest.digest(text.getBytes(StandardCharsets.UTF_8));
     return Base64.getEncoder().encodeToString(digestValue);
   }
 }

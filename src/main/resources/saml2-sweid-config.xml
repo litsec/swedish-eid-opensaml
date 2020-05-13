@@ -86,6 +86,13 @@
       <UnmarshallingClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.PrincipalSelectionUnmarshaller" />
     </ObjectProvider>
     
+    <!-- psc:RequestedPrincipalSelection -->
+    <ObjectProvider qualifiedName="psc:RequestedPrincipalSelection">
+      <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.RequestedPrincipalSelectionBuilder" />
+      <MarshallingClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.PrincipalSelectionMarshaller" />
+      <UnmarshallingClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.PrincipalSelectionUnmarshaller" />
+    </ObjectProvider>
+    
     <!-- psc:MatchValue -->
     <ObjectProvider qualifiedName="psc:MatchValue">
       <BuilderClass className="se.litsec.swedisheid.opensaml.saml2.authentication.psc.impl.MatchValueBuilder" />

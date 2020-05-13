@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2019 Litsec AB
+ * Copyright 2016-2020 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,10 @@ import se.litsec.swedisheid.opensaml.OpenSAMLTestBase;
 import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeConstants;
 import se.litsec.swedisheid.opensaml.saml2.authentication.psc.build.MatchValueBuilder;
 import se.litsec.swedisheid.opensaml.saml2.authentication.psc.build.PrincipalSelectionBuilder;
+import se.litsec.swedisheid.opensaml.saml2.authentication.psc.build.RequestedPrincipalSelectionBuilder;
 
 /**
- * Test cases for {@link PrincipalSelection} and {@link MatchValue}.
+ * Test cases for {@link PrincipalSelection}, {@link RequestedPrincipalSelection} and {@link MatchValue}.
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
@@ -67,6 +68,25 @@ public class PrincipalSelectionTest extends OpenSAMLTestBase {
     Assert.assertEquals("NO:05068907693", ps2.getMatchValues().get(1).getValue());
     Assert.assertNull(ps2.getMatchValues().get(1).getNameFormat());
     Assert.assertEquals(AttributeConstants.ATTRIBUTE_NAME_PRID, ps2.getMatchValues().get(1).getName());
+    
+    RequestedPrincipalSelection rps = ObjectUtils.createSamlObject(RequestedPrincipalSelection.class);
+
+    MatchValue rmv1 = ObjectUtils.createSamlObject(MatchValue.class);
+    rmv1.setName(AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER);
+    rps.getMatchValues().add(rmv1);
+
+    MatchValue rmv2 = ObjectUtils.createSamlObject(MatchValue.class);
+    rmv2.setName(AttributeConstants.ATTRIBUTE_NAME_PRID);
+    rps.getMatchValues().add(rmv2);
+
+    Element relement = ObjectUtils.marshall(rps);
+
+    // System.out.println(SerializeSupport.prettyPrintXML(relement));
+
+    RequestedPrincipalSelection rps2 = ObjectUtils.unmarshall(relement, RequestedPrincipalSelection.class);
+    Assert.assertTrue("Expected two MatchValue elements", rps2.getMatchValues().size() == 2);
+    Assert.assertEquals(AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, rps2.getMatchValues().get(0).getName());
+    Assert.assertEquals(AttributeConstants.ATTRIBUTE_NAME_PRID, rps2.getMatchValues().get(1).getName());
   }
 
   /**
@@ -99,6 +119,21 @@ public class PrincipalSelectionTest extends OpenSAMLTestBase {
     Assert.assertEquals("NO:05068907693", ps2.getMatchValues().get(1).getValue());
     Assert.assertNull(ps2.getMatchValues().get(1).getNameFormat());
     Assert.assertEquals(AttributeConstants.ATTRIBUTE_NAME_PRID, ps2.getMatchValues().get(1).getName());
+    
+    RequestedPrincipalSelection rps = RequestedPrincipalSelectionBuilder.builder()
+        .matchValues(
+          MatchValueBuilder.builder().name(AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER).build(),
+          MatchValueBuilder.builder().name(AttributeConstants.ATTRIBUTE_NAME_PRID).build())
+        .build();
+
+      Element relement = ObjectUtils.marshall(rps);
+
+      // System.out.println(SerializeSupport.prettyPrintXML(relement));
+
+      PrincipalSelection rps2 = ObjectUtils.unmarshall(relement, RequestedPrincipalSelection.class);
+      Assert.assertTrue("Expected two MatchValue elements", rps2.getMatchValues().size() == 2);
+      Assert.assertEquals(AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, rps2.getMatchValues().get(0).getName());   
+      Assert.assertEquals(AttributeConstants.ATTRIBUTE_NAME_PRID, rps2.getMatchValues().get(1).getName());
   }
 
 }

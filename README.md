@@ -15,19 +15,19 @@ This open source package is an extension to OpenSAML 3.X that offers interfaces 
 
 The library contains support for the following functionality:
 
-* Attribute definitions according to the [Attribute Specification for the Swedish eID Framework](https://docs.swedenconnect.se/technical-framework/latest/ELN-0604_-_Attribute_Specification_for_the_Swedish_eID_Framework.html) specification.
+* Attribute definitions according to the [Attribute Specification for the Swedish eID Framework](https://docs.swedenconnect.se/technical-framework/latest/04_-_Attribute_Specification_for_the_Swedish_eID_Framework.html) specification.
 
-* Mapping of level of assurance URI:s as defined by the Swedish eID Framework ([Registry for identifiers assigned by the Swedish e-identification board](https://docs.swedenconnect.se/technical-framework/latest/ELN-0602_-_Deployment_Profile_for_the_Swedish_eID_Framework.html)).
+* Mapping of level of assurance URI:s as defined by the Swedish eID Framework ([Swedish eID Framework - Registry for identifiers](https://docs.swedenconnect.se/technical-framework/latest/03_-_Registry_for_Identifiers.html)).
 
-* Representation of entity categories as defined in the [Entity Categories for the Swedish eID Framework](https://docs.swedenconnect.se/technical-framework/latest/ELN-0606_-_Entity_Categories_for_the_Swedish_eID_Framework.html) specification.
+* Representation of entity categories as defined in the [Entity Categories for the Swedish eID Framework](https://docs.swedenconnect.se/technical-framework/latest/06_-_Entity_Categories_for_the_Swedish_eID_Framework.html) specification.
 
-* Support for the `SignMessage` extension type, including utility classes for building sign message extensions and for decrypting sign messages. See the [DSS Extension for Federated Central Signing Services](https://docs.swedenconnect.se/technical-framework/latest/ELN-0609_-_DSS_Extension_for_Federated_Signing_Services.html) specification.
+* Support for the `SignMessage` extension type, including utility classes for building sign message extensions and for decrypting sign messages. See the [DSS Extension for Federated Central Signing Services](https://docs.swedenconnect.se/technical-framework/latest/09_-_DSS_Extension_for_Federated_Signing_Services.html) specification.
 
-* Support for the `SADRequest` extension type as well as the SAD JWT. The SAD support also includes a SAD factory for creating and signing a SAD JWT and a SAD parser with validation support. See the [Signature Activation Protocol for Federated Signing](https://docs.swedenconnect.se/technical-framework/latest/ELN-0613_-_Signature_Activation_Protocol.html) specification.
+* Support for the `SADRequest` extension type as well as the SAD JWT. The SAD support also includes a SAD factory for creating and signing a SAD JWT and a SAD parser with validation support. See the [Signature Activation Protocol for Federated Signing](https://docs.swedenconnect.se/technical-framework/latest/13_-_Signature_Activation_Protocol.html) specification.
 
-* Support for the `PrincipalSelection` extension type that allows a requester to include a hint about the person that is about to be authenticated (especially useful for signature services). See the [Principal Selection in SAML Authentication Requests](https://docs.swedenconnect.se/technical-framework/updates/ELN-0614_-_Principal_Selection_in_SAML_Authentication_Requests.html) specification.
+* Support for the `PrincipalSelection` extension type that allows a requester to include a hint about the person that is about to be authenticated (especially useful for signature services). See the [Principal Selection in SAML Authentication Requests](https://docs.swedenconnect.se/technical-framework/updates/14_-_Principal_Selection_in_SAML_Authentication_Requests.html) specification.
 
-* Validation support for validating SAML responses according to the [Deployment Profile for the Swedish eID Framework](https://docs.swedenconnect.se/technical-framework/latest/ELN-0602_-_Deployment_Profile_for_the_Swedish_eID_Framework.html) specification.
+* Validation support for validating SAML responses according to the [Deployment Profile for the Swedish eID Framework](https://docs.swedenconnect.se/technical-framework/latest/02_-_Deployment_Profile_for_the_Swedish_eID_Framework.html) specification.
 
 Java API documentation of the swedish-eid-opensaml library is found at [https://litsec.github.io/swedish-eid-opensaml](https://litsec.github.io/swedish-eid-opensaml/).
 
@@ -35,6 +35,6 @@ Generated project information is found at [https://litsec.github.io/swedish-eid-
 
 ------
 
-Copyright &copy; 2016-2019, [Litsec AB](http://www.litsec.se). Licensed under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
+Copyright &copy; 2016-2020, [Litsec AB](http://www.litsec.se). Licensed under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
 
 

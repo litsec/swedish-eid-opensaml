@@ -97,7 +97,7 @@ public class SADRequestTest extends OpenSAMLTestBase {
     Assert.assertEquals("_a74a068d0548a919e503e5f9ef901851", request.getID());
     Assert.assertEquals("http://www.example.com/sigservice", request.getRequesterID());
     Assert.assertEquals("123456", request.getSignRequestID());
-    Assert.assertEquals(new Integer(5), request.getDocCount());
+    Assert.assertEquals(Integer.valueOf(5), request.getDocCount());
     Assert.assertEquals(SADVersion.valueOf("2.0"), request.getRequestedVersion());
     Assert.assertTrue(request.getRequestParams().getParameters().size() == 2);
     Assert.assertEquals("value1", request.getRequestParams().getParameters().get(0).getValue());

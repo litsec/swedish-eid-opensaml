@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,9 @@ package se.litsec.swedisheid.opensaml.saml2.signservice;
 import java.util.Arrays;
 import java.util.List;
 
+import org.opensaml.core.xml.util.XMLObjectSupport;
+
 import se.litsec.opensaml.core.AbstractSAMLObjectBuilder;
-import se.litsec.opensaml.utils.ObjectUtils;
 import se.litsec.swedisheid.opensaml.saml2.signservice.sap.Parameter;
 import se.litsec.swedisheid.opensaml.saml2.signservice.sap.RequestParams;
 import se.litsec.swedisheid.opensaml.saml2.signservice.sap.SADRequest;
@@ -145,7 +146,7 @@ public class SADRequestBuilder extends AbstractSAMLObjectBuilder<SADRequest> {
      * @return the {@code Parameter} object
      */
     public static Parameter parameter(String name, String value) {
-      Parameter p = ObjectUtils.createSamlObject(Parameter.class);
+      Parameter p = (Parameter) XMLObjectSupport.buildXMLObject(Parameter.DEFAULT_ELEMENT_NAME);
       p.setName(name);
       p.setValue(value);
       return p;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.nio.charset.Charset;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.w3c.dom.Element;
 
 import se.litsec.opensaml.utils.ObjectUtils;
@@ -40,27 +41,27 @@ public class SADRequestTest extends OpenSAMLTestBase {
    */
   @Test
   public void testMarshallUnmarshall() throws Exception {
-    SADRequest request = ObjectUtils.createSamlObject(SADRequest.class);
+    SADRequest request = (SADRequest) XMLObjectSupport.buildXMLObject(SADRequest.DEFAULT_ELEMENT_NAME); 
     request.setID("_a74a068d0548a919e503e5f9ef901851");
     request.setRequesterID("http://www.example.com/sigservice");
     request.setSignRequestID("123456");
     request.setDocCount(5);
     request.setRequestedVersion(SADVersion.VERSION_10);
     
-    Parameter p1 = ObjectUtils.createSamlObject(Parameter.class);
+    Parameter p1 = (Parameter) XMLObjectSupport.buildXMLObject(Parameter.DEFAULT_ELEMENT_NAME); 
     p1.setName("param1");
     p1.setValue("value1");
     
-    Parameter p2 = ObjectUtils.createSamlObject(Parameter.class);
+    Parameter p2 = (Parameter) XMLObjectSupport.buildXMLObject(Parameter.DEFAULT_ELEMENT_NAME);
     p2.setName("param2");
     p2.setValue("value2");
     
-    RequestParams rp = ObjectUtils.createSamlObject(RequestParams.class);
+    RequestParams rp = (RequestParams) XMLObjectSupport.buildXMLObject(RequestParams.DEFAULT_ELEMENT_NAME);
     rp.getParameters().add(p1);
     rp.getParameters().add(p2);
     request.setRequestParams(rp);
 
-    Element element = ObjectUtils.marshall(request);
+    Element element = XMLObjectSupport.marshall(request);
     
     SADRequest request2 = ObjectUtils.unmarshall(element, SADRequest.class);
 

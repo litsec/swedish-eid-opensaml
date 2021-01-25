@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,12 @@ package se.litsec.swedisheid.opensaml.saml2.signservice.dss.impl;
 
 import java.nio.charset.StandardCharsets;
 
+import org.opensaml.core.xml.XMLRuntimeException;
 import org.opensaml.core.xml.schema.impl.XSBase64BinaryImpl;
 
 import net.shibboleth.utilities.java.support.codec.Base64Support;
+import net.shibboleth.utilities.java.support.codec.DecodingException;
+import net.shibboleth.utilities.java.support.codec.EncodingException;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.Message;
 
 /**
@@ -39,21 +42,31 @@ public class MessageImpl extends XSBase64BinaryImpl implements Message {
    * @param namespacePrefix
    *          the name space prefix.
    */  
-  protected MessageImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+  protected MessageImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
     super(namespaceURI, elementLocalName, namespacePrefix);
   }
 
   /** {@inheritDoc} */
   @Override
   public String getContent() {
-    return this.getValue() != null ? new String(Base64Support.decode(this.getValue()), StandardCharsets.UTF_8) : null;
+    try {
+      return this.getValue() != null ? new String(Base64Support.decode(this.getValue()), StandardCharsets.UTF_8) : null;
+    }
+    catch (DecodingException e) {
+      throw new XMLRuntimeException(e);
+    }
   }
 
   /** {@inheritDoc} */
   @Override
-  public void setContent(String messageContent) {
+  public void setContent(final String messageContent) {
     if (messageContent != null) {
-      this.setValue(Base64Support.encode(messageContent.getBytes(StandardCharsets.UTF_8), false));
+      try {
+        this.setValue(Base64Support.encode(messageContent.getBytes(StandardCharsets.UTF_8), false));
+      }
+      catch (EncodingException e) {
+        throw new XMLRuntimeException(e);
+      }
     }
     else {
       this.setValue(null);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,7 +89,7 @@ public interface AttributeSet {
    * @throws AttributesValidationException
    *           for violations of the attribute set
    */
-  void validateAttributes(Assertion assertion, List<RequestedAttribute> explicitlyRequestedAttributes)
+  void validateAttributes(final Assertion assertion, final List<RequestedAttribute> explicitlyRequestedAttributes)
       throws AttributesValidationException;
 
 }

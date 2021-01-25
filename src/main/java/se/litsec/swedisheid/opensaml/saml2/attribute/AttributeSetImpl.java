@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,8 +73,8 @@ public class AttributeSetImpl implements AttributeSet {
    * @param recommendedAttributes
    *          the recommended attributes for this attribute set
    */
-  public AttributeSetImpl(String identifier, String uri, String friendlyName, AttributeTemplate[] requiredAttributes,
-      AttributeTemplate[] recommendedAttributes) {
+  public AttributeSetImpl(final String identifier, final String uri, final String friendlyName, 
+      final AttributeTemplate[] requiredAttributes, final AttributeTemplate[] recommendedAttributes) {
     this.setIdentifier(identifier);
     this.setUri(uri);
     this.setFriendlyName(friendlyName);
@@ -86,7 +86,7 @@ public class AttributeSetImpl implements AttributeSet {
    * {@inheritDoc}
    */
   @Override
-  public void validateAttributes(Assertion assertion, List<RequestedAttribute> explicitlyRequestedAttributes)
+  public void validateAttributes(final Assertion assertion, final List<RequestedAttribute> explicitlyRequestedAttributes)
       throws AttributesValidationException {
 
     logger.trace("Validating the attributes from assertion '{}' against attribute set '{}' ({}) ...",
@@ -198,7 +198,7 @@ public class AttributeSetImpl implements AttributeSet {
    * @param uri
    *          the URI to assign
    */
-  public void setUri(String uri) {
+  public void setUri(final String uri) {
     this.uri = uri;
   }
 
@@ -208,7 +208,7 @@ public class AttributeSetImpl implements AttributeSet {
    * @param friendlyName
    *          the friendlyName to set
    */
-  public void setFriendlyName(String friendlyName) {
+  public void setFriendlyName(final String friendlyName) {
     this.friendlyName = friendlyName;
   }
 
@@ -218,7 +218,7 @@ public class AttributeSetImpl implements AttributeSet {
    * @param requiredAttributes
    *          the attributes to assign
    */
-  public void setRequiredAttributes(AttributeTemplate[] requiredAttributes) {
+  public void setRequiredAttributes(final AttributeTemplate[] requiredAttributes) {
     this.requiredAttributes = requiredAttributes != null ? Arrays.asList(requiredAttributes) : Collections.emptyList();
   }
 
@@ -228,7 +228,7 @@ public class AttributeSetImpl implements AttributeSet {
    * @param recommendedAttributes
    *          the attributes to assign
    */
-  public void setRecommendedAttributes(AttributeTemplate[] recommendedAttributes) {
+  public void setRecommendedAttributes(final AttributeTemplate[] recommendedAttributes) {
     this.recommendedAttributes = recommendedAttributes != null ? Arrays.asList(recommendedAttributes) : Collections.emptyList();
   }
 

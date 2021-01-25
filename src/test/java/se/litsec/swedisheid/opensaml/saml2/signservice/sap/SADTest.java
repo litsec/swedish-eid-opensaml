@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,10 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.signservice.sap;
 
-import org.joda.time.DateTime;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,15 +41,15 @@ public class SADTest {
   @Test
   public void testEncodeDecode() throws Exception {
     
-    DateTime issuance = new DateTime(2018, 1, 17, 14, 22, 37, 0);
-    DateTime expiry = issuance.plusMinutes(5);
+    Instant issuance = LocalDateTime.of(2018, 1, 17, 14, 22, 37, 0).toInstant(ZoneOffset.UTC);
+    Instant expiry = issuance.plusSeconds(5 * 60);
     
     SAD sad = new SAD();
     sad.setSubject("196302052383");
     sad.setAudience("http://www.example.com/sigservice");
     sad.setIssuer("https://idp.svelegtest.se/idp");
     sad.setExpiry(expiry);
-    sad.setIssuedAt((int) (issuance.getMillis() / 1000L));
+    sad.setIssuedAt((int) (issuance.toEpochMilli() / 1000L));
     sad.setJwtId("d4073fc74b1b9199");
     SAD.Extension ext = new SAD.Extension();
     ext.setVersion(SADVersion.VERSION_10.toString());
@@ -57,8 +60,8 @@ public class SADTest {
     ext.setNumberOfDocuments(1);
     sad.setSeElnSadext(ext);
     
-    DateTime exp = sad.getExpiryDateTime();
-    Assert.assertEquals(sad.getExpiry().intValue(), (int) (exp.getMillis() / 1000));
+    Instant exp = sad.getExpiryDateTime();
+    Assert.assertEquals(sad.getExpiry().intValue(), (int) (exp.toEpochMilli() / 1000));
     
     String json = sad.toJson();
 

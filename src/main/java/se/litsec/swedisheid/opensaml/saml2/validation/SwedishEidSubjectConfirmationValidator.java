@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,11 @@ package se.litsec.swedisheid.opensaml.saml2.validation;
 import org.opensaml.saml.common.assertion.AssertionValidationException;
 import org.opensaml.saml.common.assertion.ValidationContext;
 import org.opensaml.saml.common.assertion.ValidationResult;
-import org.opensaml.saml.saml2.assertion.SAML2AssertionValidationParameters;
 import org.opensaml.saml.saml2.assertion.impl.AbstractSubjectConfirmationValidator;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.AuthnRequest;
 import org.opensaml.saml.saml2.core.SubjectConfirmation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import se.litsec.opensaml.common.validation.AbstractObjectValidator;
 import se.litsec.opensaml.common.validation.CoreValidatorParameters;
 
@@ -36,9 +32,6 @@ import se.litsec.opensaml.common.validation.CoreValidatorParameters;
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
 public class SwedishEidSubjectConfirmationValidator extends AbstractSubjectConfirmationValidator {
-
-  /** Class logger. */
-  private final Logger log = LoggerFactory.getLogger(SwedishEidSubjectConfirmationValidator.class);
 
   /**
    * Returns {@link SubjectConfirmation#METHOD_BEARER}.
@@ -54,7 +47,7 @@ public class SwedishEidSubjectConfirmationValidator extends AbstractSubjectConfi
    * Extends the validator with checks for the Swedish eID Framework.
    */
   @Override
-  protected ValidationResult doValidate(SubjectConfirmation confirmation, Assertion assertion, ValidationContext context)
+  protected ValidationResult doValidate(final SubjectConfirmation confirmation, final Assertion assertion, final ValidationContext context)
       throws AssertionValidationException {
 
     if (confirmation.getSubjectConfirmationData() == null) {
@@ -105,7 +98,7 @@ public class SwedishEidSubjectConfirmationValidator extends AbstractSubjectConfi
    *          the validation context
    * @return validation result
    */
-  protected ValidationResult validateInResponseTo(SubjectConfirmation confirmation, Assertion assertion, ValidationContext context) {
+  protected ValidationResult validateInResponseTo(final SubjectConfirmation confirmation, final Assertion assertion, final ValidationContext context) {
 
     if (confirmation.getSubjectConfirmationData().getInResponseTo() == null) {
       final String msg = String.format(
@@ -148,34 +141,10 @@ public class SwedishEidSubjectConfirmationValidator extends AbstractSubjectConfi
    * Overrides the default implementation.
    */
   @Override
-  protected ValidationResult validateAddress(SubjectConfirmation confirmation, Assertion assertion, ValidationContext context)
-      throws AssertionValidationException {
-
-    String address = StringSupport.trimOrNull(confirmation.getSubjectConfirmationData().getAddress());
-    if (address == null) {
-      final String msg = String.format("SubjectConfirmationData of Assertion '%s' is missing Address attribute", assertion.getID());
-      if (AbstractObjectValidator.isStrictValidation(context)) {
-        context.setValidationFailureMessage(msg);
-        return ValidationResult.INVALID;
-      }
-      else {
-        log.warn(msg);
-      }
-    }
+  protected ValidationResult validateAddress(final SubjectConfirmation confirmation, final Assertion assertion, 
+      final ValidationContext context, boolean required) throws AssertionValidationException {
     
-    if (!AbstractObjectValidator.isStrictValidation(context) && context.getStaticParameters().get(SAML2AssertionValidationParameters.SC_VALID_ADDRESSES) == null) {
-      log.info("Address check skipped for SubjectConfirmationData - no indata supplied");
-      return ValidationResult.VALID;
-    }
-
-    ValidationResult result = super.validateAddress(confirmation, assertion, context);
-    if (result != ValidationResult.VALID && !AbstractObjectValidator.isStrictValidation(context)) {
-      final String msg = context.getValidationFailureMessage();
-      log.warn(msg);
-      context.setValidationFailureMessage(null);
-      return ValidationResult.VALID;
-    }
-    return result;
-  }
+    return super.validateAddress(confirmation, assertion, context, required || AbstractObjectValidator.isStrictValidation(context));
+  }  
 
 }

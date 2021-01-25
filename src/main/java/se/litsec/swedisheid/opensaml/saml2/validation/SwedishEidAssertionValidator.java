@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ public class SwedishEidAssertionValidator extends AssertionValidator {
    * @param signaturePrevalidator
    *          the signature pre-validator used to pre-validate the object's signature
    */
-  public SwedishEidAssertionValidator(SignatureTrustEngine trustEngine, SignaturePrevalidator signaturePrevalidator) {
+  public SwedishEidAssertionValidator(final SignatureTrustEngine trustEngine, final SignaturePrevalidator signaturePrevalidator) {
     this(trustEngine, signaturePrevalidator, 
       Arrays.asList(new SwedishEidSubjectConfirmationValidator()),
       Arrays.asList(new AudienceRestrictionConditionValidator()), 
@@ -103,11 +103,11 @@ public class SwedishEidAssertionValidator extends AssertionValidator {
    *          validators used to validate {@link Statement}s within the assertion
    */  
   public SwedishEidAssertionValidator(
-      SignatureTrustEngine trustEngine,
-      SignaturePrevalidator signaturePrevalidator,
-      Collection<SubjectConfirmationValidator> confirmationValidators,
-      Collection<ConditionValidator> conditionValidators,
-      Collection<StatementValidator> statementValidators) {
+      final SignatureTrustEngine trustEngine,
+      final SignaturePrevalidator signaturePrevalidator,
+      final Collection<SubjectConfirmationValidator> confirmationValidators,
+      final Collection<ConditionValidator> conditionValidators,
+      final Collection<StatementValidator> statementValidators) {
 
     super(trustEngine, signaturePrevalidator, confirmationValidators, conditionValidators, statementValidators);
   }
@@ -118,7 +118,7 @@ public class SwedishEidAssertionValidator extends AssertionValidator {
    * the bearer method. After that, the base implementation may execute.
    */
   @Override
-  protected ValidationResult validateSubject(Assertion assertion, ValidationContext context) {
+  protected ValidationResult validateSubject(final Assertion assertion, final ValidationContext context) {
 
     if (assertion.getSubject() == null) {
       context.setValidationFailureMessage("Missing Subject element in Assertion");
@@ -193,7 +193,7 @@ public class SwedishEidAssertionValidator extends AssertionValidator {
    * Extends the base implementation with requirements from the Swedish eID Framework.
    */
   @Override
-  protected ValidationResult validateConditions(Assertion assertion, ValidationContext context) {
+  protected ValidationResult validateConditions(final Assertion assertion, final ValidationContext context) {
 
     if (assertion.getConditions() == null) {
       context.setValidationFailureMessage("Missing Conditions element in Assertion");
@@ -229,7 +229,7 @@ public class SwedishEidAssertionValidator extends AssertionValidator {
    * {@link AttributeStatement} elements are in place.
    */
   @Override
-  protected ValidationResult validateStatements(Assertion assertion, ValidationContext context) {
+  protected ValidationResult validateStatements(final Assertion assertion, final ValidationContext context) {
 
     if (assertion.getAuthnStatements() == null || assertion.getAuthnStatements().isEmpty()) {
       context.setValidationFailureMessage("No AuthnStatement in Assertion");

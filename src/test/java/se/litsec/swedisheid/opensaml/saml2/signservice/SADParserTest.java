@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,12 @@ package se.litsec.swedisheid.opensaml.saml2.signservice;
 
 import java.security.KeyStore;
 import java.security.cert.X509Certificate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
-import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
+import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.AttributeStatement;
 import org.opensaml.saml.saml2.core.AuthnContext;
@@ -35,7 +37,6 @@ import org.springframework.core.io.ClassPathResource;
 import se.litsec.opensaml.saml2.attribute.AttributeBuilder;
 import se.litsec.opensaml.saml2.core.build.AuthnRequestBuilder;
 import se.litsec.opensaml.utils.KeyStoreUtils;
-import se.litsec.opensaml.utils.ObjectUtils;
 import se.litsec.opensaml.utils.X509CertificateUtils;
 import se.litsec.swedisheid.opensaml.OpenSAMLTestBase;
 import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeConstants;
@@ -351,8 +352,8 @@ public class SADParserTest extends OpenSAMLTestBase {
   public void testExpiredSAD() throws Exception {
 
     SAD sad = this.getTestSAD();
-    sad.setIssuedAt(new DateTime(2017, 1, 1, 13, 10));
-    sad.setExpiry(new DateTime(2017, 1, 1, 13, 11));
+    sad.setIssuedAt(LocalDateTime.of(2017, 1, 1, 13, 10).toInstant(ZoneOffset.UTC));
+    sad.setExpiry(LocalDateTime.of(2017, 1, 1, 13, 11).toInstant(ZoneOffset.UTC));
     String jwt = this.sadFactory.createJwt(sad);
 
     SADValidator validator = SADParser.getValidator(this.validationCertificate);
@@ -661,7 +662,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .issuer(SIGNSERVICE_ENTITYID);
 
     if (sadRequest != null) {
-      Extensions exts = ObjectUtils.createSamlObject(Extensions.class);
+      Extensions exts = (Extensions) XMLObjectSupport.buildXMLObject(Extensions.DEFAULT_ELEMENT_NAME); 
       exts.getUnknownXMLObjects().add(sadRequest);
       builder = builder.extensions(exts);
     }
@@ -670,19 +671,19 @@ public class SADParserTest extends OpenSAMLTestBase {
   }
 
   private static Assertion buildAssertion(String issuer, String loa) {
-    Assertion assertion = ObjectUtils.createSamlObject(Assertion.class);
+    Assertion assertion = (Assertion) XMLObjectSupport.buildXMLObject(Assertion.DEFAULT_ELEMENT_NAME); 
     assertion.setID("123456");
-    Issuer _issuer = ObjectUtils.createSamlObject(Issuer.class);
+    Issuer _issuer = (Issuer) XMLObjectSupport.buildXMLObject(Issuer.DEFAULT_ELEMENT_NAME); 
     _issuer.setValue(issuer);
     assertion.setIssuer(_issuer);
 
-    AuthnContextClassRef authnContextClassRef = ObjectUtils.createSamlObject(AuthnContextClassRef.class);
-    authnContextClassRef.setAuthnContextClassRef(loa);
+    AuthnContextClassRef authnContextClassRef = (AuthnContextClassRef) XMLObjectSupport.buildXMLObject(AuthnContextClassRef.DEFAULT_ELEMENT_NAME); 
+    authnContextClassRef.setURI(loa);
 
-    AuthnContext authnContext = ObjectUtils.createSamlObject(AuthnContext.class);
+    AuthnContext authnContext = (AuthnContext) XMLObjectSupport.buildXMLObject(AuthnContext.DEFAULT_ELEMENT_NAME); 
     authnContext.setAuthnContextClassRef(authnContextClassRef);
 
-    AuthnStatement authnStatement = ObjectUtils.createSamlObject(AuthnStatement.class);
+    AuthnStatement authnStatement = (AuthnStatement) XMLObjectSupport.buildXMLObject(AuthnStatement.DEFAULT_ELEMENT_NAME); 
     authnStatement.setAuthnContext(authnContext);
 
     assertion.getAuthnStatements().add(authnStatement);
@@ -692,7 +693,7 @@ public class SADParserTest extends OpenSAMLTestBase {
 
   private static void addAttribute(Assertion assertion, String name, String value) {
     if (assertion.getAttributeStatements().isEmpty()) {
-      AttributeStatement stmnt = ObjectUtils.createSamlObject(AttributeStatement.class);
+      AttributeStatement stmnt = (AttributeStatement) XMLObjectSupport.buildXMLObject(AttributeStatement.DEFAULT_ELEMENT_NAME); 
       assertion.getAttributeStatements().add(stmnt);
     }
     assertion.getAttributeStatements().get(0).getAttributes().add(

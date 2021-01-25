@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,12 @@ package se.litsec.swedisheid.opensaml.saml2.signservice.sap.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.opensaml.core.xml.AbstractXMLObject;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.schema.XSInteger;
 import org.opensaml.core.xml.schema.XSString;
 import org.opensaml.core.xml.schema.impl.XSIntegerBuilder;
 import org.opensaml.core.xml.schema.impl.XSStringBuilder;
-import org.opensaml.saml.common.AbstractSAMLObject;
 
 import se.litsec.swedisheid.opensaml.saml2.signservice.sap.RequestParams;
 import se.litsec.swedisheid.opensaml.saml2.signservice.sap.SADRequest;
@@ -34,7 +34,7 @@ import se.litsec.swedisheid.opensaml.saml2.signservice.sap.SADVersion;
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
-public class SADRequestImpl extends AbstractSAMLObject implements SADRequest {
+public class SADRequestImpl extends AbstractXMLObject implements SADRequest {
 
   /** ID of the message. */
   private String id;

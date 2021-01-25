@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.opensaml.core.xml.AbstractXMLObject;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.schema.XSBooleanValue;
 import org.opensaml.core.xml.util.AttributeMap;
-import org.opensaml.saml.common.AbstractSAMLObject;
 
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.EncryptedMessage;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.Message;
@@ -34,7 +34,7 @@ import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessageMimeTypeEn
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
-public class SignMessageImpl extends AbstractSAMLObject implements SignMessage {
+public class SignMessageImpl extends AbstractXMLObject implements SignMessage {
 
   /** The MustShow attribute. */
   private XSBooleanValue mustShow;

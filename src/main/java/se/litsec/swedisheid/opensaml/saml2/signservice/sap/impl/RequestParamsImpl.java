@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.opensaml.core.xml.AbstractXMLObject;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.util.XMLObjectChildrenList;
-import org.opensaml.saml.common.AbstractSAMLObject;
 
 import se.litsec.swedisheid.opensaml.saml2.signservice.sap.Parameter;
 import se.litsec.swedisheid.opensaml.saml2.signservice.sap.RequestParams;
@@ -31,7 +31,7 @@ import se.litsec.swedisheid.opensaml.saml2.signservice.sap.RequestParams;
  * 
  * @author Martin Lindström (martin.lindstrom@litsec.se)
  */
-public class RequestParamsImpl extends AbstractSAMLObject implements RequestParams {
+public class RequestParamsImpl extends AbstractXMLObject implements RequestParams {
   
   /** Parameter children. */
   private final XMLObjectChildrenList<Parameter> parameters;

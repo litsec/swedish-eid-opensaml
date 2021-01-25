@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,15 +32,15 @@ public class SwedishEidResponseProcessorImpl extends ResponseProcessorImpl {
 
   /** {@inheritDoc} */
   @Override
-  protected ResponseValidator createResponseValidator(SignatureTrustEngine signatureTrustEngine,
-      SignaturePrevalidator signatureProfileValidator) {
+  protected ResponseValidator createResponseValidator(final SignatureTrustEngine signatureTrustEngine,
+      final SignaturePrevalidator signatureProfileValidator) {
     return new SwedishEidResponseValidator(signatureTrustEngine, signatureProfileValidator);
   }
 
   /** {@inheritDoc} */
   @Override
-  protected AssertionValidator createAssertionValidator(SignatureTrustEngine signatureTrustEngine,
-      SignaturePrevalidator signatureProfileValidator) {
+  protected AssertionValidator createAssertionValidator(final SignatureTrustEngine signatureTrustEngine,
+      final SignaturePrevalidator signatureProfileValidator) {
     return new SwedishEidAssertionValidator(signatureTrustEngine, signatureProfileValidator);
   }
   

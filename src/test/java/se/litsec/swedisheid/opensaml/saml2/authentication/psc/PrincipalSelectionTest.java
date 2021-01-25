@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package se.litsec.swedisheid.opensaml.saml2.authentication.psc;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.saml.saml2.core.Attribute;
 import org.w3c.dom.Element;
 
@@ -43,20 +44,20 @@ public class PrincipalSelectionTest extends OpenSAMLTestBase {
   @Test
   public void testMarshallUnmarshall() throws Exception {
 
-    PrincipalSelection ps = ObjectUtils.createSamlObject(PrincipalSelection.class);
+    PrincipalSelection ps = (PrincipalSelection) XMLObjectSupport.buildXMLObject(PrincipalSelection.DEFAULT_ELEMENT_NAME); 
 
-    MatchValue mv1 = ObjectUtils.createSamlObject(MatchValue.class);
+    MatchValue mv1 = (MatchValue) XMLObjectSupport.buildXMLObject(MatchValue.DEFAULT_ELEMENT_NAME); 
     mv1.setValue("198906059483");
     mv1.setNameFormat(Attribute.URI_REFERENCE);
     mv1.setName(AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER);
     ps.getMatchValues().add(mv1);
 
-    MatchValue mv2 = ObjectUtils.createSamlObject(MatchValue.class);
+    MatchValue mv2 = (MatchValue) XMLObjectSupport.buildXMLObject(MatchValue.DEFAULT_ELEMENT_NAME);
     mv2.setValue("NO:05068907693");
     mv2.setName(AttributeConstants.ATTRIBUTE_NAME_PRID);
     ps.getMatchValues().add(mv2);
 
-    Element element = ObjectUtils.marshall(ps);
+    Element element = XMLObjectSupport.marshall(ps);
 
     // System.out.println(SerializeSupport.prettyPrintXML(element));
 
@@ -69,17 +70,17 @@ public class PrincipalSelectionTest extends OpenSAMLTestBase {
     Assert.assertNull(ps2.getMatchValues().get(1).getNameFormat());
     Assert.assertEquals(AttributeConstants.ATTRIBUTE_NAME_PRID, ps2.getMatchValues().get(1).getName());
     
-    RequestedPrincipalSelection rps = ObjectUtils.createSamlObject(RequestedPrincipalSelection.class);
+    RequestedPrincipalSelection rps = (RequestedPrincipalSelection) XMLObjectSupport.buildXMLObject(RequestedPrincipalSelection.DEFAULT_ELEMENT_NAME); 
 
-    MatchValue rmv1 = ObjectUtils.createSamlObject(MatchValue.class);
+    MatchValue rmv1 = (MatchValue) XMLObjectSupport.buildXMLObject(MatchValue.DEFAULT_ELEMENT_NAME);
     rmv1.setName(AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER);
     rps.getMatchValues().add(rmv1);
 
-    MatchValue rmv2 = ObjectUtils.createSamlObject(MatchValue.class);
+    MatchValue rmv2 = (MatchValue) XMLObjectSupport.buildXMLObject(MatchValue.DEFAULT_ELEMENT_NAME);
     rmv2.setName(AttributeConstants.ATTRIBUTE_NAME_PRID);
     rps.getMatchValues().add(rmv2);
 
-    Element relement = ObjectUtils.marshall(rps);
+    Element relement = XMLObjectSupport.marshall(rps);
 
     // System.out.println(SerializeSupport.prettyPrintXML(relement));
 
@@ -107,7 +108,7 @@ public class PrincipalSelectionTest extends OpenSAMLTestBase {
         MatchValueBuilder.builder().value("NO:05068907693").name(AttributeConstants.ATTRIBUTE_NAME_PRID).build())
       .build();
 
-    Element element = ObjectUtils.marshall(ps);
+    Element element = XMLObjectSupport.marshall(ps);
 
     // System.out.println(SerializeSupport.prettyPrintXML(element));
 
@@ -126,7 +127,7 @@ public class PrincipalSelectionTest extends OpenSAMLTestBase {
           MatchValueBuilder.builder().name(AttributeConstants.ATTRIBUTE_NAME_PRID).build())
         .build();
 
-      Element relement = ObjectUtils.marshall(rps);
+      Element relement = XMLObjectSupport.marshall(rps);
 
       // System.out.println(SerializeSupport.prettyPrintXML(relement));
 

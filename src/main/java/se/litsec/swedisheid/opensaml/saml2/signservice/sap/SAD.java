@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,7 @@
 package se.litsec.swedisheid.opensaml.saml2.signservice.sap;
 
 import java.io.IOException;
-
-import org.joda.time.DateTime;
+import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -74,7 +73,7 @@ public class SAD {
    * @throws IOException
    *           for parsing errors
    */
-  public static SAD fromJson(String json) throws IOException {
+  public static SAD fromJson(final String json) throws IOException {
     return jsonMapper.readValue(json, SAD.class);
   }
 
@@ -115,7 +114,7 @@ public class SAD {
    * @param subject
    *          the user ID
    */
-  public void setSubject(String subject) {
+  public void setSubject(final String subject) {
     this.subject = subject;
   }
 
@@ -134,7 +133,7 @@ public class SAD {
    * @param audience
    *          the entityID of the recipient
    */
-  public void setAudience(String audience) {
+  public void setAudience(final String audience) {
     this.audience = audience;
   }
 
@@ -153,7 +152,7 @@ public class SAD {
    * @param issuer
    *          the IdP entityID
    */
-  public void setIssuer(String issuer) {
+  public void setIssuer(final String issuer) {
     this.issuer = issuer;
   }
 
@@ -167,13 +166,13 @@ public class SAD {
   }
 
   /**
-   * Returns the time when this SAD is no longer valid as a {@link DateTime} instance.
+   * Returns the time when this SAD is no longer valid as a {@link Instant} instance.
    * 
    * @return expiration time
    */
   @JsonIgnore
-  public DateTime getExpiryDateTime() {
-    return this.expiry != null ? new DateTime(this.expiry * 1000L) : null;
+  public Instant getExpiryDateTime() {
+    return this.expiry != null ? Instant.ofEpochMilli(this.expiry * 1000L) : null;
   }
 
   /**
@@ -182,7 +181,7 @@ public class SAD {
    * @param expiry
    *          number of seconds since 1970-01-01
    */
-  public void setExpiry(Integer expiry) {
+  public void setExpiry(final Integer expiry) {
     this.expiry = expiry;
   }
 
@@ -193,8 +192,8 @@ public class SAD {
    *          expiration time
    */
   @JsonIgnore
-  public void setExpiry(DateTime expiry) {
-    this.expiry = expiry != null ? (int) (expiry.getMillis() / 1000L) : null;
+  public void setExpiry(final Instant expiry) {
+    this.expiry = expiry != null ? (int) (expiry.toEpochMilli() / 1000L) : null;
   }
 
   /**
@@ -207,13 +206,13 @@ public class SAD {
   }
 
   /**
-   * Returns the time when this SAD was issued as a {@link DateTime} instance.
+   * Returns the time when this SAD was issued as a {@link Instant} instance.
    * 
    * @return timestamp
    */
   @JsonIgnore
-  public DateTime getIssuedAtDateTime() {
-    return this.issuedAt != null ? new DateTime(this.issuedAt * 1000L) : null;
+  public Instant getIssuedAtDateTime() {
+    return this.issuedAt != null ? Instant.ofEpochMilli(this.issuedAt * 1000L) : null;
   }
 
   /**
@@ -222,7 +221,7 @@ public class SAD {
    * @param issuedAt
    *          number of seconds since 1970-01-01
    */
-  public void setIssuedAt(Integer issuedAt) {
+  public void setIssuedAt(final Integer issuedAt) {
     this.issuedAt = issuedAt;
   }
 
@@ -233,8 +232,8 @@ public class SAD {
    *          issue time
    */
   @JsonIgnore
-  public void setIssuedAt(DateTime issuedAt) {
-    this.issuedAt = issuedAt != null ? (int) (issuedAt.getMillis() / 1000L) : null;
+  public void setIssuedAt(final Instant issuedAt) {
+    this.issuedAt = issuedAt != null ? (int) (issuedAt.toEpochMilli() / 1000L) : null;
   }
 
   /**
@@ -252,7 +251,7 @@ public class SAD {
    * @param jwtId
    *          JWT ID
    */
-  public void setJwtId(String jwtId) {
+  public void setJwtId(final String jwtId) {
     this.jwtId = jwtId;
   }
 
@@ -271,7 +270,7 @@ public class SAD {
    * @param seElnSadext
    *          SAD extension claim
    */
-  public void setSeElnSadext(Extension seElnSadext) {
+  public void setSeElnSadext(final Extension seElnSadext) {
     this.seElnSadext = seElnSadext;
   }
 
@@ -299,7 +298,7 @@ public class SAD {
 
   /** {@inheritDoc} */
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj) {
       return true;
     }
@@ -432,7 +431,7 @@ public class SAD {
      * @param version
      *          the version
      */
-    public void setVersion(String version) {
+    public void setVersion(final String version) {
       this.version = version;
     }
 
@@ -451,7 +450,7 @@ public class SAD {
      * @param inResponseTo
      *          ID of corresponding {@code SADRequest}
      */
-    public void setInResponseTo(String inResponseTo) {
+    public void setInResponseTo(final String inResponseTo) {
       this.inResponseTo = inResponseTo;
     }
 
@@ -470,7 +469,7 @@ public class SAD {
      * @param attributeName
      *          attribute name for the user ID attribute value
      */
-    public void setAttributeName(String attributeName) {
+    public void setAttributeName(final String attributeName) {
       this.attributeName = attributeName;
     }
 
@@ -489,7 +488,7 @@ public class SAD {
      * @param loa
      *          LoA URI
      */
-    public void setLoa(String loa) {
+    public void setLoa(final String loa) {
       this.loa = loa;
     }
 
@@ -508,7 +507,7 @@ public class SAD {
      * @param requestID
      *          SignRequest ID
      */
-    public void setRequestID(String requestID) {
+    public void setRequestID(final String requestID) {
       this.requestID = requestID;
     }
 
@@ -527,7 +526,7 @@ public class SAD {
      * @param numberOfDocuments
      *          the number of documents to be signed
      */
-    public void setNumberOfDocuments(Integer numberOfDocuments) {
+    public void setNumberOfDocuments(final Integer numberOfDocuments) {
       this.numberOfDocuments = numberOfDocuments;
     }
 
@@ -554,7 +553,7 @@ public class SAD {
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
       if (this == obj) {
         return true;
       }

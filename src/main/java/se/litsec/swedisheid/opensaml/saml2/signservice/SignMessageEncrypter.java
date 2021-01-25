@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2019 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.signservice;
 
+import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.xmlsec.EncryptionConfiguration;
 import org.opensaml.xmlsec.encryption.EncryptedData;
 import org.opensaml.xmlsec.encryption.support.EncryptionException;
@@ -23,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.logic.Constraint;
-import se.litsec.opensaml.utils.ObjectUtils;
 import se.litsec.opensaml.xmlsec.SAMLObjectEncrypter;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.EncryptedMessage;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessage;
@@ -49,7 +49,7 @@ public class SignMessageEncrypter {
    * @throws ComponentInitializationException
    *           for init errors
    */
-  public SignMessageEncrypter(SAMLObjectEncrypter encrypter) throws ComponentInitializationException {
+  public SignMessageEncrypter(final SAMLObjectEncrypter encrypter) throws ComponentInitializationException {
     this.encrypter = Constraint.isNotNull(encrypter, "encrypter must not be null");
   }
 
@@ -66,7 +66,7 @@ public class SignMessageEncrypter {
    *           for errors during encryption
    * @see #encrypt(SignMessage, String, EncryptionConfiguration)
    */
-  public void encrypt(SignMessage signMessage, String entityID) throws EncryptionException {
+  public void encrypt(final SignMessage signMessage, final String entityID) throws EncryptionException {
     this.encrypt(signMessage, entityID, null);
   }
 
@@ -84,7 +84,9 @@ public class SignMessageEncrypter {
    * @throws EncryptionException
    *           for errors during encryption
    */
-  public void encrypt(SignMessage signMessage, String entityID, EncryptionConfiguration configuration) throws EncryptionException {
+  public void encrypt(final SignMessage signMessage, final String entityID, final EncryptionConfiguration configuration) 
+      throws EncryptionException {
+    
     Constraint.isNotNull(signMessage, "signMessage must not be null");
     Constraint.isNotNull(entityID, "entityID must not be null");
 
@@ -106,7 +108,7 @@ public class SignMessageEncrypter {
     }
     
     EncryptedData encryptedData = this.encrypter.encrypt(signMessage.getMessage(), new SAMLObjectEncrypter.Peer(entityID), configuration);
-    EncryptedMessage encryptedMessage = ObjectUtils.createSamlObject(EncryptedMessage.class);
+    EncryptedMessage encryptedMessage = (EncryptedMessage) XMLObjectSupport.buildXMLObject(EncryptedMessage.DEFAULT_ELEMENT_NAME); 
     encryptedMessage.setEncryptedData(encryptedData);
     
     signMessage.setMessage(null);

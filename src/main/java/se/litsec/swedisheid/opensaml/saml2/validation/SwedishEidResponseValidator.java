@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ public class SwedishEidResponseValidator extends ResponseValidator {
    * @throws IllegalArgumentException
    *           if {@code null} values are supplied
    */
-  public SwedishEidResponseValidator(SignatureTrustEngine trustEngine, SignaturePrevalidator signaturePrevalidator)
+  public SwedishEidResponseValidator(final SignatureTrustEngine trustEngine, final SignaturePrevalidator signaturePrevalidator)
       throws IllegalArgumentException {
     super(trustEngine, signaturePrevalidator);
     if (trustEngine == null) {
@@ -66,7 +66,7 @@ public class SwedishEidResponseValidator extends ResponseValidator {
    * signed according to the Swedish eID Framework.
    */
   @Override
-  protected ValidationResult validateSignature(Response token, ValidationContext context) {
+  protected ValidationResult validateSignature(final Response token, final ValidationContext context) {
 
     Boolean signatureRequired = (Boolean) context.getStaticParameters().get(CoreValidatorParameters.SIGNATURE_REQUIRED);
     if (signatureRequired != null && !signatureRequired.booleanValue()) {
@@ -87,7 +87,7 @@ public class SwedishEidResponseValidator extends ResponseValidator {
    * to validate that assertion is encrypted.
    */
   @Override
-  public ValidationResult validateAssertions(Response response, ValidationContext context) {
+  public ValidationResult validateAssertions(final Response response, final ValidationContext context) {
     ValidationResult result = super.validateAssertions(response, context);
     if (!result.equals(ValidationResult.VALID)) {
       return result;

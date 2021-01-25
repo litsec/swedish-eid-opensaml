@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,8 +74,8 @@ public class SwedishEidAttributeStatementValidator extends AbstractAttributeStat
    * parameter {@link SwedishEidAttributeStatementValidator#REQUIRED_ATTRIBUTES}.
    */
   @Override
-  protected ValidationResult validateRequiredAttributes(List<Attribute> attributes, AttributeStatement statement, Assertion assertion,
-      ValidationContext context) {
+  protected ValidationResult validateRequiredAttributes(final List<Attribute> attributes, final AttributeStatement statement,
+      final Assertion assertion, ValidationContext context) {
 
     AttributeSet attributeSet = (AttributeSet) context.getStaticParameters().get(REQUIRED_ATTRIBUTE_SET);
     if (attributeSet != null) {
@@ -115,7 +115,7 @@ public class SwedishEidAttributeStatementValidator extends AbstractAttributeStat
    *          the validation context
    * @return a collection of attribute names (never {@code null})
    */
-  protected Collection<String> getRequiredAttributes(ValidationContext context) {
+  protected Collection<String> getRequiredAttributes(final ValidationContext context) {
     @SuppressWarnings("unchecked")
     Collection<String> attributes = (Collection<String>) context.getStaticParameters().get(REQUIRED_ATTRIBUTES);
     return attributes != null ? attributes : Collections.emptyList();

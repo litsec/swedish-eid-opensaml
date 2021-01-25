@@ -4,14 +4,13 @@
 
 # swedish-eid-opensaml
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/se.litsec.opensaml.sweid/swedish-eid-opensaml3/badge.svg)](https://maven-badges.herokuapp.com/maven-central/se.litsec.opensaml.sweid/swedish-eid-opensaml3)
-
-<!-- [![Known Vulnerabilities](https://snyk.io/test/github/litsec/swedish-eid-opensaml/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/litsec/swedish-eid-opensaml?targetFile=pom.xml)
--->
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/se.litsec.opensaml.sweid/swedish-eid-opensaml4/badge.svg)](https://maven-badges.herokuapp.com/maven-central/se.litsec.opensaml.sweid/swedish-eid-opensaml4)
 
 OpenSAML extensions for the Swedish eID Framework
 
-This open source package is an extension to OpenSAML 3.X that offers interfaces and classes for the Swedish eID Framework, see https://github.com/swedenconnect/technical-framework.
+**Note**: Support for OpenSAML 3.X has been discontinued. The last release supporting OpenSAML 3.X is 1.3.2.
+
+This open source package is an extension to OpenSAML that offers interfaces and classes for the Swedish eID Framework, see https://github.com/swedenconnect/technical-framework.
 
 The library contains support for the following functionality:
 
@@ -35,6 +34,6 @@ Generated project information is found at [https://litsec.github.io/swedish-eid-
 
 ------
 
-Copyright &copy; 2016-2020, [Litsec AB](http://www.litsec.se). Licensed under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
+Copyright &copy; 2016-2021, [Litsec AB](http://www.litsec.se). Licensed under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
 
 

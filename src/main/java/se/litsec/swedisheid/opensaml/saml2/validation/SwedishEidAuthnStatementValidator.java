@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ public class SwedishEidAuthnStatementValidator extends AuthnStatementValidator {
       return res;
     }
     if (statement.getAuthnContext().getAuthnContextClassRef() == null
-        || statement.getAuthnContext().getAuthnContextClassRef().getAuthnContextClassRef() == null) {
+        || statement.getAuthnContext().getAuthnContextClassRef().getURI() == null) {
       context.setValidationFailureMessage("Missing AuthnContextClassRef URI from Assertion/@AuthnStatement/@AuthnContext");
       return ValidationResult.INVALID;
     }
@@ -81,7 +81,7 @@ public class SwedishEidAuthnStatementValidator extends AuthnStatementValidator {
       return ValidationResult.VALID;
     }
     return this.validateAuthnContextClassRef(
-      statement.getAuthnContext().getAuthnContextClassRef().getAuthnContextClassRef(), requestedUris, statement, assertion, context);
+      statement.getAuthnContext().getAuthnContextClassRef().getURI(), requestedUris, statement, assertion, context);
   }
 
   /**
@@ -132,7 +132,7 @@ public class SwedishEidAuthnStatementValidator extends AuthnStatementValidator {
           uris.addAll(authnRequest.getRequestedAuthnContext()
             .getAuthnContextClassRefs()
             .stream()
-            .map(a -> a.getAuthnContextClassRef())
+            .map(a -> a.getURI())
             .collect(Collectors.toList()));
         }
       }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2019 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -213,12 +213,8 @@ public class LevelofAssuranceAuthenticationContextURI {
      *          the numeric level for this LoA level
      * @param uri
      *          the URL identifier for this LoA level
-     * @param sigMessage
-     *          indicator whether this LoA is for signature messages
-     * @param notified
-     *          tells whether the identifier is an URI for a notified eID scheme
      */
-    LoaEnum(int level, String uri) { // , boolean sigMessage, boolean notified) {
+    LoaEnum(int level, String uri) {
       this(level, uri, false, false, uri);
     }
 

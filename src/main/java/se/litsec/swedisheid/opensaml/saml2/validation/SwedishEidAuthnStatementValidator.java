@@ -64,7 +64,7 @@ public class SwedishEidAuthnStatementValidator extends AuthnStatementValidator {
    * that it matches what was requested.
    */
   @Override
-  protected ValidationResult validateAuthnContext(AuthnStatement statement, Assertion assertion, ValidationContext context) {
+  protected ValidationResult validateAuthnContext(final AuthnStatement statement, final Assertion assertion, final ValidationContext context) {
     ValidationResult res = super.validateAuthnContext(statement, assertion, context);
     if (res != ValidationResult.VALID) {
       return res;
@@ -99,8 +99,9 @@ public class SwedishEidAuthnStatementValidator extends AuthnStatementValidator {
    *          the validation context
    * @return validation result
    */
-  protected ValidationResult validateAuthnContextClassRef(String authnContextClassRef, Collection<String> requestedContextClassRefs,
-      AuthnStatement statement, Assertion assertion, ValidationContext context) {
+  protected ValidationResult validateAuthnContextClassRef(
+      final String authnContextClassRef, final Collection<String> requestedContextClassRefs,
+      final AuthnStatement statement, final Assertion assertion, final ValidationContext context) {
     
     if (!requestedContextClassRefs.contains(authnContextClassRef)) {
       String msg = String.format("Assertion contained AuthnContextClassRef '%s', but that one was not requested (%s)", 
@@ -121,10 +122,10 @@ public class SwedishEidAuthnStatementValidator extends AuthnStatementValidator {
    * @return a collection of URIs.
    */
   @SuppressWarnings("unchecked")
-  protected static Collection<String> getRequestedAuthnContextUris(ValidationContext context) {
+  protected static Collection<String> getRequestedAuthnContextUris(final ValidationContext context) {
     Collection<String> uris = (Collection<String>) context.getStaticParameters().get(AUTHN_REQUEST_REQUESTED_AUTHNCONTEXTURIS);
     if (uris == null || uris.isEmpty()) {
-      AuthnRequest authnRequest = (AuthnRequest) context.getStaticParameters().get(CoreValidatorParameters.AUTHN_REQUEST);
+      final AuthnRequest authnRequest = (AuthnRequest) context.getStaticParameters().get(CoreValidatorParameters.AUTHN_REQUEST);
       if (authnRequest != null && authnRequest.getRequestedAuthnContext() != null
           && authnRequest.getRequestedAuthnContext().getAuthnContextClassRefs() != null) {
         if (!authnRequest.getRequestedAuthnContext().getAuthnContextClassRefs().isEmpty()) {

@@ -17,6 +17,7 @@ package se.litsec.swedisheid.opensaml.saml2.validation;
 
 import org.opensaml.saml.common.assertion.ValidationContext;
 import org.opensaml.saml.common.assertion.ValidationResult;
+import org.opensaml.saml.saml2.assertion.SAML2AssertionValidationParameters;
 import org.opensaml.saml.saml2.core.Response;
 import org.opensaml.saml.saml2.core.StatusCode;
 import org.opensaml.xmlsec.signature.support.SignaturePrevalidator;
@@ -24,7 +25,6 @@ import org.opensaml.xmlsec.signature.support.SignatureTrustEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import se.litsec.opensaml.common.validation.CoreValidatorParameters;
 import se.litsec.opensaml.saml2.common.response.ResponseValidator;
 
 /**
@@ -68,9 +68,9 @@ public class SwedishEidResponseValidator extends ResponseValidator {
   @Override
   protected ValidationResult validateSignature(final Response token, final ValidationContext context) {
 
-    Boolean signatureRequired = (Boolean) context.getStaticParameters().get(CoreValidatorParameters.SIGNATURE_REQUIRED);
+    final Boolean signatureRequired = (Boolean) context.getStaticParameters().get(SAML2AssertionValidationParameters.SIGNATURE_REQUIRED);
     if (signatureRequired != null && !signatureRequired.booleanValue()) {
-      log.warn("The flag CoreValidatorParameters.SIGNATURE_REQUIRED is false - signature "
+      log.warn("The flag SAML2AssertionValidationParameters.SIGNATURE_REQUIRED is false - signature "
           + "validation MUST be performed according to the Swedish eID Framework - Setting flag to true");
     }
 

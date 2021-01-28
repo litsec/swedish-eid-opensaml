@@ -77,7 +77,7 @@ public class SwedishEidAttributeStatementValidator extends AbstractAttributeStat
   protected ValidationResult validateRequiredAttributes(final List<Attribute> attributes, final AttributeStatement statement,
       final Assertion assertion, ValidationContext context) {
 
-    AttributeSet attributeSet = (AttributeSet) context.getStaticParameters().get(REQUIRED_ATTRIBUTE_SET);
+    final AttributeSet attributeSet = (AttributeSet) context.getStaticParameters().get(REQUIRED_ATTRIBUTE_SET);
     if (attributeSet != null) {
       try {
         attributeSet.validateAttributes(assertion, null);
@@ -89,7 +89,7 @@ public class SwedishEidAttributeStatementValidator extends AbstractAttributeStat
       }
     }
 
-    Collection<String> requiredAttributes = this.getRequiredAttributes(context);
+    final Collection<String> requiredAttributes = this.getRequiredAttributes(context);
     if (requiredAttributes != null) {
       for (String attr : requiredAttributes) {
         if (!attributes.stream().filter(a -> attr.equals(a.getName())).findAny().isPresent()) {
@@ -117,7 +117,7 @@ public class SwedishEidAttributeStatementValidator extends AbstractAttributeStat
    */
   protected Collection<String> getRequiredAttributes(final ValidationContext context) {
     @SuppressWarnings("unchecked")
-    Collection<String> attributes = (Collection<String>) context.getStaticParameters().get(REQUIRED_ATTRIBUTES);
+    final Collection<String> attributes = (Collection<String>) context.getStaticParameters().get(REQUIRED_ATTRIBUTES);
     return attributes != null ? attributes : Collections.emptyList();
   }
 }

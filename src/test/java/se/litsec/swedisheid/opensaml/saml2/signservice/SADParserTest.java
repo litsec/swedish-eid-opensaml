@@ -117,7 +117,7 @@ public class SADParserTest extends OpenSAMLTestBase {
 
     SADValidator validator = SADParser.getValidator(this.validationCertificate);
 
-    validator.validate(jwt, IDP_ENTITYID, SIGNSERVICE_ENTITYID, USER_ID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE,
+    validator.validate(jwt, IDP_ENTITYID, SIGNSERVICE_ENTITYID, USER_ID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3,
       SAD_REQUEST_ID, 1, SIGN_REQUEST_ID);
   }
 
@@ -142,7 +142,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .build();
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -163,7 +163,7 @@ public class SADParserTest extends OpenSAMLTestBase {
 
     AuthnRequest authnRequest = buildAuthnRequest(null);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -190,7 +190,7 @@ public class SADParserTest extends OpenSAMLTestBase {
 
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
 
     SADValidator validator = SADParser.getValidator(this.validationCertificate);
@@ -221,7 +221,7 @@ public class SADParserTest extends OpenSAMLTestBase {
 
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, "JWT_THAT_IS_NOT_A_JWT");
 
@@ -267,7 +267,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .build();
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -301,7 +301,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .build();
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -333,7 +333,7 @@ public class SADParserTest extends OpenSAMLTestBase {
     }
 
     try {
-      validator.validate(jwt, IDP_ENTITYID, SIGNSERVICE_ENTITYID, USER_ID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE,
+      validator.validate(jwt, IDP_ENTITYID, SIGNSERVICE_ENTITYID, USER_ID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3,
         SAD_REQUEST_ID, 1, SIGN_REQUEST_ID);
       Assert.fail("Expected SADValidationException - SIGNATURE_VALIDATION_ERROR");
     }
@@ -358,7 +358,7 @@ public class SADParserTest extends OpenSAMLTestBase {
 
     SADValidator validator = SADParser.getValidator(this.validationCertificate);
     try {
-      validator.validate(jwt, IDP_ENTITYID, SIGNSERVICE_ENTITYID, USER_ID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE,
+      validator.validate(jwt, IDP_ENTITYID, SIGNSERVICE_ENTITYID, USER_ID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3,
         SAD_REQUEST_ID, 1, SIGN_REQUEST_ID);
       Assert.fail("Expected SADValidationException - SAD_EXPIRED");
     }
@@ -383,7 +383,7 @@ public class SADParserTest extends OpenSAMLTestBase {
     SADValidator validator = SADParser.getValidator(this.validationCertificate);
 
     try {
-      validator.validate(jwt, IDP_ENTITYID, SIGNSERVICE_ENTITYID, USER_ID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE,
+      validator.validate(jwt, IDP_ENTITYID, SIGNSERVICE_ENTITYID, USER_ID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3,
         SAD_REQUEST_ID, 1, SIGN_REQUEST_ID);
       Assert.fail("Expected SADValidationException - BAD_SAD_FORMAT");
     }
@@ -413,7 +413,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .build();
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion("http://www.anotheridp.se", LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion("http://www.anotheridp.se", LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -449,7 +449,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .build();
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -485,7 +485,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .build();
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, "198801012222");
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -521,7 +521,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .build();
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -546,7 +546,7 @@ public class SADParserTest extends OpenSAMLTestBase {
   public void testMismatchingLoa() throws Exception {
 
     SAD sad = this.getTestSAD();
-    sad.getSeElnSadext().setLoa(LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA4_SIGMESSAGE);
+    sad.getSeElnSadext().setLoa(LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA4);
     String jwt = this.sadFactory.createJwt(sad);
 
     SADRequest sadRequest = SADRequestBuilder.builder()
@@ -558,7 +558,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .build();
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -594,7 +594,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .build();
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -630,7 +630,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .build();
     AuthnRequest authnRequest = buildAuthnRequest(sadRequest);
 
-    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    Assertion assertion = buildAssertion(IDP_ENTITYID, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, USER_ID);
     addAttribute(assertion, AttributeConstants.ATTRIBUTE_NAME_SAD, jwt);
 
@@ -650,7 +650,7 @@ public class SADParserTest extends OpenSAMLTestBase {
       .subject(USER_ID)
       .audience(SIGNSERVICE_ENTITYID)
       .inResponseTo(SAD_REQUEST_ID)
-      .loa(LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE)
+      .loa(LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3)
       .requestID(SIGN_REQUEST_ID)
       .numberOfDocuments(1)
       .buildSAD();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2019 Litsec AB
+ * Copyright 2016-2021 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,13 +40,5 @@ public class LevelofAssuranceAuthenticationContextURITest {
     
     Assert.assertNull("Expected null for unknown LoA", LoaEnum.parse("https://id.loa.unknown"));
   }
-  
-  @Test
-  public void testSigMessageTransform() {
-    Assert.assertEquals(LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3,
-      LoaEnum.minusSigMessage(LoaEnum.parse(LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE)).getUri());
-    Assert.assertEquals(LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE,
-      LoaEnum.plusSigMessage(LoaEnum.parse(LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE)).getUri());
-  }
-  
+    
 }

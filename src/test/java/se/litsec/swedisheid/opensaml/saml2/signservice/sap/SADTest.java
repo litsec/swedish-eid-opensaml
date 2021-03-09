@@ -55,7 +55,7 @@ public class SADTest {
     ext.setVersion(SADVersion.VERSION_10.toString());
     ext.setInResponseTo("_a74a068d0548a919e503e5f9ef901851");
     ext.setAttributeName(AttributeConstants.ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER);
-    ext.setLoa(LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE);
+    ext.setLoa(LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3);
     ext.setRequestID("f6e7d061a23293b0053dc7b038a04dad");
     ext.setNumberOfDocuments(1);
     sad.setSeElnSadext(ext);

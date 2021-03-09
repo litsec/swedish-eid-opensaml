@@ -35,7 +35,7 @@ public class SwedishEidSubjectConfirmationValidator extends BearerSubjectConfirm
 
   /**
    * For backwards compatibility we also check for the {@link CoreValidatorParameters#AUTHN_REQUEST_ID} and
-   * {@link CoreValidatorParameters.AUTHN_REQUEST}.
+   * {@link CoreValidatorParameters#AUTHN_REQUEST}.
    */
   protected ValidationResult validateInResponseTo(final SubjectConfirmation confirmation, final Assertion assertion, 
       final ValidationContext context, final boolean required) throws AssertionValidationException {

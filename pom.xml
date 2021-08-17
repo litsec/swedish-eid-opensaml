@@ -7,7 +7,7 @@
   <groupId>se.litsec.opensaml.sweid</groupId>
   <artifactId>swedish-eid-opensaml4</artifactId>
   <packaging>jar</packaging>
-  <version>2.0.1</version>
+  <version>2.1.0-SNAPSHOT</version>
 
   <name>Swedish eID :: OpenSAML 4.X</name>
   <description>OpenSAML 4.X extension library for the Swedish eID Framework</description>
@@ -47,6 +47,8 @@
     <java.version>11</java.version>
 
     <!-- Versions on dependencies -->
+    <opensaml.min.version>4.1.0</opensaml.min.version>
+    
     <jackson.version>2.10.1</jackson.version>
     <nimbus.version>9.4.1</nimbus.version>
 
@@ -84,15 +86,31 @@
 
     <!-- OpenSAML -->
     <dependency>
+      <groupId>se.swedenconnect.opensaml</groupId>
+      <artifactId>opensaml-security-ext</artifactId>
+      <version>[3.0.0,)</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>se.litsec.opensaml</groupId>
+      <artifactId>opensaml4-ext</artifactId>
+      <version>[2.1.0-SNAPSHOT,)</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>    
+        
+    <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-core</artifactId>
-      <version>[4.0.0,)</version>
+      <version>[${opensaml.min.version},)</version>
     </dependency>
 
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-saml-api</artifactId>
-      <version>[4.0.0,)</version>
+      <version>[${opensaml.min.version},)</version>
       <exclusions>
         <!-- Older versions than other OpenSAML deps ... -->
         <exclusion>
@@ -109,20 +127,24 @@
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-saml-impl</artifactId>
-      <version>[4.0.0,)</version>
+      <version>[${opensaml.min.version},)</version>
       <exclusions>
         <!-- Older versions than other OpenSAML deps ... -->
         <exclusion>
           <groupId>commons-codec</groupId>
           <artifactId>commons-codec</artifactId>
-        </exclusion>        
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpcore</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-security-api</artifactId>
-      <version>[4.0.0,)</version>
+      <version>[${opensaml.min.version},)</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework</groupId>
@@ -134,31 +156,14 @@
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-xmlsec-api</artifactId>
-      <version>[4.0.0,)</version>
+      <version>[${opensaml.min.version},)</version>
     </dependency>
 
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml-xmlsec-impl</artifactId>
-      <version>[4.0.0,)</version>
+      <version>[${opensaml.min.version},)</version>
     </dependency>
-    
-    <!-- OpenSAML extensions -->
-    <dependency>
-      <groupId>se.swedenconnect.opensaml</groupId>
-      <artifactId>opensaml-security-ext</artifactId>
-      <version>[2.0.0,)</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>se.litsec.opensaml</groupId>
-      <artifactId>opensaml4-ext</artifactId>
-      <version>[2.0.0,)</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>    
 
     <!-- Optionally use Spring -->
     <dependency>
@@ -309,10 +314,10 @@
           <doctitle>OpenSAML 4.X extension library for the Swedish eID Framework - ${project.version}</doctitle>
           <windowtitle>OpenSAML 4.X extension library for the Swedish eID Framework - ${project.version}</windowtitle>
           <links>
-            <link>https://build.shibboleth.net/nexus/content/sites/site/java-opensaml/4.0.1/apidocs/</link>
-            <link>https://build.shibboleth.net/nexus/content/sites/site/java-support/8.0.0/apidocs/</link>
-            <link>https://docs.swedenconnect.se/opensaml-security-ext/javadoc/2.0.1/</link>
-            <link>https://litsec.github.io/opensaml-ext/javadoc/opensaml4/2.0.1/</link>
+            <link>https://build.shibboleth.net/nexus/content/sites/site/java-opensaml/4.1.1/apidocs/</link>
+            <link>https://build.shibboleth.net/nexus/content/sites/site/java-support/8.2.1/apidocs/</link>
+            <link>https://docs.swedenconnect.se/opensaml-security-ext/javadoc/3.0.0/</link>
+            <link>https://litsec.github.io/opensaml-ext/javadoc/opensaml4/2.1.0/</link>
           </links>
           <detectJavaApiLink>true</detectJavaApiLink>
         </configuration>

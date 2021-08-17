@@ -29,7 +29,6 @@ import org.opensaml.xmlsec.keyinfo.impl.StaticKeyInfoCredentialResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import se.litsec.opensaml.xmlsec.SAMLObjectDecrypter;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.Message;
 import se.litsec.swedisheid.opensaml.saml2.signservice.dss.SignMessage;
 import se.swedenconnect.opensaml.xmlsec.encryption.support.Pkcs11Decrypter;
@@ -73,7 +72,7 @@ public class SignMessageDecrypter {
    * @param decryptionCredential
    *          decryption credential
    */
-  public SignMessageDecrypter(Credential decryptionCredential) {
+  public SignMessageDecrypter(final Credential decryptionCredential) {
     this.keyEncryptionKeyResolver = new StaticKeyInfoCredentialResolver(decryptionCredential);
   }
 
@@ -84,7 +83,7 @@ public class SignMessageDecrypter {
    * @param decryptionCredentials
    *          decryption credentials
    */
-  public SignMessageDecrypter(List<Credential> decryptionCredentials) {
+  public SignMessageDecrypter(final List<Credential> decryptionCredentials) {
     this.keyEncryptionKeyResolver = new StaticKeyInfoCredentialResolver(decryptionCredentials);
   }
 
@@ -94,14 +93,10 @@ public class SignMessageDecrypter {
    * @param keyEncryptionKeyResolver
    *          the resolver
    */
-  public SignMessageDecrypter(KeyInfoCredentialResolver keyEncryptionKeyResolver) {
+  public SignMessageDecrypter(final KeyInfoCredentialResolver keyEncryptionKeyResolver) {
     this.keyEncryptionKeyResolver = keyEncryptionKeyResolver;
   }
   
-  public SignMessageDecrypter(SAMLObjectDecrypter decrypter) {
-    
-  }
-
   /**
    * Decrypts the encrypted message of a {@link SignMessage} and returns the cleartext {@code Message}.
    * 
@@ -111,7 +106,7 @@ public class SignMessageDecrypter {
    * @throws DecryptionException
    *           for decryption errors
    */
-  public Message decrypt(SignMessage signMessage) throws DecryptionException {
+  public Message decrypt(final SignMessage signMessage) throws DecryptionException {
     if (signMessage.getEncryptedMessage() == null && signMessage.getMessage() != null) {
       logger.info("No decryption required - SignMessage contains cleartext message");
       return signMessage.getMessage();
@@ -134,8 +129,8 @@ public class SignMessageDecrypter {
       DecryptionParameters pars = new DecryptionParameters();
       pars.setKEKKeyInfoCredentialResolver(this.keyEncryptionKeyResolver);
       pars.setEncryptedKeyResolver(this.encryptedKeyResolver);
-      pars.setBlacklistedAlgorithms(this.blacklistedAlgorithms);
-      pars.setWhitelistedAlgorithms(this.whitelistedAlgorithms);      
+      pars.setExcludedAlgorithms(this.blacklistedAlgorithms);
+      pars.setIncludedAlgorithms(this.whitelistedAlgorithms);      
       this.decrypter = this.pkcs11Workaround ? new Pkcs11Decrypter(pars) : new Decrypter(pars);
       this.decrypter.setRootInNewDocument(true);
     }
@@ -148,7 +143,7 @@ public class SignMessageDecrypter {
    * @param blacklistedAlgorithms
    *          non allowed algorithms
    */
-  public void setBlacklistedAlgorithms(Collection<String> blacklistedAlgorithms) {
+  public void setBlacklistedAlgorithms(final Collection<String> blacklistedAlgorithms) {
     this.blacklistedAlgorithms = blacklistedAlgorithms;
   }
 
@@ -158,7 +153,7 @@ public class SignMessageDecrypter {
    * @param whitelistedAlgorithms
    *          white listed algorithms
    */
-  public void setWhitelistedAlgorithms(Collection<String> whitelistedAlgorithms) {
+  public void setWhitelistedAlgorithms(final Collection<String> whitelistedAlgorithms) {
     this.whitelistedAlgorithms = whitelistedAlgorithms;
   }
   
@@ -171,7 +166,7 @@ public class SignMessageDecrypter {
    * @param pkcs11Workaround
    *          whether to run in PKCS11 workaround mode
    */
-  public void setPkcs11Workaround(boolean pkcs11Workaround) {
+  public void setPkcs11Workaround(final boolean pkcs11Workaround) {
     this.pkcs11Workaround = pkcs11Workaround;
   }  
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2022 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory;
 
+import java.util.List;
+
 import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeSet;
 
 /**
@@ -25,17 +27,17 @@ import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeSet;
 public interface ServiceEntityCategory extends EntityCategory {
 
   /**
-   * Returns the Level of Assurance associated with this service entity category.
+   * Returns the Level of Assurance URI:s associated with this service entity category.
    * <p>
    * The identifier indicates that only services conforming to at least the specified level of assurance have the
    * capability to satisfy the security requirements of the Service Provider. An Identity Provider declaring this
    * Service Entity Category MUST be able to provide this level of assurance.
    * </p>
    * 
-   * @return the URI representing the Level of Assurance, or {@code null} if no level of assurance is associated with
+   * @return the URI:s representing the Level of Assurance, or null if no level of assurance is associated with
    *         the category
    */
-  String getLevelOfAssurance();
+  List<String> getLevelOfAssuranceUris();
 
   /**
    * Returns the attribute set tied to this service entity category.
@@ -48,5 +50,4 @@ public interface ServiceEntityCategory extends EntityCategory {
    * @return the attribute set
    */
   AttributeSet getAttributeSet();
-
 }

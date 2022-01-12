@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2019 Litsec AB
+ * Copyright 2016-2022 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,104 +28,74 @@ public class LevelofAssuranceAuthenticationContextURI {
   public enum LoaEnum {
 
     /** Level of Assurance 1. */
-    LOA_1(1, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA1),
+    LOA_1(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_LOA1, true),
 
     /** Level of Assurance 2. */
-    LOA_2(2, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA2),
+    LOA_2(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_LOA2, true),
 
-    /** Level of Assurance 2 - for use in signature services. */
-    LOA_2_SIGMESSAGE(2, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA2_SIGMESSAGE, true, false,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA2),
+    /** Level of Assurance 2 - uncertified. */
+    LOA_2_UNCERTIFIED(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_UNCERTIFIED_LOA2, false),
+
+    /** Level of Assurance 2 - for non-residents. */
+    LOA_2_NON_RESIDENT(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_LOA2_NONRESIDENT, true),
 
     /** Level of Assurance 3. */
-    LOA_3(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3),
-
-    /** Level of Assurance 3 - for use in signature services. */
-    LOA_3_SIGMESSAGE(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3_SIGMESSAGE, true, false,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA3),
+    LOA_3(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_LOA3, true),
 
     /** Uncertified (self-declared) LoA 3. */
-    LOA_3_UNCERTIFIED(0, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_UNCERTIFIED_LOA3),
+    LOA_3_UNCERTIFIED(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_UNCERTIFIED_LOA3, false),
 
-    /** Uncertified (self-declared) LoA 3 - for use in signature services. */
-    LOA_3_UNCERTIFIED_SIGMESSAGE(0, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_UNCERTIFIED_LOA3_SIGMESSAGE, true, false,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_UNCERTIFIED_LOA3),
+    /** Level of Assurance 3 - for non-residents. */
+    LOA_3_NON_RESIDENT(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_LOA3_NONRESIDENT, true),
 
     /** Level of Assurance 4. */
-    LOA_4(4, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA4),
+    LOA_4(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_LOA4, true),
 
-    /** Level of Assurance 4 - for use in signature services. */
-    LOA_4_SIGMESSAGE(4, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA4_SIGMESSAGE, true, false,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_LOA4),
+    /** Level of Assurance 4 - for non-residents. */
+    LOA_4_NON_RESIDENT(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_LOA4_NONRESIDENT, true),
 
     /** eIDAS "low". */
-    LOA_EIDAS_LOW(2, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW),
+    LOA_EIDAS_LOW(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_EIDAS_LOW, true, false),
 
     /** eIDAS "low" - notified eID scheme. */
-    LOA_EIDAS_LOW_NOTIFIED(2, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW_NF, false, true,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW),
+    LOA_EIDAS_LOW_NOTIFIED(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_EIDAS_LOW_NF, true, false),
 
-    /** eIDAS "low" - for use in signature services. */
-    LOA_EIDAS_LOW_SIGMESSAGE(2, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW_SIGMESSAGE, true, false,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW),
-
-    /** eIDAS "substantial" - notified eID scheme for use in signature services. */
-    LOA_EIDAS_LOW_NOTIFIED_SIGMESSAGE(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW_NF_SIGMESSAGE,
-        true, true, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_LOW),
+    /** eIDAS "low" - uncertified */
+    LOA_EIDAS_LOW_UNCERTIFIED(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_UNCERTIFIED_EIDAS_LOW, false, true),
 
     /** eIDAS "substantial". */
-    LOA_EIDAS_SUBSTANTIAL(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL),
+    LOA_EIDAS_SUBSTANTIAL(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_EIDAS_SUBSTANTIAL, true, false),
 
     /** eIDAS "substantial" - notified eID scheme. */
-    LOA_EIDAS_SUBSTANTIAL_NOTIFIED(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL_NF, false, true,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL),
+    LOA_EIDAS_SUBSTANTIAL_NOTIFIED(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_EIDAS_SUBSTANTIAL_NF, true, true),
 
-    /** eIDAS "substantial" - for use in signature services. */
-    LOA_EIDAS_SUBSTANTIAL_SIGMESSAGE(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL_SIGMESSAGE, true, false,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL),
-
-    /** eIDAS "substantial" - notified eID scheme for use in signature services. */
-    LOA_EIDAS_SUBSTANTIAL_NOTIFIED_SIGMESSAGE(3, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL_NF_SIGMESSAGE,
-        true, true, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL),
+    /** eIDAS "substantial" - uncertified */
+    LOA_EIDAS_SUBSTANTIAL_UNCERTIFIED(
+      LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_UNCERTIFIED_EIDAS_SUBSTANTIAL, false, true),
 
     /** eIDAS "high". */
-    LOA_EIDAS_HIGH(4, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_HIGH),
+    LOA_EIDAS_HIGH(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_EIDAS_HIGH, true, false),
 
     /** eIDAS "high" - notified eID scheme. */
-    LOA_EIDAS_HIGH_NOTIFIED(4, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_HIGH_NF, false, true,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_HIGH),
+    LOA_EIDAS_HIGH_NOTIFIED(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_EIDAS_HIGH_NF, true, true),
 
-    /** eIDAS "high" - for use in signature services. */
-    LOA_EIDAS_HIGH_SIGMESSAGE(4, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_HIGH_SIGMESSAGE, true, false,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_HIGH),
-
-    /** eIDAS "high" - notified eID scheme for use in signature services. */
-    LOA_EIDAS_HIGH_NOTIFIED_SIGMESSAGE(4, LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_HIGH_NF_SIGMESSAGE, true, true,
-        LevelofAssuranceAuthenticationContextURI.AUTH_CONTEXT_URI_EIDAS_HIGH);
+    /** eIDAS "high" - uncertified */
+    LOA_EIDAS_HIGHL_UNCERTIFIED(LevelofAssuranceAuthenticationContextURI.AUTHN_CONTEXT_URI_UNCERTIFIED_EIDAS_HIGH, false, true);
 
     /**
      * Given a URI the method returns the enum value matching.
      * 
      * @param uri
      *          URI
-     * @return the matching enum value or {@code null} is no match is found
+     * @return the matching enum value or null is no match is found
      */
-    public static LoaEnum parse(String uri) {
+    public static LoaEnum parse(final String uri) {
       for (LoaEnum loa : LoaEnum.values()) {
         if (loa.getUri().equals(uri)) {
           return loa;
         }
       }
       return null;
-    }
-
-    /**
-     * Returns the numeric level for this LoA.
-     * 
-     * @return the numeric level.
-     */
-    public int getLevel() {
-      return this.level;
     }
 
     /**
@@ -138,126 +108,69 @@ public class LevelofAssuranceAuthenticationContextURI {
     }
 
     /**
-     * Indicates whether the identifier is intended for use with signature services.
-     * 
-     * @return if the identifier is intended for use with signature services {@code true} is returned and otherwise
-     *         {@code false}
-     */
-    public boolean isSignatureMessageUri() {
-      return this.sigMessage;
-    }
-
-    /**
      * Indicates whether the identifier is an URI for a notified eID scheme.
      * 
-     * @return if the identifier is an URI for a notified eID scheme {@code true} is returned, otherwise {@code false}
+     * @return if the identifier is an URI for a notified eID scheme true is returned, otherwise false
      */
     public boolean isNotified() {
       return this.notified;
     }
 
     /**
-     * Returns the base URI when the LoA represents a notified or sign message URI.
+     * Indicates whether the identifier is an URI that is for an official LoA.
      * 
-     * @return the base URI, or the URI itself if the URI represents a "plain" authentication context
+     * @return whether the URI is "certified"
      */
-    public String getBaseUri() {
-      return this.baseUri;
+    public boolean isCertified() {
+      return this.certified;
     }
 
     /**
      * Predicate that tells if this LoA represents an eIDAS authentication context.
      * 
-     * @return if the LoA represents an eIDAS authentication context {@code true} is returned, otherwise {@code false}
+     * @return if the LoA represents an eIDAS authentication context true is returned, otherwise false
      */
     public boolean isEidasUri() {
       return this.uri.contains("eidas");
     }
 
     /**
-     * Given a 'sigmessage' URI, the method returns the corresponding LoA without the sigmessage.
+     * Enum constructor.
      * 
-     * @param loa
-     *          the LoA to transform
-     * @return the same LoA but without the sigmessage
+     * @param uri
+     *          the URL identifier for this LoA level
+     * @param certified
+     *          whether the URI is certified
      */
-    public static LoaEnum minusSigMessage(LoaEnum loa) {
-      for (LoaEnum l : LoaEnum.values()) {
-        if (l.getBaseUri().equals(loa.getBaseUri()) && !l.isSignatureMessageUri() && l.isNotified() == loa.isNotified()) {
-          return l;
-        }
-      }
-      return null;
-    }
-
-    /**
-     * Given an URI, the method returns the corresponding LoA with the sigmessage.
-     * 
-     * @param loa
-     *          the LoA to transform
-     * @return the same LoA but with the sigmessage
-     */
-    public static LoaEnum plusSigMessage(LoaEnum loa) {
-      for (LoaEnum l : LoaEnum.values()) {
-        if (l.getBaseUri().equals(loa.getBaseUri()) && l.isSignatureMessageUri() && l.isNotified() == loa.isNotified()) {
-          return l;
-        }
-      }
-      return null;
+    LoaEnum(final String uri, final boolean certified) {
+      this(uri, certified, false);
     }
 
     /**
      * Enum constructor.
      * 
-     * @param level
-     *          the numeric level for this LoA level
      * @param uri
      *          the URL identifier for this LoA level
-     * @param sigMessage
-     *          indicator whether this LoA is for signature messages
+     * @param certified
+     *          whether the URI is certified
      * @param notified
      *          tells whether the identifier is an URI for a notified eID scheme
      */
-    LoaEnum(int level, String uri) { // , boolean sigMessage, boolean notified) {
-      this(level, uri, false, false, uri);
-    }
-
-    /**
-     * Enum constructor.
-     * 
-     * @param level
-     *          the numeric level for this LoA level
-     * @param uri
-     *          the URL identifier for this LoA level
-     * @param sigMessage
-     *          indicator whether this LoA is for signature messages
-     * @param notified
-     *          tells whether the identifier is an URI for a notified eID scheme
-     * @param baseUri
-     *          the base URI when the LoA represents a notified or sign message URI
-     */
-    LoaEnum(int level, String uri, boolean sigMessage, boolean notified, String baseUri) {
-      this.level = level;
+    LoaEnum(final String uri, final boolean certified, final boolean notified) {
       this.uri = uri;
-      this.sigMessage = sigMessage;
+      this.certified = certified;
       this.notified = notified;
-      this.baseUri = baseUri;
     }
 
     /** The URI as defined by the Swedish e-identification board. */
     private String uri;
 
-    /** The number representing the level. */
-    private int level;
-
-    /** Is this is signature message LoA identifier? */
-    private boolean sigMessage;
-
-    /** Is this an URI for a notified eID scheme? */
+    /** Is this an URI for a notified eIDAS eID scheme? */
     private boolean notified;
 
-    /** The base URI when the LoA represents a notified or sign message URI. */
-    private String baseUri;
+    /** Is this URI a "certified" URI, i.e., an URI that is official. */
+    private boolean certified;
+
   }
 
   //
@@ -265,78 +178,58 @@ public class LevelofAssuranceAuthenticationContextURI {
   //
 
   /** The Authentication Context URI for Level of Assurance 1. */
-  public static final String AUTH_CONTEXT_URI_LOA1 = "http://id.elegnamnden.se/loa/1.0/loa1";
+  public static final String AUTHN_CONTEXT_URI_LOA1 = "http://id.elegnamnden.se/loa/1.0/loa1";
 
   /** The Authentication Context URI for Level of Assurance 2. */
-  public static final String AUTH_CONTEXT_URI_LOA2 = "http://id.elegnamnden.se/loa/1.0/loa2";
+  public static final String AUTHN_CONTEXT_URI_LOA2 = "http://id.elegnamnden.se/loa/1.0/loa2";
 
-  /** The Authentication Context URI for Level of Assurance 2 for use during "authentication for signature". */
-  public static final String AUTH_CONTEXT_URI_LOA2_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/loa2-sigmessage";
+  /** The Authentication Context URI for uncertified (self-declared) Level of Assurance 2 compliance. */
+  public static final String AUTHN_CONTEXT_URI_UNCERTIFIED_LOA2 = "http://id.swedenconnect.se/loa/1.0/uncertified-loa2";
+
+  /** The Authentication Context URI for Level of Assurance 2 for non residents. */
+  public static final String AUTHN_CONTEXT_URI_LOA2_NONRESIDENT = "http://id.swedenconnect.se/loa/1.0/loa2-nonresident";
 
   /** The Authentication Context URI for Level of Assurance 3. */
-  public static final String AUTH_CONTEXT_URI_LOA3 = "http://id.elegnamnden.se/loa/1.0/loa3";
-
-  /** The Authentication Context URI for Level of Assurance 3 for use during "authentication for signature". */
-  public static final String AUTH_CONTEXT_URI_LOA3_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/loa3-sigmessage";
+  public static final String AUTHN_CONTEXT_URI_LOA3 = "http://id.elegnamnden.se/loa/1.0/loa3";
 
   /** The Authentication Context URI for uncertified (self-declared) Level of Assurance 3 compliance. */
-  public static final String AUTH_CONTEXT_URI_UNCERTIFIED_LOA3 = "http://id.swedenconnect.se/loa/1.0/uncertified-loa3";
+  public static final String AUTHN_CONTEXT_URI_UNCERTIFIED_LOA3 = "http://id.swedenconnect.se/loa/1.0/uncertified-loa3";
 
-  /**
-   * The Authentication Context URI for uncertified (self-declared) Level of Assurance 3 for use during "authentication
-   * for signature".
-   */
-  public static final String AUTH_CONTEXT_URI_UNCERTIFIED_LOA3_SIGMESSAGE = "http://id.swedenconnect.se/loa/1.0/uncertified-loa3-sigmessage";
+  /** The Authentication Context URI for Level of Assurance 3 for non residents. */
+  public static final String AUTHN_CONTEXT_URI_LOA3_NONRESIDENT = "http://id.swedenconnect.se/loa/1.0/loa3-nonresident";
 
   /** The Authentication Context URI for Level of Assurance 4. */
-  public static final String AUTH_CONTEXT_URI_LOA4 = "http://id.elegnamnden.se/loa/1.0/loa4";
+  public static final String AUTHN_CONTEXT_URI_LOA4 = "http://id.elegnamnden.se/loa/1.0/loa4";
 
-  /** The Authentication Context URI for Level of Assurance 4 for use during "authentication for signature". */
-  public static final String AUTH_CONTEXT_URI_LOA4_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/loa4-sigmessage";
+  /** The Authentication Context URI for Level of Assurance 4 for non residents. */
+  public static final String AUTHN_CONTEXT_URI_LOA4_NONRESIDENT = "http://id.swedenconnect.se/loa/1.0/loa4-nonresident";
 
   /** The Authentication Context URI for eIDAS "low". */
-  public static final String AUTH_CONTEXT_URI_EIDAS_LOW = "http://id.elegnamnden.se/loa/1.0/eidas-low";
+  public static final String AUTHN_CONTEXT_URI_EIDAS_LOW = "http://id.elegnamnden.se/loa/1.0/eidas-low";
 
   /** The Authentication Context URI for eIDAS "low" for notified eID:s. */
-  public static final String AUTH_CONTEXT_URI_EIDAS_LOW_NF = "http://id.elegnamnden.se/loa/1.0/eidas-nf-low";
+  public static final String AUTHN_CONTEXT_URI_EIDAS_LOW_NF = "http://id.elegnamnden.se/loa/1.0/eidas-nf-low";
 
-  /** The Authentication Context URI for eIDAS "low" for use during "authentication for signature". */
-  public static final String AUTH_CONTEXT_URI_EIDAS_LOW_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/eidas-low-sigm";
-
-  /**
-   * The Authentication Context URI for eIDAS "low" of notified eID:s for use during "authentication for signature".
-   */
-  public static final String AUTH_CONTEXT_URI_EIDAS_LOW_NF_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/eidas-nf-low-sigm";
+  /** The Authentication Context URI for uncertified eIDAS "low". */
+  public static final String AUTHN_CONTEXT_URI_UNCERTIFIED_EIDAS_LOW = "http://id.swedenconnect.se/loa/1.0/uncertified-eidas-low";
 
   /** The Authentication Context URI for eIDAS "substantial". */
-  public static final String AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL = "http://id.elegnamnden.se/loa/1.0/eidas-sub";
+  public static final String AUTHN_CONTEXT_URI_EIDAS_SUBSTANTIAL = "http://id.elegnamnden.se/loa/1.0/eidas-sub";
 
   /** The Authentication Context URI for eIDAS "substantial" for notified eID:s. */
-  public static final String AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL_NF = "http://id.elegnamnden.se/loa/1.0/eidas-nf-sub";
+  public static final String AUTHN_CONTEXT_URI_EIDAS_SUBSTANTIAL_NF = "http://id.elegnamnden.se/loa/1.0/eidas-nf-sub";
 
-  /** The Authentication Context URI for eIDAS "substantial" for use during "authentication for signature". */
-  public static final String AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/eidas-sub-sigm";
-
-  /**
-   * The Authentication Context URI for eIDAS "substantial" of notified eID:s for use during "authentication for
-   * signature".
-   */
-  public static final String AUTH_CONTEXT_URI_EIDAS_SUBSTANTIAL_NF_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/eidas-nf-sub-sigm";
+  /** The Authentication Context URI for uncertified eIDAS "substantial". */
+  public static final String AUTHN_CONTEXT_URI_UNCERTIFIED_EIDAS_SUBSTANTIAL = "http://id.swedenconnect.se/loa/1.0/uncertified-eidas-sub";
 
   /** The Authentication Context URI for eIDAS "high". */
-  public static final String AUTH_CONTEXT_URI_EIDAS_HIGH = "http://id.elegnamnden.se/loa/1.0/eidas-high";
+  public static final String AUTHN_CONTEXT_URI_EIDAS_HIGH = "http://id.elegnamnden.se/loa/1.0/eidas-high";
 
   /** The Authentication Context URI for eIDAS "high" for notified eID:s. */
-  public static final String AUTH_CONTEXT_URI_EIDAS_HIGH_NF = "http://id.elegnamnden.se/loa/1.0/eidas-nf-high";
+  public static final String AUTHN_CONTEXT_URI_EIDAS_HIGH_NF = "http://id.elegnamnden.se/loa/1.0/eidas-nf-high";
 
-  /** The Authentication Context URI for eIDAS "high" for use during "authentication for signature". */
-  public static final String AUTH_CONTEXT_URI_EIDAS_HIGH_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/eidas-high-sigm";
-
-  /**
-   * The Authentication Context URI for eIDAS "substantial" of notified eID:s for use during "authentication for
-   * signature".
-   */
-  public static final String AUTH_CONTEXT_URI_EIDAS_HIGH_NF_SIGMESSAGE = "http://id.elegnamnden.se/loa/1.0/eidas-nf-high-sigm";
+  /** The Authentication Context URI for uncertified eIDAS "high". */
+  public static final String AUTHN_CONTEXT_URI_UNCERTIFIED_EIDAS_HIGH = "http://id.swedenconnect.se/loa/1.0/uncertified-eidas-high";
 
   // Hidden constructor.
   private LevelofAssuranceAuthenticationContextURI() {

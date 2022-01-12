@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2022 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,6 +74,16 @@ public class AttributeConstants {
   /** Attribute template for the "National civic registration number" attribute. */
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_PERSONAL_IDENTITY_NUMBER = new AttributeTemplate(
     ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER, ATTRIBUTE_FRIENDLY_NAME_PERSONAL_IDENTITY_NUMBER);
+  
+  /** The attribute name for the "Previous national civic registration number" attribute (urn:oid:1.2.752.201.3.15). */
+  public static final String ATTRIBUTE_NAME_PREVIOUS_PERSONAL_IDENTITY_NUMBER = "urn:oid:1.2.752.201.3.15";
+
+  /** The attribute friendly name for the "Previous national civic registration number" attribute (previousPersonalIdentityNumber). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_PREVIOUS_PERSONAL_IDENTITY_NUMBER = "previousPersonalIdentityNumber";
+
+  /** Attribute template for the "Previous national civic registration number" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_PREVIOUS_PERSONAL_IDENTITY_NUMBER = new AttributeTemplate(
+    ATTRIBUTE_NAME_PREVIOUS_PERSONAL_IDENTITY_NUMBER, ATTRIBUTE_FRIENDLY_NAME_PREVIOUS_PERSONAL_IDENTITY_NUMBER);  
 
   /** The attribute name for the "Date of birth" attribute (urn:oid:1.3.6.1.5.5.7.9.1). */
   public static final String ATTRIBUTE_NAME_DATE_OF_BIRTH = "urn:oid:1.3.6.1.5.5.7.9.1";
@@ -344,6 +354,16 @@ public class AttributeConstants {
   /** Attribute template for the "National civic registration number/code binding URI" attribute. */
   public static final AttributeTemplate ATTRIBUTE_TEMPLATE_PERSONAL_IDENTITY_NUMBER_BINDING = new AttributeTemplate(
     ATTRIBUTE_NAME_PERSONAL_IDENTITY_NUMBER_BINDING, ATTRIBUTE_FRIENDLY_NAME_PERSONAL_IDENTITY_NUMBER_BINDING);
+  
+  /** The attribute name for the "Mapped national civic registration number" attribute (urn:oid:1.2.752.201.3.16). */
+  public static final String ATTRIBUTE_NAME_MAPPED_PERSONAL_IDENTITY_NUMBER = "urn:oid:1.2.752.201.3.16";
+
+  /** The attribute friendly name for the "Mapped national civic registration number" attribute (mappedPersonalIdentityNumber). */
+  public static final String ATTRIBUTE_FRIENDLY_NAME_MAPPED_PERSONAL_IDENTITY_NUMBER = "mappedPersonalIdentityNumber";
+
+  /** Attribute template for the "National civic registration number/code binding URI" attribute. */
+  public static final AttributeTemplate ATTRIBUTE_TEMPLATE_MAPPED_PERSONAL_IDENTITY_NUMBER = new AttributeTemplate(
+    ATTRIBUTE_NAME_MAPPED_PERSONAL_IDENTITY_NUMBER, ATTRIBUTE_FRIENDLY_NAME_MAPPED_PERSONAL_IDENTITY_NUMBER);  
   
   /** The attribute name for the "eIDAS uniqueness identifier for natural persons" attribute (urn:oid:1.2.752.201.3.7). */
   public static final String ATTRIBUTE_NAME_EIDAS_PERSON_IDENTIFIER = "urn:oid:1.2.752.201.3.7";

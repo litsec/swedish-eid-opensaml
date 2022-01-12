@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2022 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory;
 
+import java.util.Collections;
+import java.util.List;
+
 import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeSet;
 
 /**
@@ -25,7 +28,7 @@ import se.litsec.swedisheid.opensaml.saml2.attribute.AttributeSet;
 public class ServiceEntityCategoryImpl extends EntityCategoryImpl implements ServiceEntityCategory {
 
   /** The level of assurance URI of this category. */
-  private String levelOfAssurance;
+  private List<String> loaUris;
 
   /** The attribute profile for this category. */
   private AttributeSet attributeSet;
@@ -38,18 +41,18 @@ public class ServiceEntityCategoryImpl extends EntityCategoryImpl implements Ser
   }
 
   /**
-   * Constructor assigning the URI, Level of Assurance and the attribute set.
+   * Constructor assigning the URI, Level of Assurance URI:s and the attribute set.
    * 
    * @param uri
    *          the unique URI
-   * @param levelOfAssurance
-   *          the Level of Assurance URI
+   * @param loaUris
+   *          the Level of Assurance URI:s
    * @param attributeSet
    *          the attribute set
    */
-  public ServiceEntityCategoryImpl(String uri, String levelOfAssurance, AttributeSet attributeSet) {
+  public ServiceEntityCategoryImpl(final String uri, final List<String> loaUris, final AttributeSet attributeSet) {
     super(uri, EntityCategoryType.SERVICE_ENTITY);
-    this.levelOfAssurance = levelOfAssurance;
+    this.loaUris = loaUris;
     this.attributeSet = attributeSet;
   }
 
@@ -67,13 +70,18 @@ public class ServiceEntityCategoryImpl extends EntityCategoryImpl implements Ser
 
   /** {@inheritDoc} */
   @Override
-  public String getLevelOfAssurance() {
-    return this.levelOfAssurance;
+  public List<String> getLevelOfAssuranceUris() {
+    return this.loaUris != null ? this.loaUris : Collections.emptyList();
   }
 
-  /** {@inheritDoc} */
-  public void setLevelOfAssurance(String levelOfAssurance) {
-    this.levelOfAssurance = levelOfAssurance;
+  /**
+   * Sets the Level of Assurance URI:s associated with this service entity category.
+   * 
+   * @param loaUris
+   *          the LoA URI:s
+   */
+  public void setLevelOfAssuranceUris(final List<String> loaUris) {
+    this.loaUris = loaUris;
   }
 
   /** {@inheritDoc} */
@@ -88,7 +96,7 @@ public class ServiceEntityCategoryImpl extends EntityCategoryImpl implements Ser
    * @param attributeSet
    *          the attribute set to assign
    */
-  public void setAttributeProfile(AttributeSet attributeSet) {
+  public void setAttributeProfile(final AttributeSet attributeSet) {
     this.attributeSet = attributeSet;
   }
 

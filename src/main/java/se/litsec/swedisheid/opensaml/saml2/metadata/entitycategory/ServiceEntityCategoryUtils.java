@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2022 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,11 @@
  */
 package se.litsec.swedisheid.opensaml.saml2.metadata.entitycategory;
 
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
-
-import se.litsec.swedisheid.opensaml.saml2.authentication.LevelofAssuranceAuthenticationContextURI;
 
 /**
  * Utility methods for service entity categories.
@@ -32,8 +29,7 @@ import se.litsec.swedisheid.opensaml.saml2.authentication.LevelofAssuranceAuthen
 public class ServiceEntityCategoryUtils {
 
   /**
-   * Returns a list of Level of Assurance identifiers using the entity categories found in the supplied metadata. The
-   * list is sorted where the lowest LoA is placed first in the list.
+   * Returns a list of Level of Assurance identifiers using the entity categories found in the supplied metadata.
    * 
    * @param ed
    *          metadata to search
@@ -41,26 +37,24 @@ public class ServiceEntityCategoryUtils {
    *          registry of entity categories
    * @return a list of LoA identifiers
    */
-  public static List<String> getLoAIdentifiersFromEntityCategories(EntityDescriptor ed,
-      EntityCategoryRegistry entityCategoryRegistry) {
-        
-    Comparator<ServiceEntityCategory> sorter = (o1, o2) -> {
-      LevelofAssuranceAuthenticationContextURI.LoaEnum l1 = LevelofAssuranceAuthenticationContextURI.LoaEnum.parse(o1.getLevelOfAssurance());
-      LevelofAssuranceAuthenticationContextURI.LoaEnum l2 = LevelofAssuranceAuthenticationContextURI.LoaEnum.parse(o2.getLevelOfAssurance());
+  public static List<String> getLoAIdentifiersFromEntityCategories(final EntityDescriptor ed,
+      final EntityCategoryRegistry entityCategoryRegistry) {
 
-      return l1.getLevel() < l2.getLevel() ? -1 : (l1.getLevel() > l2.getLevel() ? 1 : 0);
-    };
-    
-    return EntityCategoryMetadataHelper.getEntityCategories(ed).stream()
-      .map(entityCategoryRegistry::getEntityCategory)
-      .filter(Optional::isPresent)
-      .map(Optional::get)
-      .filter(e -> EntityCategoryType.SERVICE_ENTITY.equals(e.getType()))
-      .map(ServiceEntityCategory.class::cast)
-      .sorted(sorter)
-      .map(ServiceEntityCategory::getLevelOfAssurance)
-      .distinct()
-      .collect(Collectors.toList());    
+    final List<String> loas = new ArrayList<>();
+    for (final String cat : EntityCategoryMetadataHelper.getEntityCategories(ed)) {
+      final List<String> uris =
+          entityCategoryRegistry.getEntityCategory(cat)
+            .filter(e -> EntityCategoryType.SERVICE_ENTITY.equals(e.getType()))
+            .map(ServiceEntityCategory.class::cast)
+            .map(ServiceEntityCategory::getLevelOfAssuranceUris)
+            .orElse(Collections.emptyList());
+      for (final String uri : uris) {
+        if (!loas.contains(uri)) {
+          loas.add(uri);
+        }
+      }
+    }
+    return loas;
   }
 
   // Hidden

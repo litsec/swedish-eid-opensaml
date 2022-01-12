@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2022 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,16 +67,7 @@ public class SwedishEidDiscoveryMatchingRulesTest {
           EntityCategoryConstants.SERVICE_PROPERTY_CATEGORY_SCAL2.getUri()), Boolean.FALSE },
         /* 12 */ { Arrays.asList(EntityCategoryConstants.SERVICE_PROPERTY_CATEGORY_MOBILE_AUTH.getUri()), Arrays.asList(
           EntityCategoryConstants.SERVICE_PROPERTY_CATEGORY_SCAL2.getUri(), EntityCategoryConstants.SERVICE_PROPERTY_CATEGORY_MOBILE_AUTH
-            .getUri()), Boolean.TRUE },
-        /* 13 */ { Arrays.asList(EntityCategoryConstants.SERVICE_ENTITY_CATEGORY_UNCERTIFIED_LOA3_PNR.getUri(),
-          EntityCategoryConstants.SERVICE_ENTITY_CATEGORY_LOA3_PNR.getUri()),
-            Arrays.asList(EntityCategoryConstants.SERVICE_ENTITY_CATEGORY_LOA3_PNR.getUri(),
-              EntityCategoryConstants.SERVICE_CONTRACT_CATEGORY_EID_CHOICE_2017.getUri()), Boolean.FALSE },
-        /* 14 */ { Arrays.asList(EntityCategoryConstants.SERVICE_ENTITY_CATEGORY_UNCERTIFIED_LOA3_PNR.getUri(),
-          EntityCategoryConstants.SERVICE_ENTITY_CATEGORY_LOA3_PNR.getUri(),
-          EntityCategoryConstants.SERVICE_CONTRACT_CATEGORY_EID_CHOICE_2017.getUri()),
-            Arrays.asList(EntityCategoryConstants.SERVICE_ENTITY_CATEGORY_LOA3_PNR.getUri(),
-              EntityCategoryConstants.SERVICE_CONTRACT_CATEGORY_EID_CHOICE_2017.getUri()), Boolean.TRUE }
+            .getUri()), Boolean.TRUE }
     });
   }
 

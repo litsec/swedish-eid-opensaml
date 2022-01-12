@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2022 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,9 +54,9 @@ public class AttributeSetConstants {
     null);
 
   /**
-   * Natural Personal Identity with Civic Registration Number (Personnummer) - The “Personal Identity with Civic
-   * Registration Number” attribute set provides basic personal identity information including a Swedish civic
-   * registration number of the subject.
+   * Natural Personal Identity with Civic Registration Number - The “Personal Identity with Civic Registration Number”
+   * attribute set provides basic personal identity information including a Swedish civic registration number of the
+   * subject.
    * <p>
    * <b>Typical use:</b> In an attribute release policy that provides basic user name information together with the
    * person’s Swedish civic registration number.
@@ -64,13 +64,15 @@ public class AttributeSetConstants {
    */
   public static final AttributeSet ATTRIBUTE_SET_NATURAL_PERSON_WITH_PERSONAL_ID = new AttributeSetImpl(
     "ELN-AP-Pnr-01", "http://id.elegnamnden.se/ap/1.0/pnr-01",
-    "Natural Personal Identity with Civic Registration Number (Personnummer)",
+    "Natural Personal Identity with Civic Registration Number",
     new AttributeTemplate[] {
         AttributeConstants.ATTRIBUTE_TEMPLATE_PERSONAL_IDENTITY_NUMBER,
         AttributeConstants.ATTRIBUTE_TEMPLATE_SN,
         AttributeConstants.ATTRIBUTE_TEMPLATE_GIVEN_NAME,
         AttributeConstants.ATTRIBUTE_TEMPLATE_DISPLAY_NAME },
-    null);
+    new AttributeTemplate[] {
+        AttributeConstants.ATTRIBUTE_TEMPLATE_DATE_OF_BIRTH
+    });
 
   /**
    * Organizational Identity for Natural Persons - The “Organizational Identity for Natural Persons” attribute set
@@ -87,14 +89,12 @@ public class AttributeSetConstants {
     "ELN-AP-OrgPerson-01", "http://id.elegnamnden.se/ap/1.0/org-person-01",
     "Organizational Identity for Natural Persons",
     new AttributeTemplate[] {
-        AttributeConstants.ATTRIBUTE_TEMPLATE_SN,
-        AttributeConstants.ATTRIBUTE_TEMPLATE_GIVEN_NAME,
         AttributeConstants.ATTRIBUTE_TEMPLATE_DISPLAY_NAME,
         AttributeConstants.ATTRIBUTE_TEMPLATE_ORG_AFFILIATION,
         AttributeConstants.ATTRIBUTE_TEMPLATE_O },
     new AttributeTemplate[] {
-        AttributeConstants.ATTRIBUTE_TEMPLATE_ORGANIZATION_IDENTIFIER,
-        AttributeConstants.ATTRIBUTE_TEMPLATE_OU });
+        AttributeConstants.ATTRIBUTE_TEMPLATE_ORGANIZATION_IDENTIFIER
+    });
 
   /**
    * eIDAS Natural Person Attribute Set - The “eIDAS Natural Person Attribute Set” provides personal identity
@@ -119,8 +119,8 @@ public class AttributeSetConstants {
         AttributeConstants.ATTRIBUTE_TEMPLATE_BIRTH_NAME,
         AttributeConstants.ATTRIBUTE_TEMPLATE_PLACE_OF_BIRTH,
         AttributeConstants.ATTRIBUTE_TEMPLATE_EIDAS_NATURAL_PERSON_ADDRESS,
-        AttributeConstants.ATTRIBUTE_TEMPLATE_GENDER,        
-        AttributeConstants.ATTRIBUTE_TEMPLATE_PERSONAL_IDENTITY_NUMBER,
+        AttributeConstants.ATTRIBUTE_TEMPLATE_GENDER,
+        AttributeConstants.ATTRIBUTE_TEMPLATE_MAPPED_PERSONAL_IDENTITY_NUMBER,
         AttributeConstants.ATTRIBUTE_TEMPLATE_PERSONAL_IDENTITY_NUMBER_BINDING
     });
 
@@ -129,5 +129,4 @@ public class AttributeSetConstants {
    */
   private AttributeSetConstants() {
   }
-
 }

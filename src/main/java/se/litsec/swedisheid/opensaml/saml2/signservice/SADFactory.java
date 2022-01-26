@@ -113,7 +113,7 @@ public class SADFactory {
    */
   public String createJwt(SAD sad) throws IOException, SignatureException {
 
-    String encodedSad = Base64.getUrlEncoder().encodeToString(sad.toJsonBytes());
+    String encodedSad = Base64.getUrlEncoder().withoutPadding().encodeToString(sad.toJsonBytes());
 
     // Create JWT and sign ...
     //

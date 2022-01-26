@@ -7,7 +7,7 @@
   <groupId>se.litsec.opensaml.sweid</groupId>
   <artifactId>swedish-eid-opensaml4</artifactId>
   <packaging>jar</packaging>
-  <version>2.1.0</version>
+  <version>2.1.1-SNAPSHOT</version>
 
   <name>Swedish eID :: OpenSAML 4.X</name>
   <description>OpenSAML 4.X extension library for the Swedish eID Framework</description>

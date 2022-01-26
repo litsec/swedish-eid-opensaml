@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 Litsec AB
+ * Copyright 2016-2022 Litsec AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -111,9 +111,9 @@ public class SADFactory {
    *           for JWT signature errors
    * @see SADBuilder#buildJwt()
    */
-  public String createJwt(SAD sad) throws IOException, SignatureException {
+  public String createJwt(final SAD sad) throws IOException, SignatureException {
 
-    String encodedSad = Base64.getUrlEncoder().encodeToString(sad.toJsonBytes());
+    String encodedSad = Base64.getUrlEncoder().withoutPadding().encodeToString(sad.toJsonBytes());
 
     // Create JWT and sign ...
     //
